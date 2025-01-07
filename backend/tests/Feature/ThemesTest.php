@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Models\Category;
+use App\Models\Theme;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-final class CategoriesTest extends TestCase
+final class ThemesTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -21,36 +21,36 @@ final class CategoriesTest extends TestCase
     }
 
     /**
-     * Test if there is a default file for categories seeder.
+     * Test if there is a default file for themes seeder.
      */
-    public function test_default_categories_file_exist(): void
+    public function test_default_themes_file_exist(): void
     {
-        $filePath = database_path("json/categories.json");
+        $filePath = database_path("json/themes.json");
         $this->assertFileExists($filePath);
 
-        $categories = json_decode(file_get_contents($filePath), true);
-        $this->assertIsArray($categories);
-        $this->assertNotEmpty($categories);
+        $themes = json_decode(file_get_contents($filePath), true);
+        $this->assertIsArray($themes);
+        $this->assertNotEmpty($themes);
     }
 
     /**
-     * Test if there are at least 6 default categories after seeding.
+     * Test if there are at least 15 default themes after seeding.
      */
-    public function test_there_are_at_least_six_categories_after_seeding(): void
+    public function test_there_are_at_least_fifteen_themes_after_seeding(): void
     {
-        $defaultCategories = Category::all();
-        $this->assertCount(6, $defaultCategories);
+        $defaultThemes = Theme::all();
+        $this->assertCount(15, $defaultThemes);
     }
 
     /**
-     * Test if categories basic endpoint gives specific response.
+     * Test if themes basic endpoint gives specific response.
      */
     public function test_if_endpoint_returns_success_response(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        $response = $this->getJson('api/V1/categories');
+        $response = $this->getJson('api/V1/themes');
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -58,6 +58,7 @@ final class CategoriesTest extends TestCase
                 '*' => [
                     'id',
                     'name',
+                    'color',
                 ],
             ],
         ]);

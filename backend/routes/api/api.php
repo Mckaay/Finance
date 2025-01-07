@@ -10,5 +10,6 @@ Route::middleware(['auth:sanctum'])->get('/user', fn(Request $request) => $reque
 Route::prefix('V1')->group(
     [
         base_path('routes/api/V1/category.php'),
+        base_path('routes/api/V1/theme.php'),
     ],
 );
