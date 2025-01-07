@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Models\Category;
-use App\Models\User;
+use Cache;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -47,9 +47,6 @@ final class CategoriesTest extends TestCase
      */
     public function test_if_endpoint_returns_success_response(): void
     {
-        $user = User::factory()->create();
-        $this->actingAs($user);
-
         $response = $this->getJson('api/V1/categories');
 
         $response->assertStatus(200);
@@ -61,5 +58,26 @@ final class CategoriesTest extends TestCase
                 ],
             ],
         ]);
+    }
+
+    /**
+     * Test if basic endpoint is cached.
+     */
+    public function test_if_basic_endpoint_is_cached(): void
+    {
+        Cache::flush();
+        $response = $this->getJson('api/V1/categories');
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'name',
+                ],
+            ],
+        ]);
+
+        $this->assertTrue(Cache::has('categories'));
     }
 }

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Models\Theme;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
 final class ThemesTest extends TestCase
@@ -47,9 +47,6 @@ final class ThemesTest extends TestCase
      */
     public function test_if_endpoint_returns_success_response(): void
     {
-        $user = User::factory()->create();
-        $this->actingAs($user);
-
         $response = $this->getJson('api/V1/themes');
 
         $response->assertStatus(200);
@@ -62,5 +59,27 @@ final class ThemesTest extends TestCase
                 ],
             ],
         ]);
+    }
+
+    /**
+     * Test if basic endpoint is cached.
+     */
+    public function test_if_basic_endpoint_is_cached(): void
+    {
+        Cache::flush();
+        $response = $this->getJson('api/V1/themes');
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'name',
+                    'color',
+                ],
+            ],
+        ]);
+
+        $this->assertTrue(Cache::has('themes'));
     }
 }
