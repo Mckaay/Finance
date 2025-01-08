@@ -22,6 +22,7 @@ final class DatabaseSeeder extends Seeder
         $this->call([
             CategorySeeder::class,
             ThemeSeeder::class,
+            TransactionSeeder::class,
         ]);
     }
 }
