@@ -1,5 +1,9 @@
 name: Tests
 
+defaults:
+  run:
+    working-directory: dart_project
+
 on:
   pull_request:
     branches:
@@ -13,6 +17,9 @@ on:
 jobs:
   tests:
     name: Run tests
+    defaults:
+      run:
+        working-directory: backend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

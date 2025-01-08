@@ -144,7 +144,8 @@ final class TransactionsTest extends TestCase
         $this->assertDatabaseHas('transactions', $updatedTransactionData);
     }
 
-    public function test_if_user_cant_update_others_transaction(): void {
+    public function test_if_user_cant_update_others_transaction(): void
+    {
         $this->actingAs($this->user);
         $transaction = Transaction::factory()->create(
             [
@@ -153,7 +154,7 @@ final class TransactionsTest extends TestCase
                 'category_id' => Category::first()->id,
                 'amount' => "5.17",
                 'date' => '2024-01-01',
-            ]
+            ],
         );
 
         $updatedTransactionData = [
@@ -168,12 +169,13 @@ final class TransactionsTest extends TestCase
         $this->assertDatabaseMissing('transactions', $updatedTransactionData);
     }
 
-    public function test_if_user_can_delete_transaction(): void {
+    public function test_if_user_can_delete_transaction(): void
+    {
         $this->actingAs($this->user);
         $transactionId = Transaction::factory()->create(
             [
                 'user_id' => $this->user->id,
-            ]
+            ],
         )->id;
 
         $response = $this->deleteJson("/api/V1/transactions/{$transactionId}");
@@ -183,12 +185,13 @@ final class TransactionsTest extends TestCase
         ]);
     }
 
-    public function test_if_user_cant_delete_others_transactions(): void {
+    public function test_if_user_cant_delete_others_transactions(): void
+    {
         $this->actingAs($this->user);
         $transactionId = Transaction::factory()->create(
             [
                 'user_id' => $this->user->id,
-            ]
+            ],
         )->id;
 
         $secondUser = User::factory()->create();
@@ -197,7 +200,8 @@ final class TransactionsTest extends TestCase
         $response->assertStatus(404);
     }
 
-    public function test_transactions_index_endpoint(): void {
+    public function test_transactions_index_endpoint(): void
+    {
         $this->actingAs($this->user);
         Transaction::factory()->count(3)->create();
 
@@ -213,7 +217,7 @@ final class TransactionsTest extends TestCase
                     'date',
                     'category' => [
                         'id',
-                        'name'
+                        'name',
                     ],
                 ],
             ],
