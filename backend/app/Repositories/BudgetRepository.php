@@ -6,7 +6,6 @@ namespace App\Repositories;
 
 use App\DataObjects\BudgetDTO;
 use App\Models\Budget;
-use App\Models\Transaction;
 use DB;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
@@ -17,15 +16,14 @@ use Throwable;
  */
 final class BudgetRepository implements BudgetRepositoryInterface
 {
+    public function __construct(protected TransactionRepository $transactionRepository) {}
+
     public function all(): Collection
     {
         $budgets = Budget::with(['category', 'theme'])->get();
-        $categoryIds = $budgets->pluck('category_id');
+        $categories = $budgets->pluck('category_id');
 
-        $transactions = Transaction::whereIn('category_id', $categoryIds)
-            ->where('amount', '<', 0)
-            ->whereBetween('date', [now()->startOfMonth(), now()->endOfMonth()])
-            ->get();
+        $transactions = $this->transactionRepository->getMonthlySpendingsForCategories($categories);
         $transactionsByCategory = $transactions->groupBy('category_id');
 
         $budgets->each(function ($budget) use ($transactionsByCategory): void {

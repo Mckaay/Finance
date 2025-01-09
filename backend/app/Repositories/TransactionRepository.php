@@ -9,6 +9,7 @@ use App\DataObjects\TransactionFilterParams;
 use App\Models\Transaction;
 use DB;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -100,5 +101,21 @@ final class TransactionRepository implements TransactionRepositoryInterface
     public function delete(Transaction $transaction): bool
     {
         return $transaction->deleteOrFail();
+    }
+
+    /**
+     * Get monthly spending transactions for categories.
+     *
+     * @param Collection $categories
+     * @param int $limit
+     * @return Collection
+     */
+    public function getMonthlySpendingsForCategories(Collection $categories, int $limit = 3): Collection
+    {
+        return Transaction::whereIn('category_id', $categories)
+            ->where('amount', '<', 0)
+            ->whereBetween('date', [now()->startOfMonth(), now()->endOfMonth()])
+            ->limit($limit)
+            ->get();
     }
 }
