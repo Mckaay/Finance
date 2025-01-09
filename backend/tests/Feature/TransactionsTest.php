@@ -51,7 +51,7 @@ final class TransactionsTest extends TestCase
 
         $response = $this->postJson('/api/V1/transactions', $transactionData);
 
-        $response->assertStatus(204);
+        $response->assertStatus(201);
         $this->assertDatabaseHas('transactions', [
             'name' => $transactionData['name'],
             'category_id' => $transactionData['category_id'],
@@ -128,7 +128,7 @@ final class TransactionsTest extends TestCase
         ];
 
         $response = $this->postJson('/api/V1/transactions', $transactionData);
-        $response->assertStatus(204);
+        $response->assertStatus(201);
 
         $transaction = Transaction::first();
 

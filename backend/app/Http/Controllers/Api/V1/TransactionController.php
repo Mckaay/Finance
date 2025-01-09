@@ -32,7 +32,7 @@ final class TransactionController
         $this->transactionRepository->store(TransactionDTO::fromRequest($request));
 
         return response()->json(
-            status: 204,
+            status: 201,
         );
     }
 

@@ -7,11 +7,11 @@ namespace App\Repositories;
 use App\DataObjects\TransactionDTO;
 use App\DataObjects\TransactionFilterParams;
 use App\Models\Transaction;
-use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface TransactionRepositoryInterface
 {
-    public function all(TransactionFilterParams $transactionFilterParams): Collection;
+    public function all(TransactionFilterParams $transactionFilterParams): LengthAwarePaginator;
     public function store(TransactionDTO $transactionDTO): bool;
     public function update(Transaction $transaction, TransactionDTO $transactionDTO): bool;
     public function delete(Transaction $transaction): bool;

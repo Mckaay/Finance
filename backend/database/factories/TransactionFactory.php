@@ -24,7 +24,7 @@ final class TransactionFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'amount' => $this->faker->randomFloat(2, -200000, 200000),
-            'date' => $this->faker->dateTimeBetween('-3 months', 'now'),
+            'date' => $this->faker->dateTimeBetween('-2 months', 'now'),
             'user_id' => User::first()->id,
             'category_id' => Category::inRandomOrder()->first()->id,
         ];

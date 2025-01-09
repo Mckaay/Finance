@@ -8,7 +8,7 @@ use App\DataObjects\TransactionDTO;
 use App\DataObjects\TransactionFilterParams;
 use App\Models\Transaction;
 use DB;
-use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -21,9 +21,9 @@ final class TransactionRepository implements TransactionRepositoryInterface
      * Retrieve all transactions based on filter parameters.
      *
      * @param TransactionFilterParams $transactionFilterParams
-     * @return Collection
+     * @return LengthAwarePaginator
      */
-    public function all(TransactionFilterParams $transactionFilterParams): Collection
+    public function all(TransactionFilterParams $transactionFilterParams): LengthAwarePaginator
     {
         $query = Transaction::query()->with('category');
 
@@ -38,7 +38,7 @@ final class TransactionRepository implements TransactionRepositoryInterface
         [$column, $order] = $transactionFilterParams->getSortingColumnAndOrder();
         $query->orderBy($column, $order);
 
-        return $query->get();
+        return $query->paginate(10);
     }
 
     /**

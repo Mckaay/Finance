@@ -1,9 +1,5 @@
 name: Tests
 
-defaults:
-  run:
-    working-directory: dart_project
-
 on:
   pull_request:
     branches:
