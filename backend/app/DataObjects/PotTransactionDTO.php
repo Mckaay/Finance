@@ -38,7 +38,7 @@ final readonly class PotTransactionDTO
     public function toArray(): array
     {
         return [
-            'target' => $this->amount,
+            'amount' => $this->amount,
             'type' => $this->type->value,
             'pot_id' => $this->potId,
         ];

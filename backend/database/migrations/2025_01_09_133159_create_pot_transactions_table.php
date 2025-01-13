@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Models\Pot;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,9 +15,9 @@ return new class () extends Migration {
     {
         Schema::create('pot_transactions', function (Blueprint $table): void {
             $table->id()->primary();
-            $table->string('name', 50)->unique();
             $table->decimal('amount', 15, 2);
             $table->enum('type', ['deposit', 'withdraw'])->default('deposit');
+            $table->foreignIdFor(Pot::class)->index()->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

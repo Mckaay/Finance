@@ -24,6 +24,8 @@ final class DatabaseSeeder extends Seeder
             ThemeSeeder::class,
             TransactionSeeder::class,
             BudgetSeeder::class,
+            PotSeeder::class,
+            PotTransactionSeeder::class,
         ]);
     }
 }

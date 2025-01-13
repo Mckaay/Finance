@@ -18,4 +18,9 @@ final class Theme extends Model
     {
         return $this->hasMany(Budget::class);
     }
+
+    public function pots(): HasMany
+    {
+        return $this->hasMany(Pot::class);
+    }
 }

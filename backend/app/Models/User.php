@@ -48,6 +48,11 @@ final class User extends Authenticatable
         return $this->hasMany(Budget::class);
     }
 
+    public function pots(): HasMany
+    {
+        return $this->hasMany(Pot::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *

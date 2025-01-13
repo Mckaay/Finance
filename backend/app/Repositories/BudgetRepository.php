@@ -23,6 +23,7 @@ final class BudgetRepository implements BudgetRepositoryInterface
         $budgets = Budget::with(['category', 'theme'])->get();
         $categories = $budgets->pluck('category_id');
 
+        // this needs to be done as transactions are not related to budget at start.
         $transactions = $this->transactionRepository->getMonthlySpendingsForCategories($categories);
         $transactionsByCategory = $transactions->groupBy('category_id');
 
@@ -41,9 +42,7 @@ final class BudgetRepository implements BudgetRepositoryInterface
             DB::transaction(function () use ($budgetDTO): bool {
                 Budget::create([
                     'user_id' => auth()->id(),
-                    'limit' => $budgetDTO->limit,
-                    'category_id' => $budgetDTO->categoryId,
-                    'theme_id' => $budgetDTO->themeId,
+                    ...$budgetDTO->toArray(),
                 ]);
 
                 return true;

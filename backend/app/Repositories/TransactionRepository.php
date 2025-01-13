@@ -54,10 +54,7 @@ final class TransactionRepository implements TransactionRepositoryInterface
             DB::transaction(function () use ($transactionDTO): void {
                 Transaction::create([
                     'user_id'     => auth()->id(),
-                    'category_id' => $transactionDTO->categoryId,
-                    'amount'      => $transactionDTO->amount,
-                    'name'        => $transactionDTO->name,
-                    'date'        => $transactionDTO->date,
+                    ...$transactionDTO->toArray(),
                 ]);
             });
 

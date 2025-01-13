@@ -8,6 +8,7 @@ use App\Enums\PotTransactionType;
 use Database\Factories\PotTransactionFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class PotTransaction extends Model
 {
@@ -17,4 +18,9 @@ final class PotTransaction extends Model
     protected $casts = [
         'type' => PotTransactionType::class,
     ];
+
+    public function pot(): BelongsTo
+    {
+        return $this->belongsTo(Pot::class);
+    }
 }
