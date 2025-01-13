@@ -48,7 +48,7 @@ const sortOptions = [
 const filterParams = reactive({
   currentPage: 1,
   searchQuery: "",
-  categorySelected: null,
+  categorySelected: 0,
   orderSelected: 'latest',
 })
 
