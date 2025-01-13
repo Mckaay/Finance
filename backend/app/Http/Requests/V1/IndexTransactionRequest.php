@@ -18,8 +18,8 @@ final class IndexTransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|max:50',
-            'categoryId' => 'integer|exists:categories,id',
+            'name' => 'max:50',
+            'categoryId' => 'integer',
             'order' => [new Enum(SortingOptions::class)],
         ];
     }
