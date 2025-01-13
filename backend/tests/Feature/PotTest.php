@@ -65,10 +65,10 @@ final class PotTest extends TestCase
             'theme_id' => Theme::first()->id,
         ];
 
-        $this->createPot($user,$potDataOne)->assertStatus(201);
-        $this->assertDatabaseHas('pots',$potDataOne);
+        $this->createPot($user, $potDataOne)->assertStatus(201);
+        $this->assertDatabaseHas('pots', $potDataOne);
 
-        $this->createPot($user,$potDataTwo)->assertStatus(422);
+        $this->createPot($user, $potDataTwo)->assertStatus(422);
     }
 
     public function test_user_can_update_their_pot(): void
