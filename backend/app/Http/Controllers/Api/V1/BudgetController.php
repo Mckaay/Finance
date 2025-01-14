@@ -8,8 +8,12 @@ use App\DataObjects\BudgetDTO;
 use App\Http\Requests\V1\StoreBudgetRequest;
 use App\Http\Requests\V1\UpdateBudgetRequest;
 use App\Http\Resources\V1\BudgetResource;
+use App\Http\Resources\V1\CategoryResource;
+use App\Http\Resources\V1\ThemeResource;
 use App\Models\Budget;
 use App\Repositories\BudgetRepository;
+use App\Repositories\CategoryRepository;
+use App\Repositories\ThemeRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -47,5 +51,15 @@ final class BudgetController
         return response()->json(
             status: 204,
         );
+    }
+
+    public function getAvailableOptions(): JsonResponse
+    {
+        return response()->json([
+            'data' => [
+                'categories' => CategoryResource::collection(CategoryRepository::getAvailableCategoriesForBudget()),
+                'themes' => ThemeResource::collection(ThemeRepository::getAvailableThemesForBudget()),
+            ],
+        ]);
     }
 }

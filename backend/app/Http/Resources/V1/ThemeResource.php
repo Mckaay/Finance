@@ -17,6 +17,7 @@ final class ThemeResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'color' => $this->color,
+            'disabled' => isset($this->budgets_count) ? $this->budgets_count > 0 : false,
         ];
     }
 }

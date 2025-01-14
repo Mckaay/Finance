@@ -20,5 +20,10 @@ final class BudgetSeeder extends Seeder
                 'user_id' => User::first()->id,
             ],
         );
+        Budget::factory()->count(2)->create(
+            [
+                'user_id' => User::factory()->create()->id,
+            ],
+        );
     }
 }

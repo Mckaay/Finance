@@ -15,9 +15,15 @@ final class PotSeeder extends Seeder
      */
     public function run(): void
     {
-        Pot::factory()->count(5)->create(
+        Pot::factory()->count(3)->create(
             [
                 'user_id' => User::first()->id,
+            ],
+        );
+
+        Pot::factory()->count(2)->create(
+            [
+                'user_id' => User::factory()->create()->id,
             ],
         );
     }

@@ -21,6 +21,7 @@ final class CategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'disabled' => isset($this->budgets_count) ? $this->budgets_count > 0 : false,
         ];
     }
 }

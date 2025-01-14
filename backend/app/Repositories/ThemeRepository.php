@@ -9,6 +9,10 @@ use Illuminate\Support\Collection;
 
 final class ThemeRepository
 {
+    public static function getAvailableThemesForBudget(): Collection
+    {
+        return Theme::query()->withCount('budgets')->get();
+    }
     public function all(): Collection
     {
         return Theme::all();
