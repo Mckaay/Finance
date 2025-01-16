@@ -1,5 +1,5 @@
 <script setup>import Menu from "@/components/menu/Menu.vue";
-import {ref, defineExpose} from 'vue'
+import {ref} from 'vue'
 import Close from "@/components/icons/Close.vue"
 
 const props = defineProps({

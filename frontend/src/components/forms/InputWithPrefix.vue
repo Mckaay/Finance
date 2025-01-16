@@ -6,6 +6,14 @@ const props = defineProps({
   prefix: {
     type: String,
     default: "$",
+  },
+  placeholder: {
+    type: [String],
+    default: null
+  },
+  required: {
+    type: [Boolean],
+    default: false
   }
 })
 
@@ -21,6 +29,8 @@ const field = inject('field')
            :value="props.modelValue"
            @input="$event => emit('update:modelValue', $event.target.value)"
            class="input"
+           :placeholder="placeholder"
+           :required="required"
     >
   </div>
 </template>
@@ -29,7 +39,7 @@ const field = inject('field')
 .input-prefix-container {
   display: flex;
   align-items: center;
-  color: var(--clr-beige-500);
+  color: var(--clr-grey-900);
   font-size: var(--fs-87);
   position: relative;
 

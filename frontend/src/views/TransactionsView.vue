@@ -1,51 +1,45 @@
 <script setup>
 import Menu from "@/components/menu/Menu.vue";
-import ModelHeader from "@/components/models/ModelHeader.vue";
 import TransactionsList from "@/components/models/transactions/TransactionsList.vue";
 import Loader from "@/components/buttons/Loader.vue";
 import Button from "@/components/buttons/Button.vue";
-import Field from "@/components/forms/Field.vue";
-import Input from "@/components/forms/Input.vue";
-import Modal from "@/components/modals/Modal.vue";
-import Select from "@/components/forms/Select.vue";
-import {computed, onMounted, reactive, ref} from "vue";
+import {onMounted, provide, reactive, ref, useTemplateRef, watch} from "vue";
 import {useCategories} from "@/composables/categories.js";
+import AddTransactionModal from "@/components/modals/AddTransactionModal.vue";
 import {useTransactions} from "@/composables/transactions.js";
+import {useLoadingStore} from "@/stores/loading.js";
 
-
-const modal = ref(null);
-
-const openModal = () => {
-  modal.value.openModal();
-}
-
+const loadingStore = useLoadingStore();
 const categoriesService = useCategories();
-const transactionService = useTransactions();
+const transactionsService = useTransactions()
 
 onMounted(async () => {
   await categoriesService.fetchCategoriesData();
+  await transactionsService.fetchTransactionData();
 })
 
-const options = computed(() => {
-  const categoryOptions = Object.entries(categoriesService.categoriesList.value).map(([key, value]) => ({
-    value: key,
-    label: value
-  }));
+const filterParams = reactive({
+  currentPage: 1,
+  searchQuery: "",
+  categorySelected: 0,
+  orderSelected: 'latest',
+})
 
-  return [
-    ...categoryOptions
-  ];
+provide("filters", filterParams)
+
+watch([filterParams], async () => {
+  if (loadingStore.loading) return;
+  await transactionsService.fetchTransactionData(
+      filterParams.currentPage,
+      filterParams.searchQuery,
+      filterParams.categorySelected,
+      filterParams.orderSelected
+  );
 });
 
-const addTransactionForm = reactive({
-  'name': '',
-  'date': '',
-  'category_id': '',
-  'amount': '',
-});
-
-const saveTransaction = async () => {
-  await transactionService.saveTransaction({...addTransactionForm})
+const addTransactionModalRef = useTemplateRef('modal');
+const refetchTransactionData = async () => {
+  await transactionsService.fetchTransactionData();
 }
 </script>
 
@@ -54,48 +48,15 @@ const saveTransaction = async () => {
   <main>
     <header class="model-header">
       <h1>Transactions</h1>
-      <Button @click="openModal" class="button-primary" text="+ Add New Transaction"/>
+      <Button @click="addTransactionModalRef.openModal();" class="button-primary" text="+ Add New Transaction"/>
     </header>
-    <Modal
-        ref="modal"
-        modalHeader="Add New Transaction"
-        modalDescription="Create transactions to manage, control your spendings and incomes."
-    >
-      <form @submit.prevent="saveTransaction">
-        <Field id="name" label="Name">
-          <Input
-              v-model="addTransactionForm.name"
-              type="text"
-              placeholder="Name of transaction"
-          />
-        </Field>
-        <Field id="date" label="Date">
-          <Input
-              v-model="addTransactionForm.date"
-              type="date"
-              placeholder="Pick a date"
-          />
-        </Field>
-        <Field id="category" label="Category">
-          <Select
-              v-model="addTransactionForm.category_id"
-              type="text"
-              placeholder="Pick category"
-              :options="options"
-          />
-        </Field>
-        <Field id="amount" label="Amount">
-          <Input
-              v-model="addTransactionForm.amount"
-              type="number"
-              placeholder="0.001"
-          />
-        </Field>
-        <Button type="submit" class="button-primary" text="Add New Transaction" style="width: 100%;"/>
-      </form>
-    </Modal>
+    <AddTransactionModal @transactionCreated="refetchTransactionData" ref="modal" :categories="categoriesService.categoriesList.value" />
     <Suspense>
-      <TransactionsList/>
+      <TransactionsList
+          :transactions="transactionsService.transactionList.value"
+          :categories="categoriesService.categoriesList.value"
+          :pagination="transactionsService.paginationMeta.value"
+      />
       <template #fallback>
         <Loader class="loading"/>
       </template>

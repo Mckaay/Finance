@@ -1,106 +1,48 @@
 <script setup>
-import {computed, reactive, ref, watch} from 'vue';
-import Field from '@/components/forms/Field.vue';
-import InputWithIcon from '@/components/forms/InputWithIcon.vue';
+import {inject} from 'vue';
 import TransactionItem from '@/components/models/transactions/TransactionItem.vue';
-import TransactionListHeader from '@/components/models/transactions/TransactionListHeader.vue';
 import Pagination from '@/components/pagination/Pagination.vue';
-import Select from '@/components/forms/Select.vue';
-import {useTransactions} from '@/composables/transactions.js';
-import {useLoadingStore} from "@/stores/loading.js";
-import {useCategories} from "@/composables/categories.js";
-import ErrorMessage from "@/components/forms/ErrorMessage.vue";
+import TransactionFilterSection from "@/components/models/transactions/TransactionFilterSection.vue";
 
-const loadingStore = useLoadingStore();
-
-const transactionsService = useTransactions();
-const categoriesService = useCategories();
-await transactionsService.fetchTransactionData();
-await categoriesService.fetchCategoriesData();
-
-const options = computed(() => {
-  const categoryOptions = categoriesService.categoriesList.value.map((category) => {
-    return {
-      value: category.id.toString(),
-      label: category.name,
-    }
-  })
-
-  return [
-    {
-      value: '0',
-      label: 'All Transactions'
+const props = defineProps({
+  transactions: {
+    type: Array,
+    default: [],
+  },
+  categories: {
+    type: Array,
+    default: [],
+  },
+  pagination: {
+    type: Object,
+    default: {
+      last_page: 1,
     },
-    ...categoryOptions
-  ]
-
-});
-
-const sortOptions = [
-  {value: 'latest', label: 'Latest'},
-  {value: 'oldest', label: 'Oldest'},
-  {value: 'atoz', label: 'A to Z'},
-  {value: 'ztoa', label: 'Z to A'},
-  {value: 'highest', label: 'Highest'},
-  {value: 'lowest', label: 'Lowest'}
-];
-
-const filterParams = reactive({
-  currentPage: 1,
-  searchQuery: "",
-  categorySelected: 0,
-  orderSelected: 'latest',
+  }
 })
 
-watch([filterParams], async () => {
-  if (loadingStore.loading) return;
-  await transactionsService.fetchTransactionData(
-      filterParams.currentPage,
-      filterParams.searchQuery,
-      filterParams.categorySelected,
-      filterParams.orderSelected
-  );
-});
+const filterParams = inject('filters');
 </script>
 
 <template>
   <section class="transactions-list-wrapper">
-    <ErrorMessage v-if="transactionsService.errorMessage">
-      {{ transactionsService.errorMessage }}
-    </ErrorMessage>
-    <div class="filter-section">
-      <Field id="search">
-        <InputWithIcon
-            v-model="filterParams.searchQuery"
-            type="text"
-            placeholder="Search transaction"
-        />
-      </Field>
-      <div class="filter-wrapper">
-        <Select class="sort"
-                v-model="filterParams.orderSelected"
-                label="Sort By"
-                :options="sortOptions"
-        />
-        <Select
-            class="category-sort"
-            v-model="filterParams.categorySelected"
-            label="Category"
-            :options="options"
-        />
-      </div>
-    </div>
-    <TransactionListHeader/>
+    <TransactionFilterSection :categories="categories"/>
+    <section class="transactions-header">
+      <div class="transaction-name">Recipient / Sender</div>
+      <div class="transaction-category">Category</div>
+      <div class="transaction-amount">Transaction Date</div>
+      <div class="transaction-date">Amount</div>
+    </section>
     <ul class="transactions-list">
       <TransactionItem
-          v-for="transaction in transactionsService.transactionList.value"
+          v-for="transaction in props.transactions"
           :key="transaction.id"
           :transaction="transaction"
       />
     </ul>
     <Pagination
         :currentPage="filterParams.currentPage"
-        :lastPage="transactionsService.paginationMeta.value.last_page"
+        :lastPage="props.pagination.last_page"
         @update:currentPage="page => filterParams.currentPage = page"
     />
   </section>
@@ -120,19 +62,6 @@ watch([filterParams], async () => {
   }
 }
 
-.transactions-list-wrapper .filter-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-150);
-}
-
-.transactions-list-wrapper .filter-wrapper {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-150);
-}
-
 .transactions-list-wrapper .transactions-list {
   list-style: none;
   padding: 0;
@@ -140,5 +69,33 @@ watch([filterParams], async () => {
   flex-direction: column;
   gap: var(--spacing-100);
   overflow-x: auto;
+}
+
+.transactions-header {
+  display: none;
+  font-size: var(--fs-75);
+  color: var(--clr-grey-500);
+  grid-template-rows: 1fr;
+  grid-template-columns: repeat(6, 1fr);
+  padding: var(--spacing-75) 0;
+  grid-column-gap: var(--spacing-200);
+  border-bottom: 1px solid var(--clr-grey-100);
+
+  & .transaction-name {
+    grid-column: 1 / span 3;
+  }
+
+  & .transaction-date {
+    text-align: right;
+  }
+
+  @media screen and (min-width: 768px) {
+    display: grid;
+  }
+
+  @media screen and (min-width: 1280px) {
+    padding-left: var(--spacing-100);
+    padding-right: var(--spacing-100);
+  }
 }
 </style>

@@ -5,7 +5,9 @@ import router from "@/router/index.js";
 
 export function useTransactions() {
     const transactionList = ref([]);
-    const paginationMeta = ref({});
+    const paginationMeta = ref({
+        last_page: 1,
+    });
     const loadingStore = useLoadingStore();
     const errorMessage = ref('');
 
@@ -40,8 +42,10 @@ export function useTransactions() {
         try {
             loadingStore.loading = true;
             await axios.post('/api/V1/transactions', data)
+            errorMessage.value = "";
         } catch (e) {
             console.log(e);
+            errorMessage.value = e.response.data.message;
         } finally {
             loadingStore.loading = false;
         }

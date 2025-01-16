@@ -4,7 +4,6 @@ import {useLoadingStore} from '@/stores/loading.js';
 
 export function useCategories() {
     const categoriesList = ref([]);
-    const availableCategoriesForBudget = ref([]);
     const loadingStore = useLoadingStore();
 
     const fetchCategoriesData = async () => {
@@ -18,6 +17,10 @@ export function useCategories() {
             }
 
             categoriesList.value = response.data.data
+            categoriesList.value = Object.entries(categoriesList.value).map(([key, value]) => ({
+                value: value.id,
+                label: value.name,
+            }));
         } catch (error) {
             console.error('Error fetching categories data:', error);
         } finally {
@@ -28,6 +31,5 @@ export function useCategories() {
     return {
         categoriesList,
         fetchCategoriesData,
-        availableCategoriesForBudget,
     };
 }

@@ -3,6 +3,10 @@ import {inject} from "vue";
 
 const props = defineProps({
   modelValue: [String, Number],
+  required: {
+    type: [Boolean],
+    default: false
+  }
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -15,6 +19,7 @@ const field = inject('field')
          :value="props.modelValue"
          @input="$event => emit('update:modelValue', $event.target.value)"
          class="input"
+         :required="required"
   >
 </template>
 
