@@ -1,9 +1,9 @@
 <script setup>
 import {v4 as uuid} from 'uuid';
-import Label from "@/components/forms/Label.vue";
-import HelperMessage from "@/components/forms/HelperMessage.vue";
+import Label from "@/components/forms/base/Label.vue";
+import HelperMessage from "@/components/forms/base/HelperMessage.vue";
 import {computed, provide} from "vue";
-import ErrorMessage from "@/components/forms/ErrorMessage.vue";
+import ErrorMessage from "@/components/forms/base/ErrorMessage.vue";
 
 const props = defineProps({
   id: {

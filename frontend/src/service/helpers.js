@@ -1,4 +1,4 @@
-export const getBudgetFillPercentage = (limit, spendings) => {
+export const getFillPercentage = (limit, spendings) => {
     const absoluteLimit = Math.abs(limit);
     const absoluteSpendings = Math.abs(spendings);
 

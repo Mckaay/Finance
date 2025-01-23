@@ -1,12 +1,12 @@
 <script setup>
 import Modal from "@/components/modals/Modal.vue";
-import Select from "@/components/forms/Select.vue";
-import Field from "@/components/forms/Field.vue";
+import Select from "@/components/forms/base/Select.vue";
+import Field from "@/components/forms/base/Field.vue";
 import Button from "@/components/buttons/Button.vue";
-import Input from "@/components/forms/Input.vue";
+import Input from "@/components/forms/base/Input.vue";
 import {reactive, ref, useTemplateRef} from "vue";
 import {useTransactions} from "@/composables/transactions.js";
-import ErrorMessage from "@/components/forms/ErrorMessage.vue";
+import ErrorMessage from "@/components/forms/base/ErrorMessage.vue";
 
 const props = defineProps(['categories']);
 

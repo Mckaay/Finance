@@ -43,11 +43,31 @@ export const useBudgets = () => {
         }
     }
 
-    const updateBudgetData = async (id, updateData) => {
+    const updateBudget = async (id, data) => {
+        try {
+            loadingStore.loading = true;
+
+            await axios.put(`api/V1/budgets/${id}`, data);
+            errorMessage.value = '';
+        } catch (e) {
+            console.log(e);
+            e.response.data.message = errorMessage.value;
+        } finally {
+            loadingStore.loading = false;
+        }
     }
 
-    const deleteBudgetData = async () => {
-
+    const deleteBudget = async (id) => {
+        try {
+            await axios.delete(`api/V1/budgets/${id}`);
+            loadingStore.loading = true;
+            errorMessage.value = '';
+        } catch (e) {
+            console.log(e);
+            e.response.data.message = errorMessage.value;
+        } finally {
+            loadingStore.loading = false;
+        }
     }
 
     const fetchAvailableOptions = async () => {
@@ -102,8 +122,8 @@ export const useBudgets = () => {
         budgetsList,
         fetchBudgetData,
         saveBudget,
-        updateBudgetData,
-        deleteBudgetData,
+        updateBudget,
+        deleteBudget,
         fetchAvailableOptions,
         availableOptions,
         getRGBColorThemes,

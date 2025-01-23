@@ -1,10 +1,10 @@
 <script setup>
 import {ref} from "vue";
-import Field from "@/components/forms/Field.vue";
-import Input from "@/components/forms/Input.vue";
+import Field from "@/components/forms/base/Field.vue";
+import Input from "@/components/forms/base/Input.vue";
 import Button from "@/components/buttons/Button.vue";
 import {useAuthStore} from "@/stores/auth.js";
-import ErrorMessage from "@/components/forms/ErrorMessage.vue";
+import ErrorMessage from "@/components/forms/base/ErrorMessage.vue";
 
 const form = ref({
   name: "",

@@ -1,7 +1,7 @@
 <script setup>
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from "chart.js";
 import {Doughnut} from 'vue-chartjs'
-import {computed, onMounted, reactive, ref} from "vue";
+import {computed} from "vue";
 import BudgetSummaryItem from "@/components/models/budgets/BudgetSummaryItem.vue";
 
 ChartJS.register(ArcElement, Tooltip, Legend)
@@ -82,7 +82,7 @@ const spendSum = computed(() => {
       </div>
       <Doughnut :data="chartData" :options="chartOptions"></Doughnut>
     </section>
-    <BudgetSummaryItem/>
+    <BudgetSummaryItem :budgets="props.budgets"/>
   </header>
 </template>
 <style scoped>

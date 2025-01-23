@@ -3,9 +3,11 @@ import Menu from "@/components/menu/Menu.vue";
 import Button from "@/components/buttons/Button.vue";
 import {onMounted, useTemplateRef} from "vue";
 import {useBudgets} from "@/composables/budgets.js";
-import AddBudgetModal from "@/components/modals/AddBudgetModal.vue";
+import AddBudgetModal from "@/components/modals/budgets/AddBudgetModal.vue";
 import BudgetItem from "@/components/models/budgets/BudgetItem.vue";
 import DoughnutChart from "@/components/charts/DoughnutChart.vue";
+import DeleteBudgetModal from "@/components/modals/budgets/DeleteBudgetModal.vue";
+import BudgetList from "@/components/models/budgets/BudgetList.vue";
 
 const addBudgetModalRef = useTemplateRef('modal');
 const budgetService = useBudgets();
@@ -21,8 +23,8 @@ onMounted(async () => {
     <header class="model-header">
       <h1>Budgets</h1>
       <Button @click="addBudgetModalRef.openModal()" class="button-primary" text="+ Add New Budget"/>
+      <AddBudgetModal ref="modal"/>
     </header>
-    <AddBudgetModal ref="modal"/>
     <div class="budget-list-wrapper">
       <div class="chart-section">
         <DoughnutChart :budgets="budgetService.budgetsList.value"
@@ -31,12 +33,7 @@ onMounted(async () => {
                        :rgbColors="budgetService.getRGBColorThemes()"
         />
       </div>
-      <div class="budget-list">
-        <BudgetItem v-for="budget in budgetService.budgetsList.value"
-                    :key="budget.id"
-                    :budget="budget"
-        />
-      </div>
+      <BudgetList :budgets="budgetService.budgetsList.value"/>
     </div>
   </main>
 </template>
@@ -74,16 +71,6 @@ main {
       min-width: 500px;
       height: fit-content;
       padding: var(--spacing-200) var(--spacing-200);
-    }
-  }
-
-  & .budget-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-150);
-
-    @media screen and (min-width: 1280px) {
-      grid-column: 2 / -1;
     }
   }
 }

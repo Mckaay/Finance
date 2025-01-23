@@ -112,7 +112,7 @@ final class TransactionRepository implements TransactionRepositoryInterface
         return Transaction::whereIn('category_id', $categories)
             ->where('amount', '<', 0)
             ->whereBetween('date', [now()->startOfMonth(), now()->endOfMonth()])
-            ->limit($limit)
+            ->orderBy('date', 'desc')
             ->get();
     }
 }

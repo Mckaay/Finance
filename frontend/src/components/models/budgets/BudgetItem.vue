@@ -1,8 +1,8 @@
 <script setup>
 import ThreeDotsDropdown from "@/components/dropdowns/ThreeDotsDropdown.vue";
-import ProgressBar from "@/components/models/budgets/ProgressBar.vue";
+import ProgressBar from "@/components/ProgressBar.vue";
 import Button from "@/components/buttons/Button.vue";
-import {getBudgetFillPercentage, getRemainingAmount} from "@/service/helpers.js";
+import {getFillPercentage, getRemainingAmount} from "@/service/helpers.js";
 import ThemeCircle from "@/components/icons/ThemeCircle.vue";
 import TransactionItemSummary from "@/components/models/transactions/TransactionItemSummary.vue";
 
@@ -13,6 +13,7 @@ const props = defineProps({
   }
 });
 
+const emit = defineEmits(['edit', 'delete']);
 </script>
 
 <template>
@@ -22,12 +23,12 @@ const props = defineProps({
         <ThemeCircle :color="budget.theme?.color"/>
         <div class="budget-category">{{ budget.category?.name }}</div>
       </div>
-      <ThreeDotsDropdown/>
+      <ThreeDotsDropdown @edit="emit('edit',budget)" @delete="emit('delete', budget)"/>
     </div>
     <div class="spending-summary">
       <p class="maximum-spending">Maximum of ${{ budget.limit }}</p>
       <ProgressBar
-          :width="getBudgetFillPercentage(budget.limit, budget.monthlySpendings)"
+          :width="getFillPercentage(budget.limit, budget.monthlySpendings)"
           :color="budget.theme?.color"
       />
       <div class="summary-section-details-wrapper">

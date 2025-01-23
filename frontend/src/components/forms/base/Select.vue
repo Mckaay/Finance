@@ -1,5 +1,5 @@
 <script setup>
-import {ref, watch} from 'vue';
+import {computed, ref, watch} from 'vue';
 
 const props = defineProps({
   label: {
@@ -21,7 +21,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
-const selectedOption = ref(props.options[0] ?? null);
+const selectedOption = ref(props?.options[0]?.label ?? null);
+
 
 watch(selectedOption, (newVal) => {
   emit('update:modelValue', newVal.value);

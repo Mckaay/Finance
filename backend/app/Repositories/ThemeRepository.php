@@ -13,6 +13,11 @@ final class ThemeRepository
     {
         return Theme::query()->withCount('budgets')->get();
     }
+
+    public static function getAvailableThemesForPots(): Collection
+    {
+        return Theme::query()->withCount('pots')->get();
+    }
     public function all(): Collection
     {
         return Theme::all();

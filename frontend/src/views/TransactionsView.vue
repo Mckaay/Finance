@@ -5,7 +5,7 @@ import Loader from "@/components/buttons/Loader.vue";
 import Button from "@/components/buttons/Button.vue";
 import {onMounted, provide, reactive, ref, useTemplateRef, watch} from "vue";
 import {useCategories} from "@/composables/categories.js";
-import AddTransactionModal from "@/components/modals/AddTransactionModal.vue";
+import AddTransactionModal from "@/components/modals/transactions/AddTransactionModal.vue";
 import {useTransactions} from "@/composables/transactions.js";
 import {useLoadingStore} from "@/stores/loading.js";
 

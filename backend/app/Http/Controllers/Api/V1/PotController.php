@@ -8,8 +8,10 @@ use App\DataObjects\PotDTO;
 use App\Http\Requests\V1\StorePotRequest;
 use App\Http\Requests\V1\UpdatePotRequest;
 use App\Http\Resources\V1\PotResource;
+use App\Http\Resources\V1\ThemeResource;
 use App\Models\Pot;
 use App\Repositories\PotRepository;
+use App\Repositories\ThemeRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -41,5 +43,11 @@ final class PotController
         $this->potRepository->delete($pot);
 
         return response()->json(status: 204);
+    }
+
+    public function getAvailableOptions(): JsonResponse {
+        return response()->json([
+            'data' => ThemeResource::collection(ThemeRepository::getAvailableThemesForPots()),
+        ]);
     }
 }

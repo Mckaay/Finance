@@ -1,20 +1,10 @@
 <script setup>
-import Modal from "@/components/modals/Modal.vue";
-import Select from "@/components/forms/Select.vue";
-import Field from "@/components/forms/Field.vue";
+import Field from "@/components/forms/base/Field.vue";
 import Button from "@/components/buttons/Button.vue";
-import {computed, onMounted, reactive, ref, useTemplateRef} from "vue";
-import InputWithPrefix from "@/components/forms/InputWithPrefix.vue";
+import Select from "@/components/forms/base/Select.vue";
+import InputWithPrefix from "@/components/forms/base/InputWithPrefix.vue";
+import {computed, onMounted, reactive, ref} from "vue";
 import {useBudgets} from "@/composables/budgets.js";
-
-const modalRef = useTemplateRef('modal');
-const openModal = () => {
-  modalRef.value.openModal();
-}
-
-defineExpose({
-  openModal,
-})
 
 const budgetService = useBudgets();
 
@@ -89,47 +79,39 @@ const saveBudget = async () => {
 
   await budgetService.saveBudget({ ...addBudgetForm });
   validationErrors.value = {};
-  modalRef.value.close();
-  await budgetService.fetchAvailableOptions();
 };
 </script>
 
 <template>
-  <Modal
-      ref="modal"
-      modalHeader="Add New Budget"
-      modalDescription="Choose a category to set a spending budget. These categories can help you monitor spendings."
-  >
-    <form @submit.prevent="saveBudget">
-      <Field id="limit" label="Maximum Spend" :error="validationErrors['limit'] ?? ''">
-        <InputWithPrefix
-            v-model="addBudgetForm.limit"
-            type="number"
-            min="1"
-            step="1"
-            placeholder="e.g. 2000"
-            :required="true"
-        />
-      </Field>
-      <Field id="category" label="Budget Category" :error="validationErrors['category_id'] ?? ''">
-        <Select
-            v-model="addBudgetForm.category_id"
-            type="text"
-            placeholder="Pick category"
-            :options="availableCategories"
-        />
-      </Field>
-      <Field id="theme" label="Theme" :error="validationErrors['theme_id'] ?? ''">
-        <Select
-            v-model="addBudgetForm.theme_id"
-            type="text"
-            placeholder="Pick Theme"
-            :options="availableThemes"
-        />
-      </Field>
-      <Button type="submit" class="button-primary" text="Add New Budget" style="width: 100%;"/>
-    </form>
-  </Modal>
+  <form @submit.prevent="saveBudget">
+    <Field id="limit" label="Maximum Spend" :error="validationErrors['limit'] ?? ''">
+      <InputWithPrefix
+          v-model="addBudgetForm.limit"
+          type="number"
+          min="1"
+          step="1"
+          placeholder="e.g. 2000"
+          :required="true"
+      />
+    </Field>
+    <Field id="category" label="Budget Category" :error="validationErrors['category_id'] ?? ''">
+      <Select
+          v-model="addBudgetForm.category_id"
+          type="text"
+          placeholder="Pick category"
+          :options="availableCategories"
+      />
+    </Field>
+    <Field id="theme" label="Theme" :error="validationErrors['theme_id'] ?? ''">
+      <Select
+          v-model="addBudgetForm.theme_id"
+          type="text"
+          placeholder="Pick Theme"
+          :options="availableThemes"
+      />
+    </Field>
+    <Button type="submit" class="button-primary" text="Add New Budget" style="width: 100%;"/>
+  </form>
 </template>
 
 <style lang="scss" scoped>

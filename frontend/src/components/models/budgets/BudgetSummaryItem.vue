@@ -1,40 +1,21 @@
 <script setup>
-
+const props = defineProps({
+  budgets: {
+    type: Array,
+    default: [],
+  }
+})
 </script>
 
 <template>
   <section class="summary">
     <h2>Spending Summary</h2>
     <div class="summary-items-wrapper">
-      <div class="summary-item">
-        <div class="name">Bills</div>
+      <div class="summary-item" v-for="budget in budgets">
+        <div class="name" :style="{ '--background-color': budget?.theme.color }">{{ budget?.category?.name }}</div>
         <div class="cost-wrapper">
-          <div class="spent">$150.00</div>
-          <div class="limit">of $750.00</div>
-        </div>
-      </div>
-      <div class="line"></div>
-      <div class="summary-item">
-        <div class="name">Bills</div>
-        <div class="cost-wrapper">
-          <div class="spent">$150.00</div>
-          <div class="limit">of $750.00</div>
-        </div>
-      </div>
-      <div class="line"></div>
-      <div class="summary-item">
-        <div class="name">Bills</div>
-        <div class="cost-wrapper">
-          <div class="spent">$150.00</div>
-          <div class="limit">of $750.00</div>
-        </div>
-      </div>
-      <div class="line"></div>
-      <div class="summary-item">
-        <div class="name">Bills</div>
-        <div class="cost-wrapper">
-          <div class="spent">$150.00</div>
-          <div class="limit">of $750.00</div>
+          <div class="spent">${{ Math.abs(budget.monthlySpendings) }}</div>
+          <div class="limit">of ${{ Math.abs(budget.limit) }}</div>
         </div>
       </div>
     </div>
@@ -77,7 +58,7 @@
       content: "";
       align-self: stretch;
       width: 4px;
-      background-color: var(--clr-green);
+      background-color: var(--background-color);
       border-radius: var(--spacing-50);
     }
 
@@ -101,10 +82,13 @@
     }
   }
 
-  & .line {
+  & .summary-item:not(:last-child)::after {
+    content: "";
     display: block;
     height: 1px;
     background-color: var(--clr-grey-100);
+    grid-column: 1 / -1;
+    margin-top: var(--spacing-100);
   }
 }
 </style>

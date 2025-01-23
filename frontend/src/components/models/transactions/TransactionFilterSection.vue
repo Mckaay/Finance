@@ -1,7 +1,7 @@
 <script setup>
-import Select from "@/components/forms/Select.vue";
-import Field from "@/components/forms/Field.vue";
-import InputWithIcon from "@/components/forms/InputWithIcon.vue";
+import Select from "@/components/forms/base/Select.vue";
+import Field from "@/components/forms/base/Field.vue";
+import InputWithIcon from "@/components/forms/base/InputWithIcon.vue";
 import {computed, inject, watch} from "vue";
 
 const props = defineProps({

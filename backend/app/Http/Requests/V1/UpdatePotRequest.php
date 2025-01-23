@@ -17,7 +17,6 @@ final class UpdatePotRequest extends FormRequest
                 'bail',
                 'required',
                 'string',
-                'unique:pots,name',
                 'min:3',
                 'max: 60',
             ],
@@ -25,7 +24,7 @@ final class UpdatePotRequest extends FormRequest
                 'bail',
                 'required',
                 'integer',
-                'min: 0',
+                'min: 1',
                 'max:200000',
             ],
             'theme_id' => [

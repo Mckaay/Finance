@@ -13,11 +13,21 @@ final class ThemeResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        $disabled = false;
+
+        if (isset($this->budgets_count)) {
+            $disabled = $this->budgets_count > 0;
+        }
+
+        if (isset($this->pots_count)) {
+            $disabled = $this->pots_count > 0;
+        }
+
         return [
             'id' => $this->id,
             'name' => $this->name,
             'color' => $this->color,
-            'disabled' => isset($this->budgets_count) ? $this->budgets_count > 0 : false,
+            'disabled' => $disabled,
         ];
     }
 }

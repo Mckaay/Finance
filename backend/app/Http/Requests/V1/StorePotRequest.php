@@ -25,7 +25,7 @@ final class StorePotRequest extends FormRequest
                 'bail',
                 'required',
                 'integer',
-                'min: 0',
+                'min: 1',
                 'max:200000',
             ],
             'theme_id' => [
