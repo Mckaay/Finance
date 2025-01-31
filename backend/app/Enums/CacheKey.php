@@ -8,4 +8,6 @@ enum CacheKey: string
 {
     case CATEGORIES = 'categories';
     case THEMES = 'themes';
+
+    case DASHBOARD_DATA = 'dashboard_data';
 }

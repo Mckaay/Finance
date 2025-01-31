@@ -23,7 +23,6 @@ final class BudgetRepository implements BudgetRepositoryInterface
         $budgets = Budget::with(['category', 'theme'])->get();
         $categories = $budgets->pluck('category_id');
 
-        // this needs to be done as transactions are not related to budget at start.
         $transactions = $this->transactionRepository->getMonthlySpendingsForCategories($categories);
         $transactionsByCategory = $transactions->groupBy('category_id');
 
@@ -67,5 +66,27 @@ final class BudgetRepository implements BudgetRepositoryInterface
     public function find(int $id): Budget
     {
         return Budget::findOrFail($id);
+    }
+
+    public function getDashboardData(): Collection
+    {
+        $budgets = Budget::with(['category', 'theme'])->get();
+        $categories = $budgets->pluck('category_id');
+
+        $transactions = $this->transactionRepository->getMonthlySpendingsForCategories($categories);
+        $transactionsByCategory = $transactions->groupBy('category_id');
+
+        $budgets->each(function ($budget) use ($transactionsByCategory): void {
+            $budget->monthlySpendings = (string) $transactionsByCategory
+                ->get($budget->category_id, collect())
+                ->sum('amount');
+        });
+
+        return $budgets;
+    }
+
+    public function getLimitSum(): string
+    {
+        return Budget::sum('limit');
     }
 }

@@ -4,10 +4,21 @@ import axios from "axios";
 import {hexToRgb} from "@/service/helpers.js";
 
 export const useBudgets = () => {
-    const budgetsList = ref([]);
-    const availableOptions = ref([]);
     const loadingStore = useLoadingStore();
     const errorMessage = ref('');
+
+    const list = ref([]);
+    const limitSum = ref("0");
+    const expensesSum = ref(0)
+
+    const availableOptions = ref([]);
+    const availableCategories = computed(() => {
+        return availableOptions.value.categories ?? [];
+    })
+    const availableThemes = computed(() => {
+        return availableOptions.value.themes ?? [];
+    })
+    const currentlyClickedBudgetToBeEditedOrDeleted = ref({});
 
     const fetchBudgetData = async () => {
         try {
@@ -15,11 +26,12 @@ export const useBudgets = () => {
 
             const response = await axios.get('api/V1/budgets');
             if (!response.data?.data) {
-                budgetsList.value = [];
+                list.value = [];
                 return;
             }
-
-            budgetsList.value = response.data.data;
+            list.value = response.data.data.budgets;
+            limitSum.value = response.data.data.limitSum ?? 0;
+            expensesSum.value = response.data.data.expensesSum ?? 0;
             errorMessage.value = '';
         } catch (e) {
             console.log(e);
@@ -34,6 +46,7 @@ export const useBudgets = () => {
             loadingStore.loading = true;
 
             await axios.post('api/V1/budgets', data);
+            await fetchBudgetData();
             errorMessage.value = '';
         } catch (e) {
             console.log(e);
@@ -48,6 +61,7 @@ export const useBudgets = () => {
             loadingStore.loading = true;
 
             await axios.put(`api/V1/budgets/${id}`, data);
+            await fetchBudgetData();
             errorMessage.value = '';
         } catch (e) {
             console.log(e);
@@ -60,6 +74,8 @@ export const useBudgets = () => {
     const deleteBudget = async (id) => {
         try {
             await axios.delete(`api/V1/budgets/${id}`);
+            await fetchBudgetData();
+            await fetchAvailableOptions();
             loadingStore.loading = true;
             errorMessage.value = '';
         } catch (e) {
@@ -93,7 +109,7 @@ export const useBudgets = () => {
     const getMonthlySpendings = () => {
         const array = [];
 
-        budgetsList.value.forEach((budget) => {
+        list.value.forEach((budget) => {
             array.push(parseFloat(budget.monthlySpendings));
         })
 
@@ -102,7 +118,7 @@ export const useBudgets = () => {
 
     const getHexColorThemes = () => {
         const array = [];
-        budgetsList.value.forEach((budget) => {
+        list.value.forEach((budget) => {
             array.push(budget.theme?.color);
         });
 
@@ -111,7 +127,7 @@ export const useBudgets = () => {
 
     const getRGBColorThemes = () => {
         const array = [];
-        budgetsList.value.forEach((budget) => {
+        list.value.forEach((budget) => {
             array.push(hexToRgb(budget.theme?.color, 0.75));
         });
 
@@ -119,15 +135,20 @@ export const useBudgets = () => {
     }
 
     return {
-        budgetsList,
+        list,
+        expensesSum,
+        limitSum,
         fetchBudgetData,
         saveBudget,
         updateBudget,
         deleteBudget,
         fetchAvailableOptions,
         availableOptions,
+        availableCategories,
+        availableThemes,
         getRGBColorThemes,
         getHexColorThemes,
         getMonthlySpendings,
+        currentlyClickedBudgetToBeEditedOrDeleted,
     }
 }

@@ -1,0 +1,72 @@
+<script setup>
+import {computed, inject} from 'vue';
+import Select from "@/components/shared/forms/Select.vue";
+import Field from "@/components/shared/forms/Field.vue";
+import InputWithIcon from "@/components/shared/forms/InputWithIcon.vue";
+
+const transactions = inject('transactions');
+const categories = inject('categories');
+
+const sortOptions = [
+  { value: 'latest', label: 'Latest' },
+  { value: 'oldest', label: 'Oldest' },
+  { value: 'atoz', label: 'A to Z' },
+  { value: 'ztoa', label: 'Z to A' },
+  { value: 'highest', label: 'Highest' },
+  { value: 'lowest', label: 'Lowest' }
+];
+
+const categoryOptions = computed(() => {
+  return [
+    {
+      value: '0',
+      label: 'All Transactions'
+    },
+    ...categories.categoriesList.value
+  ]
+});
+</script>
+
+<template>
+  <div class="filter-section">
+    <Field id="search">
+      <InputWithIcon
+          :model-value="transactions.state.filters.searchQuery"
+          @update:model-value="transactions.updateFilter('searchQuery', $event)"
+          type="text"
+          placeholder="Search transaction"
+      />
+    </Field>
+    <div class="filter-wrapper">
+      <Select
+          class="sort"
+          :model-value="transactions.state.filters.orderSelected"
+          @update:model-value="transactions.updateFilter('orderSelected', $event)"
+          label="Sort By"
+          :options="sortOptions"
+      />
+      <Select
+          class="category-sort"
+          :model-value="transactions.state.filters.categorySelected"
+          @update:model-value="transactions.updateFilter('categorySelected', $event)"
+          label="Category"
+          :options="categoryOptions"
+      />
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.filter-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-150);
+}
+
+.filter-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+}
+</style>

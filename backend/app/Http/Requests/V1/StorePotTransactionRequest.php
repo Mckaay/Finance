@@ -16,7 +16,7 @@ final class StorePotTransactionRequest extends FormRequest
             'amount' => [
                 'bail',
                 'required',
-                'decimal',
+                'numeric',
                 'min:-200000',
                 'max:200000',
             ],

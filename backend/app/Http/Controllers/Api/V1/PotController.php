@@ -45,7 +45,8 @@ final class PotController
         return response()->json(status: 204);
     }
 
-    public function getAvailableOptions(): JsonResponse {
+    public function getAvailableOptions(): JsonResponse
+    {
         return response()->json([
             'data' => ThemeResource::collection(ThemeRepository::getAvailableThemesForPots()),
         ]);

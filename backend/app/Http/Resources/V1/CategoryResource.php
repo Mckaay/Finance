@@ -19,8 +19,8 @@ final class CategoryResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
+            'value' => $this->id,
+            'label' => $this->name,
             'disabled' => isset($this->budgets_count) ? $this->budgets_count > 0 : false,
         ];
     }

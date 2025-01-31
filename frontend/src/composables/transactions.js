@@ -1,61 +1,74 @@
 import axios from 'axios';
-import {ref} from 'vue';
-import {useLoadingStore} from '@/stores/loading.js';
-import router from "@/router/index.js";
+import { reactive, ref, watch } from 'vue';
+import { useLoadingStore } from '@/stores/loading.js';
 
 export function useTransactions() {
-    const transactionList = ref([]);
-    const paginationMeta = ref({
-        last_page: 1,
-    });
     const loadingStore = useLoadingStore();
     const errorMessage = ref('');
 
-    const fetchTransactionData = async (
-        page = 1,
-        searchQuery = '',
-        category = 0,
-        order = 'latest'
-    ) => {
+    const state = reactive({
+        list: [],
+        pagination: { last_page: 1 },
+        filters: {
+            currentPage: 1,
+            searchQuery: "",
+            categorySelected: 0,
+            orderSelected: 'latest',
+        }
+    });
+
+    const fetchTransactions = async () => {
         try {
             loadingStore.loading = true;
-            const response = await axios.get(`/api/V1/transactions?page=${page}&name=${searchQuery}&categoryId=${category}&order=${order}`);
-            if (!response.data?.data) {
-                transactionList.value = [];
-                paginationMeta.value = {};
-                return;
-            }
+            const response = await axios.get('/api/V1/transactions', {
+                params: {
+                    page: state.filters.currentPage,
+                    name: state.filters.searchQuery,
+                    categoryId: state.filters.categorySelected,
+                    order: state.filters.orderSelected
+                }
+            });
 
-            transactionList.value = response.data.data;
-            paginationMeta.value = response.data.meta;
+            state.list = response.data?.data || [];
+            state.pagination = response.data?.meta || { last_page: 1 };
             errorMessage.value = "";
         } catch (e) {
-            console.error('Error fetching transactions data:', e);
-            errorMessage.value = e.response.data.message;
+            console.error('Error fetching transactions:', e);
+            errorMessage.value = e.response?.data?.message || 'Failed to fetch transactions';
         } finally {
             loadingStore.loading = false;
         }
     };
 
-    const saveTransaction = async (data
-    ) => {
+    const createTransaction = async (data) => {
         try {
             loadingStore.loading = true;
-            await axios.post('/api/V1/transactions', data)
+            await axios.post('/api/V1/transactions', data);
+            await fetchTransactions();
             errorMessage.value = "";
         } catch (e) {
-            console.log(e);
-            errorMessage.value = e.response.data.message;
+            errorMessage.value = e.response?.data?.message || 'Failed to create transaction';
         } finally {
             loadingStore.loading = false;
         }
-    }
+    };
+
+    const updateFilter = (key, value) => {
+        if (key !== 'currentPage') state.filters.currentPage = 1;
+        state.filters[key] = value;
+    };
+
+    watch(
+        () => state.filters,
+        () => fetchTransactions(),
+        { deep: true }
+    );
 
     return {
-        transactionList,
-        paginationMeta,
-        fetchTransactionData,
-        saveTransaction,
+        state,
         errorMessage,
+        fetchTransactions,
+        createTransaction,
+        updateFilter
     };
 }

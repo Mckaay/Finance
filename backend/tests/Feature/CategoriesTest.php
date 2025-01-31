@@ -53,8 +53,8 @@ final class CategoriesTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 '*' => [
-                    'id',
-                    'name',
+                    'value',
+                    'label',
                 ],
             ],
         ]);
@@ -72,8 +72,8 @@ final class CategoriesTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 '*' => [
-                    'id',
-                    'name',
+                    'value',
+                    'label',
                 ],
             ],
         ]);

@@ -1,10 +1,10 @@
 <script setup>
 import {ref} from "vue";
-import Field from "@/components/forms/base/Field.vue";
-import Input from "@/components/forms/base/Input.vue";
-import Button from "@/components/buttons/Button.vue";
+import Field from "@/components/shared/forms/Field.vue";
+import Input from "@/components/shared/forms/Input.vue";
 import {useAuthStore} from "@/stores/auth.js";
-import ErrorMessage from "@/components/forms/base/ErrorMessage.vue";
+import ErrorMessage from "@/components/shared/forms/ErrorMessage.vue";
+import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 
 const form = ref({
   email: "",
@@ -14,7 +14,6 @@ const form = ref({
 const authStore = useAuthStore();
 
 const onSubmit = () => {
-  console.log(form.value.email);
   authStore.login(form.value.email, form.value.password);
 };
 </script>
@@ -62,7 +61,7 @@ const onSubmit = () => {
         </Field>
       </div>
 
-      <Button class="button-primary" type="submit" text="Login"/>
+      <BaseButton type="submit" text="Login"/>
       <ErrorMessage v-if="authStore.errorMessage">
         {{ authStore.errorMessage }}
       </ErrorMessage>

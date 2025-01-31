@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Observers\BudgetObserver;
 use App\Scopes\UserScope;
 use Database\Factories\BudgetFactory;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,17 +20,11 @@ use Illuminate\Support\Collection;
  * @property string $monthlySpendings Current  month spendings in this category.
  */
 #[ScopedBy(UserScope::class)]
+#[ObservedBy([BudgetObserver::class])]
 final class Budget extends Model
 {
     /** @use HasFactory<BudgetFactory> */
     use HasFactory;
-
-    public function casts(): array
-    {
-        return [
-            'limit' => 'decimal:2',
-        ];
-    }
 
     public function user(): BelongsTo
     {

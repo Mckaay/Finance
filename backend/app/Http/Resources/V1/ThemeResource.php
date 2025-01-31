@@ -24,8 +24,8 @@ final class ThemeResource extends JsonResource
         }
 
         return [
-            'id' => $this->id,
-            'name' => $this->name,
+            'value' => $this->id,
+            'label' => $this->name,
             'color' => $this->color,
             'disabled' => $disabled,
         ];

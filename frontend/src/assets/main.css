@@ -9,7 +9,7 @@ body {
     background-color: var(--clr-beige-100);
 }
 
-body:has(.menu) {
+body:has(.navigation) {
     height: unset;
 
     @media screen and (min-width: 1280px) {
@@ -19,7 +19,7 @@ body:has(.menu) {
 
 body:has(dialog[open]) {overflow: hidden}
 
-#app:has(.menu) {
+#app:has(.navigation) {
     height: 100%;
 
     @media screen and (min-width: 1280px) {

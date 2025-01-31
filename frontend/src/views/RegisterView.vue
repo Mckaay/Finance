@@ -1,10 +1,10 @@
 <script setup>
 import {ref} from "vue";
-import Field from "@/components/forms/base/Field.vue";
-import Input from "@/components/forms/base/Input.vue";
-import Button from "@/components/buttons/Button.vue";
+import Field from "@/components/shared/forms/Field.vue";
+import Input from "@/components/shared/forms/Input.vue";
 import {useAuthStore} from "@/stores/auth.js";
-import ErrorMessage from "@/components/forms/base/ErrorMessage.vue";
+import ErrorMessage from "@/components/shared/forms/ErrorMessage.vue";
+import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 
 const form = ref({
   name: "",
@@ -71,7 +71,7 @@ const onSubmit = async () => {
       <ErrorMessage v-if="authStore.errorMessage">
         {{ authStore.errorMessage }}
       </ErrorMessage>
-      <Button class="button-primary" type="submit" text="Create Account"/>
+      <BaseButton type="submit" text="Create Account"/>
       <div class="signup-link-wrapper">
         Already have an account?
         <RouterLink class="register-link" :to="{ name: 'login'}">Login</RouterLink>

@@ -1,11 +1,11 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import DashboardIndex from '../views/DashboardIndex.vue'
 import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import NotFoundView from "@/views/NotFoundView.vue";
-import TransactionsView from "@/views/TransactionsView.vue";
-import BudgetsView from "@/views/BudgetsView.vue";
-import PotsView from "@/views/PotsView.vue";
+import PotIndex from "@/views/PotIndex.vue";
+import TransactionIndex from "@/views/TransactionIndex.vue";
+import BudgetIndex from "@/views/BudgetIndex.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,7 +13,7 @@ const router = createRouter({
         {
             path: '/',
             name: 'dashboard',
-            component: HomeView,
+            component: DashboardIndex,
             meta: {
                 requiresAuth: true,
             },
@@ -31,7 +31,7 @@ const router = createRouter({
         {
             path: '/transactions',
             name: 'transactions',
-            component: TransactionsView,
+            component: TransactionIndex,
             meta: {
                 requiresAuth: true,
             },
@@ -39,7 +39,7 @@ const router = createRouter({
         {
             path: '/budgets',
             name: 'budgets',
-            component: BudgetsView,
+            component: BudgetIndex,
             meta: {
                 requiresAuth: true,
             },
@@ -47,7 +47,7 @@ const router = createRouter({
         {
             path: '/pots',
             name: 'pots',
-            component: PotsView,
+            component: PotIndex,
             meta: {
                 requiresAuth: true,
             },

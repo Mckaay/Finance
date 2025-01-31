@@ -15,15 +15,26 @@ use App\Repositories\BudgetRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ThemeRepository;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 final class BudgetController
 {
     public function __construct(protected BudgetRepository $budgetRepository) {}
 
-    public function index(): AnonymousResourceCollection
+    public function index(): JsonResponse
     {
-        return BudgetResource::collection($this->budgetRepository->all());
+        $budgetCollection = $this->budgetRepository->all();
+
+        if ( ! $budgetCollection->isEmpty()) {
+            $sumOfMonthlySpendings = (int) $budgetCollection->sum('monthlySpendings');
+        }
+
+        return response()->json([
+            'data' => [
+                'limitSum' => $this->budgetRepository->getLimitSum(),
+                'expensesSum' => $sumOfMonthlySpendings ?? 0,
+                'budgets' => BudgetResource::collection($budgetCollection),
+            ],
+        ]);
     }
 
     public function store(StoreBudgetRequest $request): JsonResponse

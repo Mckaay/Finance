@@ -115,4 +115,24 @@ final class TransactionRepository implements TransactionRepositoryInterface
             ->orderBy('date', 'desc')
             ->get();
     }
+
+    public function getDashboardData(int $limit = 5): Collection
+    {
+        return Transaction::query()->latest('date')->limit($limit)->get();
+    }
+
+    public function getBalance()
+    {
+        return Transaction::query()->sum('amount');
+    }
+
+    public function getIncomesSum()
+    {
+        return Transaction::where('amount', '>', 0)->sum('amount');
+    }
+
+    public function getExpensesSum()
+    {
+        return Transaction::where('amount', '<', 0)->sum('amount');
+    }
 }

@@ -16,11 +16,7 @@ export function useCategories() {
                 return;
             }
 
-            categoriesList.value = response.data.data
-            categoriesList.value = Object.entries(categoriesList.value).map(([key, value]) => ({
-                value: value.id,
-                label: value.name,
-            }));
+            categoriesList.value = response.data.data;
         } catch (error) {
             console.error('Error fetching categories data:', error);
         } finally {

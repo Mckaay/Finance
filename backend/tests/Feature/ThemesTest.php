@@ -53,8 +53,8 @@ final class ThemesTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 '*' => [
-                    'id',
-                    'name',
+                    'value',
+                    'label',
                     'color',
                 ],
             ],
@@ -73,8 +73,8 @@ final class ThemesTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 '*' => [
-                    'id',
-                    'name',
+                    'value',
+                    'label',
                     'color',
                 ],
             ],

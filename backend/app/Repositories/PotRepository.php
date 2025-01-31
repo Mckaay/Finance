@@ -58,4 +58,15 @@ final class PotRepository implements PotRepositoryInterface
     {
         return Pot::findOrFail($id);
     }
+
+    public function getDashboardData(): Collection
+    {
+        return Pot::query()
+            ->withSum([
+                'pottransactions as depositSum' => fn($query) => $query->where('type', PotTransactionType::DEPOSIT->value),
+                'pottransactions as withdrawSum' => fn($query) => $query->where('type', PotTransactionType::WITHDRAW->value),
+            ], 'amount')
+            ->with('theme')
+            ->get();
+    }
 }
