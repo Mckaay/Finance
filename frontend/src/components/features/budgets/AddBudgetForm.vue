@@ -76,7 +76,6 @@ const saveBudget = async () => {
     <Field id="category" label="Budget Category" :error="errors.category_id ?? ''">
       <Select
           v-model="formData.category_id"
-          type="text"
           placeholder="Pick category"
           :options="budgetService.availableCategories.value"
       />
@@ -84,7 +83,6 @@ const saveBudget = async () => {
     <Field id="theme" label="Theme" :error="errors.theme_id ?? ''">
       <Select
           v-model="formData.theme_id"
-          type="text"
           placeholder="Pick Theme"
           :options="budgetService.availableThemes.value"
       />

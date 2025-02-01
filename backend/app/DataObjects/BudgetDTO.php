@@ -9,7 +9,7 @@ use Illuminate\Foundation\Http\FormRequest;
 final readonly class BudgetDTO
 {
     public function __construct(
-        public string $limit,
+        public mixed $limit,
         public int $categoryId,
         public int $themeId,
     ) {}

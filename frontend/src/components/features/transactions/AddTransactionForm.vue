@@ -94,7 +94,6 @@ const saveTransaction = async () => {
       <Select
           class="select"
           v-model="formData.category_id"
-          type="text"
           placeholder="Pick category"
           :options="categoriesService.categoriesList.value"
       />

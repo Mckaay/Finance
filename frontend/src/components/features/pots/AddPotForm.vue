@@ -77,7 +77,6 @@ const emit = defineEmits(['potCreated']);
     <Field id="theme" label="Theme" :error="validationErrors['theme_id'] ?? ''">
       <Select
           v-model="addPotForm.theme_id"
-          type="text"
           placeholder="Pick Theme"
           :options="potService.availableThemes.value"
       />

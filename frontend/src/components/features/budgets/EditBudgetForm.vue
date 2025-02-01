@@ -11,10 +11,10 @@ const budgetService = inject("budgetService");
 const loadingStore = useLoadingStore();
 
 const formData = computed(() => {
-  return reactive ({
-        limit: budgetService.currentlyClickedBudgetToBeEditedOrDeleted.value.limit ?? 0,
-        category_id: budgetService.currentlyClickedBudgetToBeEditedOrDeleted.value.category_id ?? 0,
-        theme_id: budgetService.currentlyClickedBudgetToBeEditedOrDeleted.value.theme_id ?? 0,
+  return reactive({
+    limit: budgetService.currentlyClickedBudgetToBeEditedOrDeleted.value.limit ?? 0,
+    category_id: budgetService.currentlyClickedBudgetToBeEditedOrDeleted.value.category.value ?? 0,
+    theme_id: budgetService.currentlyClickedBudgetToBeEditedOrDeleted.value.theme.value ?? 0,
   })
 })
 
@@ -31,15 +31,18 @@ const clearErrors = () => {
 }
 
 const validateFormData = () => {
-  if (!formData.limit || formData.limit < 0) {
+
+  if (!formData.value.limit || formData.value.limit < 0) {
     errors.limit = "Limit is required and needs to positive number";
+
+    console.log('Im here');
   }
 
-  if (!formData.category_id)  {
+  if (!formData.value.category_id) {
     errors.category_id = "Category is required";
   }
 
-  if (!formData.theme_id)  {
+  if (!formData.value.theme_id) {
     errors.theme_id = "Category is required";
   }
 }
@@ -57,13 +60,14 @@ const updateBudget = async () => {
     return;
   }
 
-  await budgetService.updateBudget({...formData})
+  await budgetService.updateBudget(budgetService.currentlyClickedBudgetToBeEditedOrDeleted.value.id, {...formData.value})
   clearErrors();
   emit('budgetUpdated');
 }
 </script>
 
 <template>
+  {{ formData }}
   <form @submit.prevent="updateBudget">
     <Field id="limit" label="Maximum Spend" :error="errors.limit ?? ''">
       <InputWithPrefix
@@ -78,7 +82,6 @@ const updateBudget = async () => {
     <Field id="category" label="Budget Category" :error="errors.category_id ?? ''">
       <Select
           v-model="formData.category_id"
-          type="text"
           placeholder="Pick category"
           :options="budgetService.availableCategories.value"
       />
@@ -86,12 +89,11 @@ const updateBudget = async () => {
     <Field id="theme" label="Theme" :error="errors.theme_id ?? ''">
       <Select
           v-model="formData.theme_id"
-          type="text"
           placeholder="Pick Theme"
           :options="budgetService.availableThemes.value"
       />
     </Field>
-    <BaseButton type="submit"  text="Save Changes" style="width: 100%;"/>
+    <BaseButton type="submit" text="Save Changes" style="width: 100%;"/>
   </form>
 </template>
 

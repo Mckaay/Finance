@@ -21,7 +21,7 @@ import NavigationListItem from "@/components/features/navigation/NavigationListI
     <NavigationListItem text="Pots" routeName="pots">
       <JarFillIcon/>
     </NavigationListItem>
-    <NavigationListItem text="Recurring bills" routeName="recurring">
+    <NavigationListItem class='disabled' text="Recurring bills" routeName="recurring">
       <ReceiptIcon/>
     </NavigationListItem>
   </ul>
@@ -48,6 +48,12 @@ ul {
     gap: var(--spacing-25);
     padding-right: var(--spacing-150);
     margin: unset;
+  }
+
+  .disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
   }
 }
 </style>

@@ -18,7 +18,15 @@ export const useBudgets = () => {
     const availableThemes = computed(() => {
         return availableOptions.value.themes ?? [];
     })
-    const currentlyClickedBudgetToBeEditedOrDeleted = ref({});
+    const currentlyClickedBudgetToBeEditedOrDeleted = ref({
+        limit: 0,
+        category: {
+            value: 0,
+        },
+        theme: {
+            value: 0,
+        }
+    });
 
     const fetchBudgetData = async () => {
         try {

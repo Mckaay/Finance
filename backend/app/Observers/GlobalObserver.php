@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Cache;
 final class GlobalObserver
 {
     /**
-     * Handle the User "created" event.
+     * Handle the Model "created" event.
      */
     public function created(Model $model): void
     {
@@ -19,7 +19,7 @@ final class GlobalObserver
     }
 
     /**
-     * Handle the User "updated" event.
+     * Handle the Model "updated" event.
      */
     public function updated(Model $model): void
     {
@@ -27,16 +27,18 @@ final class GlobalObserver
     }
 
     /**
-     * Handle the User "deleted" event.
+     * Handle the Model "deleted" event.
      */
     public function deleted(Model $model): void
     {
         $this->clearCache();
     }
 
+    /**
+     * Clear Cache when model event occurs.
+     */
     public function clearCache(): void
     {
         Cache::forget(CacheKey::DASHBOARD_DATA->value . "_user_" . auth()->id());
     }
-
 }

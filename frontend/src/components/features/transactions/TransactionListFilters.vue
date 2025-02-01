@@ -40,15 +40,13 @@ const categoryOptions = computed(() => {
     <div class="filter-wrapper">
       <Select
           class="sort"
-          :model-value="transactions.state.filters.orderSelected"
-          @update:model-value="transactions.updateFilter('orderSelected', $event)"
+          v-model="transactions.state.filters.orderSelected"
           label="Sort By"
           :options="sortOptions"
       />
       <Select
           class="category-sort"
-          :model-value="transactions.state.filters.categorySelected"
-          @update:model-value="transactions.updateFilter('categorySelected', $event)"
+          v-model="transactions.state.filters.categorySelected"
           label="Category"
           :options="categoryOptions"
       />

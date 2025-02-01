@@ -1,5 +1,5 @@
 <script setup>
-import {ref, watch} from 'vue';
+import {onMounted, ref, watch} from 'vue';
 
 const props = defineProps({
   label: {
@@ -7,7 +7,7 @@ const props = defineProps({
     default: ''
   },
   modelValue: {
-    type: [String, Number],
+    type: [String, Number, Object],
     default: null
   },
   options: {
@@ -17,15 +17,34 @@ const props = defineProps({
   placeholder: {
     type: [String],
     default: null
-  }
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
-const selectedOption = ref(props?.options[0]?.label ?? null);
+const selectedOption = ref(
+    props.modelValue !== null
+        ? props.options.find(option => option.value === props.modelValue) ?? null
+        : props.options[0] ?? null
+);
 
 watch(selectedOption, (newVal) => {
+  if (!newVal) {
+    return;
+  }
+
   emit('update:modelValue', newVal.value);
+  selectedOption.value = newVal;
 });
+
+watch(
+    () => props.modelValue,
+    (newVal) => {
+      if (newVal !== null) {
+        selectedOption.value = props.options.find(option => option.value == newVal) ?? null;
+      }
+    },
+    { immediate: true }
+);
 </script>
 
 <template>
@@ -33,10 +52,10 @@ watch(selectedOption, (newVal) => {
     <div v-if="label" class="label">{{ label }}</div>
     <v-select
         v-model="selectedOption"
+        :options="options"
         :searchable="false"
         :filterable="false"
-        :options="options"
-        :selectable = "option => !option.disabled"
+        :selectable="(option) => !option.disabled"
         :placeholder="placeholder"
     />
     <slot></slot>

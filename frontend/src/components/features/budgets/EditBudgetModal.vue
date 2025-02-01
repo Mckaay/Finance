@@ -3,7 +3,6 @@ import Modal from "@/components/shared/modals/BaseModal.vue";
 import {useTemplateRef} from "vue";
 import EditBudgetForm from "@/components/features/budgets/EditBudgetForm.vue";
 
-
 const modalRef = useTemplateRef('modal');
 const openModal = () => {
   modalRef.value.openModal();
