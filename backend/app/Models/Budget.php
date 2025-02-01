@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Observers\BudgetObserver;
+use App\Observers\GlobalObserver;
 use App\Scopes\UserScope;
 use Database\Factories\BudgetFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -20,7 +20,7 @@ use Illuminate\Support\Collection;
  * @property string $monthlySpendings Current  month spendings in this category.
  */
 #[ScopedBy(UserScope::class)]
-#[ObservedBy([BudgetObserver::class])]
+#[ObservedBy([GlobalObserver::class])]
 final class Budget extends Model
 {
     /** @use HasFactory<BudgetFactory> */

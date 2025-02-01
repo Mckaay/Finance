@@ -155,7 +155,7 @@ main {
 
 .right-side-wrapper {
   @media screen and (min-width: 1300px) {
-    width: 50%;
+    width: 80%;
   }
 }
 </style>
