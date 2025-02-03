@@ -65,6 +65,8 @@
             "./vendor/bin/phpstan analyse --memory-limit=3g"
         ],
         "test": [
+            "pint",
+            "phpstan",
             "@php artisan test"
         ]
     },
