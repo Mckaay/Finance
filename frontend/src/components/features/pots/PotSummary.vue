@@ -79,7 +79,7 @@ const savedSum = computed(() => {
 
   & .list-item::before {
     content: "";
-    width: 4px;
+    min-width: 4px;
     border-radius: var(--spacing-50);
     background-color: var(--background-color);
     min-height: 100%;

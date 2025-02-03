@@ -3,9 +3,14 @@ import {ref} from 'vue'
 import Close from "@/components/shared/icons/Close.vue"
 
 const props = defineProps({
-  buttonText: String,
-  modalHeader: String,
-  modalDescription: String,
+  headerText: {
+    type: String,
+    default: "",
+  },
+  descriptionText: {
+    type: String,
+    default: "",
+  },
 });
 
 const dialog = ref(null);
@@ -28,11 +33,11 @@ defineExpose({
   <dialog ref="dialog">
     <div class="modal-content-wrapper">
       <header>
-        <h1>{{ modalHeader }}</h1>
+        <h1>{{ headerText }}</h1>
         <Close @click="close" class="close-button"/>
       </header>
-      <p v-if="modalDescription" class="modal-description">
-        {{ modalDescription }}
+      <p v-if="descriptionText" class="modal-description">
+        {{ descriptionText }}
       </p>
       <slot></slot>
     </div>

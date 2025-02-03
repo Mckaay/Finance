@@ -2,8 +2,9 @@
 import {inject} from "vue";
 import DoughnutChart from "@/components/shared/charts/DoughnutChart.vue";
 import BudgetSummaryListItem from "@/components/features/budgets/BudgetSummaryListItem.vue";
+import {useBudgets} from "@/composables/budgets.js";
 
-const budgetService = inject('budgetService');
+const budgetService = useBudgets()
 
 const props = defineProps({
   summaryListText: {
@@ -14,15 +15,15 @@ const props = defineProps({
 </script>
 
 <template>
-  <DoughnutChart :budgets="budgetService.list.value"
+  <DoughnutChart :budgets="budgetService.state.list"
                  :data="budgetService.getMonthlySpendings()"
                  :hexColors="budgetService.getHexColorThemes()"
                  :rgbColors="budgetService.getRGBColorThemes()"
-                 :limitSum="budgetService.limitSum.value"
-                 :expensesSum="budgetService.expensesSum.value"
+                 :limitSum="budgetService.state.limitSum"
+                 :expensesSum="budgetService.state.expenseSum"
   >
   </DoughnutChart>
-  <BudgetSummaryListItem :budgets="budgetService.list.value">
+  <BudgetSummaryListItem :budgets="budgetService.state.list">
     <slot><h2 v-if="props.summaryListText !== ''">{{ summaryListText }}</h2></slot>
   </BudgetSummaryListItem>
 </template>

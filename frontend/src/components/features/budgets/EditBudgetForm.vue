@@ -6,15 +6,16 @@ import {computed, inject, reactive} from "vue";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 import {useLoadingStore} from "@/stores/loading.js";
 import {checkIfObjectHasEmptyProperties} from "@/service/helpers.js";
+import {useBudgets} from "@/composables/budgets.js";
 
-const budgetService = inject("budgetService");
+const budgetService = useBudgets()
 const loadingStore = useLoadingStore();
 
 const formData = computed(() => {
   return reactive({
-    limit: budgetService.currentlyClickedBudgetToBeEditedOrDeleted.value.limit ?? 0,
-    category_id: budgetService.currentlyClickedBudgetToBeEditedOrDeleted.value.category.value ?? 0,
-    theme_id: budgetService.currentlyClickedBudgetToBeEditedOrDeleted.value.theme.value ?? 0,
+    limit: budgetService.state.selectedForEditOrDelete.limit ?? 0,
+    category_id: budgetService.state.selectedForEditOrDelete.category.value ?? 0,
+    theme_id: budgetService.state.selectedForEditOrDelete.theme.value ?? 0,
   })
 })
 
@@ -60,14 +61,13 @@ const updateBudget = async () => {
     return;
   }
 
-  await budgetService.updateBudget(budgetService.currentlyClickedBudgetToBeEditedOrDeleted.value.id, {...formData.value})
+  await budgetService.updateBudget(budgetService.state.selectedForEditOrDelete.id, {...formData.value})
   clearErrors();
   emit('budgetUpdated');
 }
 </script>
 
 <template>
-  {{ formData }}
   <form @submit.prevent="updateBudget">
     <Field id="limit" label="Maximum Spend" :error="errors.limit ?? ''">
       <InputWithPrefix
@@ -83,14 +83,14 @@ const updateBudget = async () => {
       <Select
           v-model="formData.category_id"
           placeholder="Pick category"
-          :options="budgetService.availableCategories.value"
+          :options="budgetService.state.availableCategories"
       />
     </Field>
     <Field id="theme" label="Theme" :error="errors.theme_id ?? ''">
       <Select
           v-model="formData.theme_id"
           placeholder="Pick Theme"
-          :options="budgetService.availableThemes.value"
+          :options="budgetService.state.availableThemes"
       />
     </Field>
     <BaseButton type="submit" text="Save Changes" style="width: 100%;"/>

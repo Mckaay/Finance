@@ -140,7 +140,7 @@ article {
     content: "";
     display: flex;
     align-items: center;
-    width: 4px;
+    min-width: 4px;
     background-color: var(--clr-beige-100);
     border-radius: var(--spacing-50);
   }
@@ -149,7 +149,7 @@ article {
     content: "";
     display: flex;
     align-items: center;
-    width: 4px;
+    min-width: 4px;
     background-color: v-bind('budget.theme.color');
     border-radius: var(--spacing-50);
   }

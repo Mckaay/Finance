@@ -6,8 +6,9 @@ import {computed, inject, onMounted, reactive, ref} from "vue";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 import {checkIfObjectHasEmptyProperties} from "@/service/helpers.js";
 import {useLoadingStore} from "@/stores/loading.js";
+import {useBudgets} from "@/composables/budgets.js";
 
-const budgetService = inject("budgetService");
+const budgetService = useBudgets()
 const loadingStore = useLoadingStore();
 
 const formData = reactive({
@@ -77,20 +78,16 @@ const saveBudget = async () => {
       <Select
           v-model="formData.category_id"
           placeholder="Pick category"
-          :options="budgetService.availableCategories.value"
+          :options="budgetService.state.availableCategories"
       />
     </Field>
     <Field id="theme" label="Theme" :error="errors.theme_id ?? ''">
       <Select
           v-model="formData.theme_id"
           placeholder="Pick Theme"
-          :options="budgetService.availableThemes.value"
+          :options="budgetService.state.availableThemes"
       />
     </Field>
     <BaseButton type="submit"  text="Add New Budget" style="width: 100%;"/>
   </form>
 </template>
-
-<style lang="scss" scoped>
-
-</style>

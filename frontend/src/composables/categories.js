@@ -21,7 +21,6 @@ export function useCategories() {
             }
 
             state.list = response.data.data;
-            console.log('Fetch Categories happened');
         } catch (error) {
             console.error('Error fetching categories data:', error);
         } finally {

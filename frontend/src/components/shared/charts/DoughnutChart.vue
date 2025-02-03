@@ -23,7 +23,7 @@ const props = defineProps({
     default: [],
   },
   limitSum: {
-    type: String,
+    type: [Number,String],
     default: "0",
   },
   expensesSum: {

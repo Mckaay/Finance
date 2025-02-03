@@ -59,7 +59,7 @@ const props = defineProps({
       display: block;
       content: "";
       align-self: stretch;
-      width: 4px;
+      min-width: 4px;
       background-color: var(--background-color);
       border-radius: var(--spacing-50);
     }

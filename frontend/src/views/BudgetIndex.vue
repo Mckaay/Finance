@@ -1,21 +1,20 @@
 <script setup>
-import {onMounted, provide, useTemplateRef} from "vue";
+import {onMounted, provide, ref, useTemplateRef} from "vue";
 import {useBudgets} from "@/composables/budgets.js";
-import AddBudgetModal from "@/components/features/budgets/AddBudgetModal.vue";
 import BudgetList from "@/components/features/budgets/BudgetList.vue";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 import Navigation from "@/components/features/navigation/Navigation.vue";
 import BudgetSummaryListWithChart from "@/components/features/budgets/BudgetSummaryListWithChart.vue";
+import BaseModal from "@/components/shared/modals/BaseModal.vue";
+import AddBudgetForm from "@/components/features/budgets/AddBudgetForm.vue";
 
-const addBudgetModalRef = useTemplateRef('modal');
+const addBudgetModalRef = ref(null);
 const budgetService = useBudgets();
 
 onMounted(async () => {
   await budgetService.fetchBudgetData();
   await budgetService.fetchAvailableOptions();
 })
-
-provide('budgetService', budgetService);
 </script>
 
 <template>
@@ -24,13 +23,19 @@ provide('budgetService', budgetService);
     <header class="model-header">
       <h1>Budgets</h1>
       <BaseButton @click="addBudgetModalRef.openModal()" text="+ Add New Budget"/>
-      <AddBudgetModal ref="modal"/>
+      <BaseModal
+          ref="addBudgetModalRef"
+          headerText="Add New Budget"
+          descriptionText="Choose a category to set a spending budget. These categories can help you monitor spending."
+      >
+        <AddBudgetForm @budgetCreated="addBudgetModalRef?.close()"/>
+      </BaseModal>
     </header>
     <section class="budget-content">
       <div class="summary-list-chart-wrapper">
         <BudgetSummaryListWithChart/>
       </div>
-      <BudgetList :budgets="budgetService.list.value"/>
+      <BudgetList :budgets="budgetService.state.list"/>
     </section>
   </main>
 </template>
