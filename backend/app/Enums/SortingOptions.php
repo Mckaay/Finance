@@ -8,8 +8,8 @@ enum SortingOptions: string
 {
     case LATEST = 'latest';
     case OLDEST = 'oldest';
-    case ATOZ = 'AtoZ';
-    case ZTOA = 'ZtoA';
+    case ATOZ = 'atoz';
+    case ZTOA = 'ztoa';
     case HIGHEST = 'highest';
     case LOWEST = 'lowest';
 }

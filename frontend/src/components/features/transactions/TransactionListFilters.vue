@@ -3,9 +3,11 @@ import {computed, inject} from 'vue';
 import Select from "@/components/shared/forms/Select.vue";
 import Field from "@/components/shared/forms/Field.vue";
 import InputWithIcon from "@/components/shared/forms/InputWithIcon.vue";
+import {useTransactions} from "@/composables/transactions.js";
+import {useCategories} from "@/composables/categories.js";
 
-const transactions = inject('transactions');
-const categories = inject('categories');
+const transactions = useTransactions();
+const categories = useCategories();
 
 const sortOptions = [
   { value: 'latest', label: 'Latest' },
@@ -19,10 +21,10 @@ const sortOptions = [
 const categoryOptions = computed(() => {
   return [
     {
-      value: '0',
+      value: 0,
       label: 'All Transactions'
     },
-    ...categories.categoriesList.value
+    ...categories.state.list
   ]
 });
 </script>
@@ -32,7 +34,7 @@ const categoryOptions = computed(() => {
     <Field id="search">
       <InputWithIcon
           :model-value="transactions.state.filters.searchQuery"
-          @update:model-value="transactions.updateFilter('searchQuery', $event)"
+          @update:modelValue="transactions.updateFilter('searchQuery', $event)"
           type="text"
           placeholder="Search transaction"
       />

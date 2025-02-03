@@ -3,12 +3,13 @@ import {onMounted, provide, ref} from "vue";
 import { useCategories } from "@/composables/categories.js";
 import { useTransactions } from "@/composables/transactions.js";
 import Navigation from "@/components/features/navigation/Navigation.vue";
-import AddTransactionModal from "@/components/features/transactions/AddTransactionModal.vue";
 import TransactionList from "@/components/features/transactions/TransactionList.vue";
 import TransactionListFilters from "@/components/features/transactions/TransactionListFilters.vue";
 import Pagination from "@/components/shared/pagination/Pagination.vue";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 import Spinner from "@/components/shared/buttons/Spinner.vue";
+import BaseModal from "@/components/shared/modals/BaseModal.vue";
+import AddTransactionForm from "@/components/features/transactions/AddTransactionForm.vue";
 
 const categoriesService = useCategories();
 const transactionsService = useTransactions();
@@ -20,9 +21,6 @@ onMounted(async () => {
     transactionsService.fetchTransactions()
   ]);
 });
-
-provide('transactions', transactionsService);
-provide('categories', categoriesService);
 </script>
 
 <template>
@@ -36,18 +34,21 @@ provide('categories', categoriesService);
       />
     </header>
 
-    <AddTransactionModal
+    <BaseModal
         ref="addTransactionModalRef"
-        @transaction-created="transactionsService.createTransaction"
-    />
+        headerText="Add New Transaction"
+        descriptionText="Create transactions to manage, control your spendings and incomes."
+    >
+      <AddTransactionForm @transactionCreated="addTransactionModalRef?.close()"/>
+    </BaseModal>
     <Suspense>
       <section class="transactions-section">
         <TransactionListFilters />
         <TransactionList :transactions="transactionsService.state.list" />
         <Pagination
-            :current-page="transactionsService.state.filters.currentPage"
-            :last-page="transactionsService.state.pagination.last_page"
-            @update:current-page="transactionsService.updateFilter('currentPage', $event)"
+            :currentPage="transactionsService.state.filters.currentPage"
+            :lastPage="transactionsService.state.pagination.last_page"
+            @update:currentPage="transactionsService.updateFilter('currentPage', $event)"
         />
       </section>
       <template #fallback>

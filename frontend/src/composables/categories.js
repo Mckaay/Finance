@@ -1,9 +1,13 @@
 import axios from 'axios';
-import {ref} from 'vue';
+import {reactive, ref} from 'vue';
 import {useLoadingStore} from '@/stores/loading.js';
 
+
+const state = reactive({
+    list: [],
+});
+
 export function useCategories() {
-    const categoriesList = ref([]);
     const loadingStore = useLoadingStore();
 
     const fetchCategoriesData = async () => {
@@ -12,11 +16,12 @@ export function useCategories() {
 
             const response = await axios.get('api/V1/categories');
             if (!response.data?.data) {
-                categoriesList.value = [];
+                state.list.value = [];
                 return;
             }
 
-            categoriesList.value = response.data.data;
+            state.list = response.data.data;
+            console.log('Fetch Categories happened');
         } catch (error) {
             console.error('Error fetching categories data:', error);
         } finally {
@@ -25,7 +30,7 @@ export function useCategories() {
     };
 
     return {
-        categoriesList,
+        state,
         fetchCategoriesData,
     };
 }

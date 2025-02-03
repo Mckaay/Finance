@@ -8,9 +8,11 @@ import {inject, reactive} from "vue";
 import InputWithPrefix from "@/components/shared/forms/InputWithPrefix.vue";
 import {checkIfObjectHasEmptyProperties} from "@/service/helpers.js";
 import {useLoadingStore} from "@/stores/loading.js";
+import {useTransactions} from "@/composables/transactions.js";
+import {useCategories} from "@/composables/categories.js";
 
-const transactionService = inject('transactions');
-const categoriesService = inject('categories');
+const transactionService = useTransactions();
+const categoriesService = useCategories();
 
 const loadingStore = useLoadingStore();
 
@@ -53,6 +55,8 @@ const validateFormData = () => {
   }
 }
 
+const emit = defineEmits(['transactionCreated'])
+
 const saveTransaction = async () => {
   if (loadingStore.loading) {
     return;
@@ -65,6 +69,7 @@ const saveTransaction = async () => {
   }
 
   await transactionService.createTransaction({...formData})
+  emit("transactionCreated");
   clearErrors();
 }
 </script>
@@ -95,7 +100,7 @@ const saveTransaction = async () => {
           class="select"
           v-model="formData.category_id"
           placeholder="Pick category"
-          :options="categoriesService.categoriesList.value"
+          :options="categoriesService.state.list"
       />
     </Field>
     <Field id="amount" label="Amount" :error="errors.amount ?? ''">

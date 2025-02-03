@@ -1,21 +1,35 @@
 import axios from 'axios';
-import { reactive, ref, watch } from 'vue';
-import { useLoadingStore } from '@/stores/loading.js';
+import {reactive, ref, watch} from 'vue';
+import {useLoadingStore} from '@/stores/loading.js';
+
+const state = reactive({
+    list: [],
+    pagination: {
+        last_page: 1
+    },
+    filters: {
+        currentPage: 1,
+        searchQuery: "",
+        categorySelected: 0,
+        orderSelected: 'latest',
+    }
+});
+
+watch(
+    () => [
+        state.filters.currentPage,
+        state.filters.searchQuery,
+        state.filters.orderSelected,
+        state.filters.categorySelected
+    ],
+    async function () {
+        await useTransactions().fetchTransactions();
+    },
+);
 
 export function useTransactions() {
     const loadingStore = useLoadingStore();
     const errorMessage = ref('');
-
-    const state = reactive({
-        list: [],
-        pagination: { last_page: 1 },
-        filters: {
-            currentPage: 1,
-            searchQuery: "",
-            categorySelected: 0,
-            orderSelected: 'latest',
-        }
-    });
 
     const fetchTransactions = async () => {
         try {
@@ -30,7 +44,7 @@ export function useTransactions() {
             });
 
             state.list = response.data?.data || [];
-            state.pagination = response.data?.meta || { last_page: 1 };
+            state.pagination = response.data?.meta || {last_page: 1};
             errorMessage.value = "";
         } catch (e) {
             console.error('Error fetching transactions:', e);
@@ -57,12 +71,6 @@ export function useTransactions() {
         if (key !== 'currentPage') state.filters.currentPage = 1;
         state.filters[key] = value;
     };
-
-    watch(
-        () => state.filters,
-        () => fetchTransactions(),
-        { deep: true }
-    );
 
     return {
         state,
