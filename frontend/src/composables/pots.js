@@ -1,10 +1,19 @@
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import {useLoadingStore} from "@/stores/loading.js";
 import axios from "axios";
 
+const state = reactive({
+    list: [],
+    availableThemes: [],
+    selectedForEditOrDelete: {
+        id: 0,
+        name: "",
+        target: 0,
+        theme_id: 0,
+    }
+})
+
 export const usePots = () => {
-    const potsList = ref([]);
-    const availableThemes = ref([]);
     const loadingStore = useLoadingStore();
     const errorMessage = ref('');
 
@@ -14,11 +23,11 @@ export const usePots = () => {
 
             const response = await axios.get('api/V1/pots');
             if (!response.data?.data) {
-                potsList.value = [];
+                state.list = [];
                 return;
             }
 
-            potsList.value = response.data.data;
+            state.list = response.data.data;
             errorMessage.value = '';
         } catch (e) {
             console.log(e);
@@ -33,6 +42,8 @@ export const usePots = () => {
             loadingStore.loading = true;
 
             await axios.post('api/V1/pots', data);
+            await fetchPotsData();
+            await fetchAvailableThemes();
             errorMessage.value = '';
         } catch (e) {
             console.log(e);
@@ -47,6 +58,8 @@ export const usePots = () => {
             loadingStore.loading = true;
 
             await axios.put(`api/V1/pots/${id}`, data);
+            await fetchPotsData();
+            await fetchAvailableThemes();
             errorMessage.value = '';
         } catch (e) {
             console.log(e);
@@ -75,11 +88,11 @@ export const usePots = () => {
 
             const response = await axios.get('api/V1/pots/options');
             if (!response.data?.data) {
-                availableThemes.value = [];
+                state.availableThemes = [];
                 return;
             }
 
-            availableThemes.value = response.data.data;
+            state.availableThemes = response.data.data;
             errorMessage.value = '';
         } catch (e) {
             console.log(e);
@@ -90,8 +103,7 @@ export const usePots = () => {
     }
 
     return {
-        potsList,
-        availableThemes,
+        state,
         errorMessage,
         fetchPotsData,
         savePot,

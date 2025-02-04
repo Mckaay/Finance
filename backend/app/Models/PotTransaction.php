@@ -6,15 +6,12 @@ namespace App\Models;
 
 use App\Enums\PotTransactionType;
 use App\Observers\GlobalObserver;
-use App\Scopes\UserScope;
 use Database\Factories\PotTransactionFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[ScopedBy(UserScope::class)]
 #[ObservedBy([GlobalObserver::class])]
 final class PotTransaction extends Model
 {

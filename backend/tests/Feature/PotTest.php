@@ -88,7 +88,7 @@ final class PotTest extends TestCase
         $this->assertDatabaseHas('pots', $updatedData);
     }
 
-    public function test_user_cannot_update_others_budget(): void
+    public function test_user_cannot_update_others_pot(): void
     {
         $firstUser = User::factory()->create();
         $secondUser = User::factory()->create();
@@ -108,7 +108,7 @@ final class PotTest extends TestCase
             ->assertStatus(404);
     }
 
-    public function test_user_cannot_delete_others_budget(): void
+    public function test_user_cannot_delete_others_pot(): void
     {
         $firstUser = User::factory()->create();
         $secondUser = User::factory()->create();

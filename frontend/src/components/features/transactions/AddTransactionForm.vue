@@ -23,6 +23,13 @@ const formData = reactive({
   amount: "",
 });
 
+const clearFormData = () => {
+  formData.name = "";
+  formData.date = new Date().toISOString().substring(0, 10);
+  formData.category_id = "";
+  formData.amount = "";
+}
+
 const errors = reactive({
   name: "",
   date: "",
@@ -71,6 +78,7 @@ const saveTransaction = async () => {
   await transactionService.createTransaction({...formData})
   emit("transactionCreated");
   clearErrors();
+  clearFormData();
 }
 </script>
 

@@ -1,17 +1,22 @@
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import {useLoadingStore} from "@/stores/loading.js";
 import axios from "axios";
+import {usePots} from "@/composables/pots.js";
+
+const state = reactive({
+    amount: 0,
+})
 
 export const usePotTransactions = () => {
     const loadingStore = useLoadingStore();
     const errorMessage = ref('');
+    const potService = usePots();
 
-    const savePotTransactions = async (data) => {
+    const savePotTransaction = async (data) => {
         try {
-            console.log(data);
             loadingStore.loading = true;
-            console.log('Im herexd');
             await axios.post('api/V1/pottransactions', data);
+            await potService.fetchPotsData();
             errorMessage.value = '';
         } catch (e) {
             console.log(e);
@@ -23,6 +28,7 @@ export const usePotTransactions = () => {
 
 
     return {
-        savePotTransactions,
+        state,
+        savePotTransaction,
     }
 }

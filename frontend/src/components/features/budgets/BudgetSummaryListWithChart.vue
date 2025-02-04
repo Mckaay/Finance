@@ -15,14 +15,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <DoughnutChart :budgets="budgetService.state.list"
-                 :data="budgetService.getMonthlySpendings()"
-                 :hexColors="budgetService.getHexColorThemes()"
-                 :rgbColors="budgetService.getRGBColorThemes()"
-                 :limitSum="budgetService.state.limitSum"
-                 :expensesSum="budgetService.state.expenseSum"
-  >
-  </DoughnutChart>
+  <slot name="chart"></slot>
   <BudgetSummaryListItem :budgets="budgetService.state.list">
     <slot><h2 v-if="props.summaryListText !== ''">{{ summaryListText }}</h2></slot>
   </BudgetSummaryListItem>

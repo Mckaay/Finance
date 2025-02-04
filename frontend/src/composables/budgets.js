@@ -53,6 +53,7 @@ export const useBudgets = () => {
 
             await axios.post('api/V1/budgets', data);
             await fetchBudgetData();
+            await fetchAvailableOptions();
             errorMessage.value = '';
         } catch (e) {
             console.log(e);
@@ -68,6 +69,7 @@ export const useBudgets = () => {
 
             await axios.put(`api/V1/budgets/${id}`, data);
             await fetchBudgetData();
+            await fetchAvailableOptions();
             errorMessage.value = '';
         } catch (e) {
             console.log(e);

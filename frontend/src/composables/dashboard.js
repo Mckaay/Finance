@@ -1,16 +1,16 @@
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import {useLoadingStore} from "@/stores/loading.js";
 import axios from "axios";
 
+const state = ref({
+    balance: "0.00",
+    incomeSum: "0.00",
+    expenseSum: "0.00",
+    transactions: [],
+    pots: []
+});
+
 export const useDashboard = () => {
-    const dashboardData = ref({
-        balance: "0.00",
-        incomeSum: "0.00",
-        expenseSum: "0.00",
-        transactions: [],
-        budgets: [],
-        pots: []
-    });
     const loadingStore = useLoadingStore();
     const errorMessage = ref('');
 
@@ -18,7 +18,7 @@ export const useDashboard = () => {
         try {
             loadingStore.loading = true;
             const response = await axios.get('api/V1/dashboard');
-            dashboardData.value = response.data.data;
+            state.value = response.data.data;
             errorMessage.value = '';
         } catch (e) {
             console.log(e);
@@ -29,7 +29,7 @@ export const useDashboard = () => {
     }
 
     return {
-        dashboardData,
+        state,
         fetchData,
     }
 }

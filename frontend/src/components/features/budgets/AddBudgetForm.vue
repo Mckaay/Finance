@@ -17,6 +17,12 @@ const formData = reactive({
   theme_id: '',
 });
 
+const clearFormData = () => {
+  formData.limit = '';
+  formData.category_id = '';
+  formData.theme_id = '';
+}
+
 const errors = reactive({
   limit: "",
   category_id: "",
@@ -39,7 +45,7 @@ const validateFormData = () => {
   }
 
   if (!formData.theme_id)  {
-    errors.theme_id = "Category is required";
+    errors.theme_id = "Theme is required";
   }
 }
 
@@ -58,6 +64,7 @@ const saveBudget = async () => {
 
   await budgetService.saveBudget({...formData})
   clearErrors();
+  clearFormData();
   emit('budgetCreated');
 }
 </script>

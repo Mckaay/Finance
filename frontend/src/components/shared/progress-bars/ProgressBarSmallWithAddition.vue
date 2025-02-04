@@ -1,5 +1,5 @@
 <script setup>
-import {computed} from "vue";
+import {computed} from 'vue'
 
 const props = defineProps({
   amount: {
@@ -7,8 +7,8 @@ const props = defineProps({
     default: 0,
   },
   target: {
-    type: String,
-    default: "0",
+    type: Number,
+    default: 0,
   },
   balance: {
     type: Number,
@@ -16,65 +16,85 @@ const props = defineProps({
   },
   type: {
     type: String,
-    default: "deposit",
+    default: 'deposit',
   }
 })
 
-const color = computed(() => {
-  return props.type === 'deposit' ? '#277C78' : '#C94736';
-});
+const additionalBarColor = computed(() =>
+    props.type === 'deposit' ? '#277C78' : '#C94736'
+)
 
-const defaultBarWidth = computed(() => {
-  return `${calculateDefaultBarWidth(props.balance, props.target)}%`;
+const newBalance = computed(() => {
+  const calculatedBalance = props.type === 'deposit'
+      ? props.balance + props.amount
+      : Math.max(0, props.balance - props.amount)
+
+  return `$${calculatedBalance.toFixed(2)}`
 })
 
-const calculateDefaultBarWidth = (balance, target) => {
-  const fill = (balance / target) * 100;
-  if (fill <= 0) {
-    return 0;
-  }
-
-  return fill.toFixed(2);
+const calculatePercentage = (value, total) => {
+  if (total <= 0) return 0
+  return (value / total) * 100
 }
 
-const additionalBarWidth = computed(() => {
-  return `${calculateAdditionalBarWidth(props.amount, props.target)}%`;
+const basePercentage = computed(() =>
+    calculatePercentage(props.balance, props.target)
+)
+
+const amountPercentage = computed(() =>
+    calculatePercentage(props.amount, props.target)
+)
+
+const defaultBarPercentage = computed(() => {
+  if (props.type === 'deposit') return basePercentage.value
+  return Math.max(0, basePercentage.value - amountPercentage.value)
 })
-const calculateAdditionalBarWidth = (amount, target) => {
-  if (calculateDefaultBarWidth.value >= 100) {
-    return 0;
-  }
 
-  const fill = (amount / target) * 100;
-  if (fill <= 0) {
-    return 0;
+const additionalBarPercentage = computed(() => {
+  if (props.type === 'deposit') {
+    return Math.min(100 - basePercentage.value, amountPercentage.value)
   }
+  return Math.min(amountPercentage.value, basePercentage.value)
+})
 
-  return fill.toFixed(2);
-}
+const formattedPercentage = (value) =>
+    `${Math.max(0, value).toFixed(2)}%`
+
+const defaultBarWidth = computed(() =>
+    formattedPercentage(defaultBarPercentage.value)
+)
+
+const additionalBarWidth = computed(() =>
+    formattedPercentage(additionalBarPercentage.value)
+)
+
+const displayedPercentage = computed(() =>
+    formattedPercentage(additionalBarPercentage.value)
+)
 </script>
 
 <template>
   <div class="wrapper">
     <div class="top-wrapper">
-      <div class="description">
-        New Amount
-      </div>
-      <div class="amount">
-        ${{ (props.balance + props.amount).toFixed(2) }}
-      </div>
+      <div class="description">New Amount</div>
+      <div class="balance">{{ newBalance }}</div>
     </div>
+
     <div class="progress-bar">
-      <div class="default-bar"></div>
-      <div class="additional-bar"></div>
+      <div class="default-bar" :style="{ width: defaultBarWidth }"/>
+      <div
+          class="additional-bar"
+          :style="{
+          width: additionalBarWidth,
+          backgroundColor: additionalBarColor
+        }"
+      />
     </div>
+
     <div class="bottom-wrapper">
-      <div class="percentage">
-        {{ (parseFloat(additionalBarWidth) + parseFloat(defaultBarWidth)).toFixed(2) }}%
-      </div>
-      <div class="bottom-text">
-        Target of ${{ props.target }}
-      </div>    </div>
+      <div class="percentage">{{ displayedPercentage }}</div>
+      <div class="bottom-text">Target of ${{ props.target.toFixed(2) }}</div>
+    </div>
   </div>
 </template>
 
@@ -85,39 +105,39 @@ const calculateAdditionalBarWidth = (amount, target) => {
   gap: var(--spacing-100);
   font-size: var(--fs-87);
   color: var(--clr-grey-500);
+}
 
-  & .top-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.top-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    & .amount {
-      color: var(--clr-grey-900);
-      font-weight: var(--fw-700);
-      font-size: var(--fs-200);
-    }
-  }
+.balance {
+  color: var(--clr-grey-900);
+  font-weight: var(--fw-700);
+  font-size: var(--fs-200);
+}
 
-  & .bottom-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+.bottom-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  & .percentage {
-    font-weight: var(--fw-700);
-    color: v-bind('color');
-  }
+.percentage {
+  font-weight: var(--fw-700);
+  color: v-bind('additionalBarColor');
 }
 
 .progress-bar {
   --progress-bar-height: var(--spacing-50);
-  border-radius: var(--spacing-25);
-  background-color: var(--clr-beige-100);
   height: var(--progress-bar-height);
   display: flex;
   gap: 0.125rem;
   width: 100%;
+  border-radius: var(--spacing-25);
+  background-color: var(--clr-beige-100);
 }
 
 .progress-bar > * {
@@ -127,12 +147,10 @@ const calculateAdditionalBarWidth = (amount, target) => {
 
 .default-bar {
   background-color: var(--clr-grey-900);
-  width: v-bind('defaultBarWidth');
+  transition: width 0.3s ease;
 }
 
 .additional-bar {
-  background-color: v-bind('color');
-  margin-left: 2px;
-  width: v-bind('additionalBarWidth');
+  transition: width 0.3s ease;
 }
 </style>

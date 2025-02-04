@@ -1,10 +1,9 @@
 <script setup>
 import PotListItem from "@/components/features/pots/PotListItem.vue";
-import EditPotModal from "@/components/features/pots/EditPotModal.vue";
 import {ref, useTemplateRef} from "vue";
-import DeletePotModal from "@/components/features/pots/DeletePotModal.vue";
 import AddDepositPotTransactionModal from "@/components/features/pots/AddDepositPotTransactionModal.vue";
 import AddWithdrawPotTransactionModal from "@/components/features/pots/AddWithdrawPotTransactionModal.vue";
+import {usePots} from "@/composables/pots.js";
 
 const props = defineProps({
   pots: {
@@ -13,71 +12,60 @@ const props = defineProps({
   }
 })
 
-const clickedPot = ref({});
+const potService = usePots();
 
-const editPotModalRef = useTemplateRef('editPotModal');
-const deletePotModalRef = useTemplateRef('deletePotModal');
-const depositModalRef = useTemplateRef('depositModal');
-const withdrawModalRef = useTemplateRef('withdrawModal');
+const emit = defineEmits([
+  'openEditModal',
+  'openDeleteModal',
+  'openDepositModal',
+  'openWithdrawModal',
+]);
 
-const openEditModal = (pot) => {
-  if (pot.id !== 0) {
-    clickedPot.value = pot;
+const emitOpenModalEvent = (pot) => {
+  if (pot.id === 0) {
+    return;
   }
 
-  editPotModalRef?.value.openModal();
+  potService.state.selectedForEditOrDelete = pot;
+  emit('openEditModal');
 }
 
-const openDeleteModal = (pot) => {
-  if (pot.id !== 0) {
-    clickedPot.value = pot;
+const emitOpenDeleteModal = (pot) => {
+  if (pot.id === 0) {
+    return;
   }
 
-  deletePotModalRef?.value.openModal();
+  potService.state.selectedForEditOrDelete = pot;
+  emit('openDeleteModal');
 }
 
-const openDepositModal = (pot) => {
-  if (pot.id !== 0) {
-    clickedPot.value = pot;
+const emitOpenDepositModal = (pot) => {
+  if (pot.id === 0) {
+    return;
   }
 
-  depositModalRef?.value.openModal();
+  potService.state.selectedForEditOrDelete = pot;
+  emit('openDepositModal');
 }
 
-const openWithdrawModal = (pot) => {
-  if (pot.id !== 0) {
-    clickedPot.value = pot;
+const emitOpenWithdrawModal = (pot) => {
+  if (pot.id === 0) {
+    return;
   }
 
-  withdrawModalRef?.value.openModal();
+  potService.state.selectedForEditOrDelete = pot;
+  emit('openWithdrawModal');
 }
 </script>
-
 <template>
   <section class="pot-list" v-if="pots.length > 0">
-    <EditPotModal
-        ref="editPotModal"
-        :pot="clickedPot"
-    />
-    <DeletePotModal
-        ref="deletePotModal"
-        :pot="clickedPot"
-    />
-    <AddDepositPotTransactionModal
-        ref="depositModal"
-        :pot="clickedPot"
-    />
-    <AddWithdrawPotTransactionModal
-        ref="withdrawModal"
-        :pot="clickedPot"
-    />
     <PotListItem
         v-for="pot in props.pots"
         :key="pot.id" :pot="pot"
-        @edit="openEditModal"
-        @delete="openDeleteModal"
-        @deposit="openDepositModal"
-        @withdraw="openWithdrawModal"
+        @edit="emitOpenModalEvent"
+        @delete="emitOpenDeleteModal"
+        @deposit="emitOpenDepositModal"
+        @withdraw="emitOpenWithdrawModal"
     />
   </section>
 </template>

@@ -16,10 +16,12 @@ const transactionsService = useTransactions();
 const addTransactionModalRef = ref(null);
 
 onMounted(async () => {
-  await Promise.all([
-    categoriesService.fetchCategoriesData(),
-    transactionsService.fetchTransactions()
-  ]);
+  if (transactionsService.state.list.length > 0) {
+    return;
+  }
+
+  await categoriesService.fetchCategoriesData();
+  await transactionsService.fetchTransactions();
 });
 </script>
 
@@ -33,7 +35,6 @@ onMounted(async () => {
           text="+ Add New Transaction"
       />
     </header>
-
     <BaseModal
         ref="addTransactionModalRef"
         headerText="Add New Transaction"
@@ -43,7 +44,7 @@ onMounted(async () => {
     </BaseModal>
     <Suspense>
       <section class="transactions-section">
-        <TransactionListFilters />
+        <TransactionListFilters/>
         <TransactionList :transactions="transactionsService.state.list" />
         <Pagination
             :currentPage="transactionsService.state.filters.currentPage"

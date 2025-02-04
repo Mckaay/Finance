@@ -11,11 +11,30 @@ import {useBudgets} from "@/composables/budgets.js";
 const budgetService = useBudgets()
 const loadingStore = useLoadingStore();
 
+const props = defineProps({
+  budget: {
+    type: Object,
+    default: {
+      limit: 0,
+      category_id: 0,
+      theme_id: 0,
+    },
+  },
+  availableThemes: {
+    type: Array,
+    default: [],
+  },
+  availableCategories: {
+    type: Array,
+    default: [],
+  },
+})
+
 const formData = computed(() => {
   return reactive({
-    limit: budgetService.state.selectedForEditOrDelete.limit ?? 0,
-    category_id: budgetService.state.selectedForEditOrDelete.category.value ?? 0,
-    theme_id: budgetService.state.selectedForEditOrDelete.theme.value ?? 0,
+    limit: props.budget.limit,
+    category_id: props.budget.category.value,
+    theme_id: props.budget.theme.value,
   })
 })
 
@@ -35,8 +54,6 @@ const validateFormData = () => {
 
   if (!formData.value.limit || formData.value.limit < 0) {
     errors.limit = "Limit is required and needs to positive number";
-
-    console.log('Im here');
   }
 
   if (!formData.value.category_id) {
@@ -47,7 +64,6 @@ const validateFormData = () => {
     errors.theme_id = "Category is required";
   }
 }
-
 
 const emit = defineEmits(['budgetUpdated']);
 const updateBudget = async () => {
@@ -83,14 +99,14 @@ const updateBudget = async () => {
       <Select
           v-model="formData.category_id"
           placeholder="Pick category"
-          :options="budgetService.state.availableCategories"
+          :options="availableCategories"
       />
     </Field>
     <Field id="theme" label="Theme" :error="errors.theme_id ?? ''">
       <Select
           v-model="formData.theme_id"
           placeholder="Pick Theme"
-          :options="budgetService.state.availableThemes"
+          :options="availableThemes"
       />
     </Field>
     <BaseButton type="submit" text="Save Changes" style="width: 100%;"/>

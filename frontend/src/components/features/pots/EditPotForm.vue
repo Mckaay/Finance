@@ -6,103 +6,108 @@ import {usePots} from "@/composables/pots.js";
 import {computed, onMounted, reactive, ref} from "vue";
 import InputWithPrefix from "@/components/shared/forms/InputWithPrefix.vue";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
+import {checkIfObjectHasEmptyProperties} from "@/service/helpers.js";
 
 const props = defineProps({
-  id: {
-    type: Number,
-    default: 0,
+  pot: {
+    type: Object,
+    default: {
+      id: {
+        type: Number,
+        default: 0,
+      },
+      name: {
+        type: String,
+        default: "",
+      },
+      theme: {
+        type: Object,
+        default: {},
+      },
+      target: {
+        type: String,
+        default: "0",
+      },
+    }
   },
-  name: {
-    type: String,
-    default: "",
-  },
-  theme_id: {
-    type: Number,
-    default: 0,
-  },
-  target: {
-    type: String,
-    default: "0",
-  },
-});
-
-const editPotForm = computed( () => {
-  return reactive({
-    name: props.name ?? '',
-    target: props.target ?? 0,
-    theme_id: props.theme_id ?? 0,
-  });
+  availableThemes: {
+    type: Array,
+    default: [],
+  }
 });
 
 const potService = usePots();
 
-onMounted(async () => {
-  await potService.fetchAvailableThemes()
-})
+const formData = computed( () => {
+  return reactive({
+    name: props.pot.name ?? '',
+    target: props.pot.target ?? 0,
+    theme_id: props.pot.theme?.value ?? 0,
+  });
+});
 
-const validationErrors = ref({});
-const validationRules = {
-  name: (value) => {
-    if (!value || value.length < 3) {
-      return "Name is required and should be at least 3 characters long";
-    }
-  },
-  theme_id: (value) => {
-    if (!value) {
-      return "Category is required";
-    }
-  },
-  target: (value) => {
-    if (!value) {
-      return "Amount is required";
-    }
-  },
-};
+const errors = reactive({
+  name: "",
+  target: "",
+  theme_id: "",
+});
 
-const validateEditPotForm = () => {
-  validationErrors.value = {};
+const clearErrors = () => {
+  errors.name = "";
+  errors.target = "";
+  errors.theme_id = "";
+}
 
-  for (const [field, rule] of Object.entries(validationRules)) {
-    const error = rule(editPotForm.value[field]);
-    if (error) {
-      validationErrors.value[field] = error;
-    }
+const validateFormData = () => {
+
+  if (!formData.value.name || formData.value.name.length < 3) {
+    errors.name = "Name is required and should be at least 3 characters long";
   }
-};
 
+  if (!formData.value.target) {
+    errors.category_id = "Target is required";
+  }
+
+  if (!formData.value.theme_id) {
+    errors.theme_id = "Theme is required";
+  }
+}
+
+const emit = defineEmits(['potEdited']);
 const updatePot = async () => {
-  validateEditPotForm();
+  validateFormData();
 
-  if (Object.keys(validationErrors.value).length > 0) {
+  if (!checkIfObjectHasEmptyProperties(errors)) {
     return;
   }
 
-  await potService.updatePot(props.id,{ ...editPotForm.value });
-  validationErrors.value = {};
+  await potService.updatePot(props.id,{ ...formData.value });
+  clearErrors();
+  emit('potEdited');
 };
 </script>
 
 <template>
   <form @submit.prevent="updatePot">
-    <Field id="name" label="Pot Name" :error="validationErrors['name'] ?? ''">
+    <Field id="name" label="Pot Name" :error="errors.name ?? ''">
       <Input
-          v-model="editPotForm.name"
+          v-model="formData.name"
           type="text"
           placeholder="e.g. Rainy Days"
           :required="true"
       />
     </Field>
-    <Field id="theme" label="Theme" :error="validationErrors['theme_id'] ?? ''">
+    <Field id="theme" label="Theme" :error="errors.theme_id ?? ''">
       <Select
-          v-model="editPotForm.theme_id"
+          v-model="formData.theme_id"
           type="text"
           placeholder="Pick Theme"
-          :options="potService.availableThemes.value"
+          :options="availableThemes"
       />
     </Field>
-    <Field id="target" label="Target" :error="validationErrors['target'] ?? ''">
+    <Field id="target" label="Target" :error="errors.target ?? ''">
       <InputWithPrefix
-          v-model="editPotForm.target"
+          v-model="formData.target"
           type="number"
           min="1"
           step="1"

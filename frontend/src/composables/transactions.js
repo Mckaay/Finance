@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {reactive, ref, watch} from 'vue';
 import {useLoadingStore} from '@/stores/loading.js';
+import {useBudgets} from "@/composables/budgets.js";
 
 const state = reactive({
     list: [],
@@ -42,7 +43,6 @@ export function useTransactions() {
                     order: state.filters.orderSelected
                 }
             });
-
             state.list = response.data?.data || [];
             state.pagination = response.data?.meta || {last_page: 1};
             errorMessage.value = "";
@@ -59,6 +59,7 @@ export function useTransactions() {
             loadingStore.loading = true;
             await axios.post('/api/V1/transactions', data);
             await fetchTransactions();
+            await useBudgets().fetchBudgetData();
             errorMessage.value = "";
         } catch (e) {
             errorMessage.value = e.response?.data?.message || 'Failed to create transaction';

@@ -9,18 +9,15 @@ import {provide} from "vue";
 import BudgetSummaryListWithChart from "@/components/features/budgets/BudgetSummaryListWithChart.vue";
 import TextAndLinkHeader from "@/components/shared/text/TextAndLinkHeader.vue";
 import PotSummary from "@/components/features/pots/PotSummary.vue";
+import DoughnutChart from "@/components/shared/charts/DoughnutChart.vue";
 
 const dashboardService = useDashboard();
 const budgetService = useBudgets();
 
 onBeforeMount(async () => {
   await dashboardService.fetchData();
-  budgetService.list.value = dashboardService.dashboardData.value.budgets ?? [];
-  budgetService.limitSum.value = dashboardService.dashboardData.value.budgetsLimitSum ?? 0;
-  budgetService.expensesSum.value = dashboardService.dashboardData.value.budgetsExpensesSum ?? 0;
+  await budgetService.fetchBudgetData();
 })
-
-provide('budgetService', budgetService);
 </script>
 
 <template>
@@ -30,40 +27,50 @@ provide('budgetService', budgetService);
     <section class="balance-section">
       <AmountCard
           text="Current Balance"
-          :amount="dashboardService.dashboardData.value.balance"
+          :amount="dashboardService.state.value.balance"
       />
       <AmountCard
           text="Income"
           backgroundColor="#FFF"
           headerTextColor="#696868"
           textColor="#201F24"
-          :amount="dashboardService.dashboardData.value.incomeSum"
+          :amount="dashboardService.state.value.incomeSum"
       />
       <AmountCard
           text="Expenses"
           backgroundColor="#FFF"
           headerTextColor="#696868"
           textColor="#201F24"
-          :amount="Math.abs(dashboardService.dashboardData.value.expenseSum).toString()"
+          :amount="Math.abs(dashboardService.state.value.expenseSum).toString()"
       />
     </section>
     <div class="flex-wrapper">
       <div class="left-side-wrapper">
-        <PotSummary class="pot-section" :pots="dashboardService.dashboardData.value.pots"/>
+        <PotSummary class="pot-section" :pots="dashboardService.state.value.pots"/>
         <section class="transactions-section">
           <TextAndLinkHeader
               text="Transactions"
               routeName="transactions"
               linkText="View All"
           />
-          <TransactionSummaryList :transactions="dashboardService.dashboardData.value.transactions"/>
+          <TransactionSummaryList :transactions="dashboardService.state.value.transactions"/>
         </section>
       </div>
       <div class="right-side-wrapper">
         <section class="budgets-section">
           <TextAndLinkHeader class="budget-link" text="Budgets" linkText="See Details" routeName="budgets"/>
           <div class="wrapper">
-            <BudgetSummaryListWithChart summaryListText=""/>
+            <BudgetSummaryListWithChart summaryListText="">
+              <template v-slot:chart>
+                <DoughnutChart :budgets="budgetService.state.list"
+                               :data="budgetService.getMonthlySpendings()"
+                               :hexColors="budgetService.getHexColorThemes()"
+                               :rgbColors="budgetService.getRGBColorThemes()"
+                               :limitSum="budgetService.state.limitSum"
+                               :expensesSum="budgetService.state.expenseSum"
+                />
+              </template>
+            </BudgetSummaryListWithChart>
           </div>
         </section>
       </div>

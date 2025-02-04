@@ -4,6 +4,7 @@ import InputWithPrefix from "@/components/shared/forms/InputWithPrefix.vue";
 import {reactive, ref, watch} from "vue";
 import {usePotTransactions} from "@/composables/potTransactions.js";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
+import {checkIfObjectHasEmptyProperties} from "@/service/helpers.js";
 
 const props = defineProps({
   potId: {
@@ -20,73 +21,63 @@ const props = defineProps({
   },
 });
 
-const addPotTransactionForm = reactive({
-  amount: 0,
-  type: props.type ?? '',
-});
-
-const validationErrors = ref({});
-const validationRules = {
-  type: (value) => {
-    if (!value) {
-      return "Type is required";
-    }
-  },
-  amount: (value) => {
-    if (!value || value < 0) {
-      return "Amount is required";
-    }
-  },
-};
-
-const validatePotTransactionForm = () => {
-  validationErrors.value = {};
-
-  for (const [field, rule] of Object.entries(validationRules)) {
-    const error = rule(addPotTransactionForm[field]);
-    if (error) {
-      validationErrors.value[field] = error;
-    }
-  }
-};
-
 const potTransactionService = usePotTransactions();
-const savePotTransaction = async () => {
-  validatePotTransactionForm();
 
-  if (Object.keys(validationErrors.value).length > 0) {
-    console.log('Im here');
-    console.log(Object.keys(validationErrors.value));
+const formData = reactive({
+  amount: 0,
+  type: props.type ?? 'deposit',
+})
+
+const clearFormData = () => {
+  formData.amount = 0;
+  formData.type = props.type ?? 'deposit';
+}
+
+const errors = reactive({
+  amount: '',
+})
+
+const validateFormData = () => {
+  if (!formData.amount || formData.amount < 0) {
+    errors.amount =  "Amount is required and needs to be positive number";
+  }
+}
+
+const savePotTransaction = async () => {
+  validateFormData();
+  if (!checkIfObjectHasEmptyProperties(errors)) {
     return;
   }
-
-  await potTransactionService.savePotTransactions({ ...addPotTransactionForm, pot_id: props.potId });
-  validationErrors.value = {};
+  
+  await potTransactionService.savePotTransaction({ ...formData, pot_id: props.potId });
+  errors.amount = '';
+  clearFormData();
+  emit('potTransactionCreated');
 };
 
-const emit = defineEmits(['amount-updated']);
+const emit = defineEmits(['potTransactionCreated']);
 watch(
-    () => addPotTransactionForm.amount,
+    () => formData.amount,
     (newValue) => {
       if (newValue < 0) {
         return;
       }
 
       if (!newValue) {
-        emit('amount-updated', 0);
+        potTransactionService.state.amount = 0;
         return;
       }
 
-      emit('amount-updated', newValue);
+      potTransactionService.state.amount = newValue;
     }
 );
 </script>
 
 <template>
   <form @submit.prevent="savePotTransaction">
-    <Field id="limit" label="Amount" :error="validationErrors['amount'] ?? ''">
+    <Field id="limit" label="Amount" :error="errors.name ?? ''">
       <InputWithPrefix
-          v-model="addPotTransactionForm.amount"
+          v-model="formData.amount"
           type="number"
           min="1"
           step="1"

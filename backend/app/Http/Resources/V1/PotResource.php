@@ -18,7 +18,7 @@ final class PotResource extends JsonResource
             'name' => $this->name,
             'target' => (string) $this->target,
             'theme' => new ThemeResource($this->whenLoaded('theme')),
-            'balance' => (string) round(($this->depositSum - $this->withdrawSum), 2), // @phpstan-ignore-line
+            'balance' => (string) round(($this->depositSum + $this->withdrawSum), 2), // @phpstan-ignore-line
         ];
     }
 }

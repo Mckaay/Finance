@@ -10,7 +10,7 @@ use App\Http\Requests\V1\StorePotTransactionRequest;
 final readonly class PotTransactionDTO
 {
     public function __construct(
-        public string $amount,
+        public float $amount,
         public PotTransactionType $type,
         public int $potId,
     ) {}
@@ -24,9 +24,9 @@ final readonly class PotTransactionDTO
     public static function fromRequest(StorePotTransactionRequest $request): self
     {
         return new self(
-            $request->input('amount'),
-            PotTransactionType::tryFrom($request->input('type')),
-            (int) $request->input('pot_id'),
+            (float) $request->validated('amount'),
+            PotTransactionType::tryFrom($request->validated('type')),
+            (int) $request->validated('pot_id'),
         );
     }
 
@@ -38,7 +38,7 @@ final readonly class PotTransactionDTO
     public function toArray(): array
     {
         return [
-            'amount' => $this->amount,
+            'amount' => PotTransactionType::DEPOSIT === $this->type ? $this->amount : $this->amount * -1,
             'type' => $this->type->value,
             'pot_id' => $this->potId,
         ];
