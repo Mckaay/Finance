@@ -8,14 +8,13 @@ use App\Mail\WeeklySummaryEmail;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Scopes\UserScope;
-use Illuminate\Contracts\Queue\ShouldBeUniqueUntilProcessing;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 
-final class DispatchWeeklySummariesJob implements ShouldQueue, ShouldBeUniqueUntilProcessing
+final class DispatchWeeklySummariesJob implements ShouldQueue
 {
     use Queueable;
 
