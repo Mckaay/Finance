@@ -29,15 +29,13 @@ final class DispatchWeeklySummariesJob implements ShouldQueue, ShouldBeUniqueUnt
      */
     public function handle(): void
     {
-        $currentTime = Carbon::now();
-
-        User::chunk(300, function (Collection $users) use ($currentTime): void {
+        User::chunk(300, function (Collection $users): void {
             foreach ($users as $user) {
                 $transactions = Transaction::where('user_id', $user->id)
                     ->withoutGlobalScopes([UserScope::class])
                     ->whereBetween(
                         'date',
-                        [$currentTime->startOfWeek(), $currentTime->endOfWeek()],
+                        [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()],
                     )
                     ->get();
                 if ($transactions->isEmpty()) {
