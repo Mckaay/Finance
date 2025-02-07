@@ -4,7 +4,7 @@ import { useBudgets } from "@/composables/budgets.js";
 
 const budgetService = useBudgets();
 
-defineProps({
+const props = defineProps({
   summaryListText: {
     type: String,
     default: "Spending Summary",

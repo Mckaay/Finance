@@ -90,7 +90,11 @@ const saveTransaction = async () => {
     {{ transactionService.errorMessage }}
   </ErrorMessage>
   <form @submit.prevent="saveTransaction">
-    <BaseField id="name" label="Name" :error="errors.name ?? ''">
+    <BaseField
+      id="name"
+      label="Name"
+      :error="errors.name ?? ''"
+    >
       <BaseInput
         v-model="formData.name"
         type="text"
@@ -98,7 +102,11 @@ const saveTransaction = async () => {
         :required="true"
       />
     </BaseField>
-    <BaseField id="date" label="Date" :error="errors.date ?? ''">
+    <BaseField
+      id="date"
+      label="Date"
+      :error="errors.date ?? ''"
+    >
       <BaseInput
         v-model="formData.date"
         type="date"
@@ -106,7 +114,11 @@ const saveTransaction = async () => {
         :required="true"
       />
     </BaseField>
-    <BaseField id="category" label="Category" :error="errors.category_id ?? ''">
+    <BaseField
+      id="category"
+      label="Category"
+      :error="errors.category_id ?? ''"
+    >
       <BaseSelect
         v-model="formData.category_id"
         class="select"
@@ -114,7 +126,11 @@ const saveTransaction = async () => {
         :options="categoriesService.state.list"
       />
     </BaseField>
-    <BaseField id="amount" label="Amount" :error="errors.amount ?? ''">
+    <BaseField
+      id="amount"
+      label="Amount"
+      :error="errors.amount ?? ''"
+    >
       <InputWithPrefix
         v-model="formData.amount"
         type="number"
@@ -124,7 +140,11 @@ const saveTransaction = async () => {
         pattern="^\d+(?:\.\d{1,2})?$"
       />
     </BaseField>
-    <BaseButton type="submit" text="Add New Transaction" style="width: 100%" />
+    <BaseButton
+      type="submit"
+      text="Add New Transaction"
+      style="width: 100%"
+    />
   </form>
 </template>
 

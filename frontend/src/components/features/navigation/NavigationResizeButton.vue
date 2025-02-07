@@ -12,7 +12,10 @@ defineProps({
 <template>
   <div class="wrapper">
     <ArrowFatLinesLeftIcon />
-    <button class="button toggle-button" type="button">
+    <button
+      class="button toggle-button"
+      type="button"
+    >
       {{ text }}
     </button>
   </div>

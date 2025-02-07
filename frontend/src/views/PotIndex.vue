@@ -37,7 +37,10 @@ onMounted(async () => {
     <div class="content-wrapper">
       <header class="model-header">
         <h1>Pots</h1>
-        <BaseButton text="+ Add New Pot" @click="addPotModal.openModal()" />
+        <BaseButton
+          text="+ Add New Pot"
+          @click="addPotModal.openModal()"
+        />
         <BaseModal
           ref="addPotModal"
           header-text="Add New Pot"

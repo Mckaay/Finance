@@ -3,7 +3,7 @@ import { computed } from "vue";
 import PaginationPageNumberButton from "@/components/shared/pagination/PaginationPageNumberButton.vue";
 import PaginationArrowButton from "@/components/shared/pagination/PaginationArrowButton.vue";
 
-defineProps({
+const props = defineProps({
   currentPage: {
     type: Number,
     default: 1,

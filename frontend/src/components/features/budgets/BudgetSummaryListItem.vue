@@ -11,7 +11,11 @@ defineProps({
   <section class="summary">
     <slot />
     <div class="summary-items-wrapper">
-      <div v-for="budget in budgets" :key="budget.id" class="summary-item">
+      <div
+        v-for="budget in budgets"
+        :key="budget.id"
+        class="summary-item"
+      >
         <div
           class="name"
           :style="{ '--background-color': budget?.theme.color }"
@@ -19,8 +23,12 @@ defineProps({
           {{ budget?.category?.label }}
         </div>
         <div class="cost-wrapper">
-          <div class="spent">${{ Math.abs(budget.monthlySpendings) }}</div>
-          <div class="limit">of ${{ Math.abs(budget.limit) }}</div>
+          <div class="spent">
+            ${{ Math.abs(budget.monthlySpendings) }}
+          </div>
+          <div class="limit">
+            of ${{ Math.abs(budget.limit) }}
+          </div>
         </div>
       </div>
     </div>

@@ -8,7 +8,7 @@ import InputWithPrefix from "@/components/shared/forms/InputWithPrefix.vue";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 import { checkIfObjectHasEmptyProperties } from "@/service/helpers.js";
 
-defineProps({
+const props = defineProps({
   pot: {
     type: Object,
     default: () => ({
@@ -88,7 +88,11 @@ const updatePot = async () => {
 
 <template>
   <form @submit.prevent="updatePot">
-    <BaseField id="name" label="Pot Name" :error="errors.name ?? ''">
+    <BaseField
+      id="name"
+      label="Pot Name"
+      :error="errors.name ?? ''"
+    >
       <BaseInput
         v-model="formData.name"
         type="text"
@@ -96,7 +100,11 @@ const updatePot = async () => {
         :required="true"
       />
     </BaseField>
-    <BaseField id="theme" label="Theme" :error="errors.theme_id ?? ''">
+    <BaseField
+      id="theme"
+      label="Theme"
+      :error="errors.theme_id ?? ''"
+    >
       <BaseSelect
         v-model="formData.theme_id"
         type="text"
@@ -104,7 +112,11 @@ const updatePot = async () => {
         :options="availableThemes"
       />
     </BaseField>
-    <BaseField id="target" label="Target" :error="errors.target ?? ''">
+    <BaseField
+      id="target"
+      label="Target"
+      :error="errors.target ?? ''"
+    >
       <InputWithPrefix
         v-model="formData.target"
         type="number"
@@ -114,7 +126,11 @@ const updatePot = async () => {
         :required="true"
       />
     </BaseField>
-    <BaseButton type="submit" text="Save Changes" style="width: 100%" />
+    <BaseButton
+      type="submit"
+      text="Save Changes"
+      style="width: 100%"
+    />
   </form>
 </template>
 

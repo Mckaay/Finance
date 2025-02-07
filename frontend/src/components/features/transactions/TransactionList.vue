@@ -1,7 +1,7 @@
 <script setup>
 import TransactionListItem from "@/components/features/transactions/TransactionListItem.vue";
 
-defineProps({
+const props = defineProps({
   transactions: {
     type: Array,
     default: () => [],
@@ -11,10 +11,18 @@ defineProps({
 
 <template>
   <section class="transactions-header">
-    <div class="transaction-name">Recipient / Sender</div>
-    <div class="transaction-category">Category</div>
-    <div class="transaction-amount">Transaction Date</div>
-    <div class="transaction-date">Amount</div>
+    <div class="transaction-name">
+      Recipient / Sender
+    </div>
+    <div class="transaction-category">
+      Category
+    </div>
+    <div class="transaction-amount">
+      Transaction Date
+    </div>
+    <div class="transaction-date">
+      Amount
+    </div>
   </section>
   <ul class="transactions-list">
     <TransactionListItem

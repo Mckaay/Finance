@@ -3,7 +3,7 @@ import TextAndLinkHeader from "@/components/shared/text/TextAndLinkHeader.vue";
 import { computed } from "vue";
 import JarIcon from "@/components/shared/icons/JarIcon.vue";
 
-defineProps({
+const props = defineProps({
   pots: {
     type: Array,
     default: () => [],
@@ -20,12 +20,18 @@ const savedSum = computed(() => {
 
 <template>
   <div class="wrap">
-    <TextAndLinkHeader text="Pots" link-text="See Details" route-name="pots" />
+    <TextAndLinkHeader
+      text="Pots"
+      link-text="See Details"
+      route-name="pots"
+    />
     <div class="summary-wrapper">
       <div class="saved-card">
         <JarIcon />
         <div class="text-wrapper">
-          <p class="saved-text">Total Saved</p>
+          <p class="saved-text">
+            Total Saved
+          </p>
           <h2>${{ savedSum }}</h2>
         </div>
       </div>
@@ -40,7 +46,9 @@ const savedSum = computed(() => {
             <p class="pot-name">
               {{ pot.name }}
             </p>
-            <p class="pot-balance">${{ pot.balance }}</p>
+            <p class="pot-balance">
+              ${{ pot.balance }}
+            </p>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 <script setup>
 import TransactionSummaryListItem from "@/components/features/transactions/TransactionSummaryListItem.vue";
 
-defineProps({
+const props = defineProps({
   transactions: {
     type: Array,
     default: () => [],

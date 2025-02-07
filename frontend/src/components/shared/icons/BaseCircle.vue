@@ -1,5 +1,5 @@
 <script setup>
-defineProps({
+const props = defineProps({
   color: {
     type: String,
     default: "#000",
@@ -15,6 +15,11 @@ defineProps({
     viewBox="0 0 16 16"
     fill="none"
   >
-    <circle cx="8" cy="8" r="8" :fill="props.color" />
+    <circle
+      cx="8"
+      cy="8"
+      r="8"
+      :fill="props.color"
+    />
   </svg>
 </template>

@@ -67,10 +67,16 @@ const onSubmit = () => {
       </p>
     </div>
 
-    <form class="auth-form" @submit.prevent="onSubmit">
+    <form
+      class="auth-form"
+      @submit.prevent="onSubmit"
+    >
       <h1>Login</h1>
       <div class="auth-fields-wrapper">
-        <BaseField id="email" label="Email">
+        <BaseField
+          id="email"
+          label="Email"
+        >
           <BaseInput
             v-model="form.email"
             type="email"
@@ -78,7 +84,10 @@ const onSubmit = () => {
             required
           />
         </BaseField>
-        <BaseField id="password" label="Password">
+        <BaseField
+          id="password"
+          label="Password"
+        >
           <BaseInput
             v-model="form.password"
             type="password"
@@ -88,13 +97,19 @@ const onSubmit = () => {
         </BaseField>
       </div>
 
-      <BaseButton type="submit" text="Login" />
+      <BaseButton
+        type="submit"
+        text="Login"
+      />
       <ErrorMessage v-if="authStore.errorMessage">
         {{ authStore.errorMessage }}
       </ErrorMessage>
       <div class="signup-link-wrapper">
         Need to create an account?
-        <RouterLink class="register-link" :to="{ name: 'register' }">
+        <RouterLink
+          class="register-link"
+          :to="{ name: 'register' }"
+        >
           Sign up
         </RouterLink>
       </div>

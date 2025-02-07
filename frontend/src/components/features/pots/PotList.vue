@@ -2,7 +2,7 @@
 import PotListItem from "@/components/features/pots/PotListItem.vue";
 import { usePots } from "@/composables/pots.js";
 
-defineProps({
+const props = defineProps({
   pots: {
     type: Array,
     default: () => [],
@@ -55,7 +55,10 @@ const emitOpenWithdrawModal = (pot) => {
 };
 </script>
 <template>
-  <section v-if="pots.length > 0" class="pot-list">
+  <section
+    v-if="pots.length > 0"
+    class="pot-list"
+  >
     <PotListItem
       v-for="pot in props.pots"
       :key="pot.id"

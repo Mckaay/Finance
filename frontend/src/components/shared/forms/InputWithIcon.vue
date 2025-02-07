@@ -1,7 +1,7 @@
 <script setup>
 import { inject, useAttrs } from "vue";
 
-defineProps({
+const props = defineProps({
   modelValue: {
     type: [String, Number],
     default: () => "",
@@ -28,7 +28,7 @@ const field = inject("field");
       :placeholder="placeholder"
       v-bind="attrs"
       @input="($event) => emit('update:modelValue', $event.target.value)"
-    />
+    >
   </div>
 </template>
 

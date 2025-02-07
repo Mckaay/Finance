@@ -5,7 +5,7 @@ import { computed } from "vue";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-defineProps({
+const props = defineProps({
   budgets: {
     type: Array,
     default: () => [],
@@ -57,10 +57,17 @@ const chartOptions = {
   <header>
     <section class="chart-section">
       <div class="summary-chart">
-        <p class="spent">${{ Math.abs(expensesSum) }}</p>
-        <p class="limit">of ${{ limitSum }} limit</p>
+        <p class="spent">
+          ${{ Math.abs(expensesSum) }}
+        </p>
+        <p class="limit">
+          of ${{ limitSum }} limit
+        </p>
       </div>
-      <Doughnut :data="chartData" :options="chartOptions" />
+      <Doughnut
+        :data="chartData"
+        :options="chartOptions"
+      />
     </section>
   </header>
 </template>

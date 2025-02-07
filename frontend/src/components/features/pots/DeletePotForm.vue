@@ -6,7 +6,7 @@ import { useLoadingStore } from "@/stores/loading.js";
 const potService = usePots();
 const loadingStore = useLoadingStore();
 
-defineProps({
+const props = defineProps({
   id: {
     type: Number,
     default: () => 0,

@@ -1,7 +1,7 @@
 <script setup>
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 
-defineProps({
+const props = defineProps({
   text: {
     type: String,
     default: () => "",
@@ -20,8 +20,14 @@ defineProps({
 <template>
   <div class="text-and-link-header">
     <h3>{{ text }}</h3>
-    <router-link class="link" :to="{ name: props.routeName }">
-      <BaseButton variant="tertiary" :text="linkText" />
+    <router-link
+      class="link"
+      :to="{ name: props.routeName }"
+    >
+      <BaseButton
+        variant="tertiary"
+        :text="linkText"
+      />
     </router-link>
   </div>
 </template>

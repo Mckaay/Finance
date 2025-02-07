@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from "vue";
 
-defineProps({
+const props = defineProps({
   label: {
     type: String,
     default: () => "",
@@ -51,7 +51,10 @@ watch(
 
 <template>
   <div class="select-wrapper">
-    <div v-if="label" class="label">
+    <div
+      v-if="label"
+      class="label"
+    >
       {{ label }}
     </div>
     <v-select

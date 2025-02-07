@@ -34,9 +34,15 @@ defineExpose({
     <div class="modal-content-wrapper">
       <header>
         <h1>{{ headerText }}</h1>
-        <BaseClose class="close-button" @click="close" />
+        <BaseClose
+          class="close-button"
+          @click="close"
+        />
       </header>
-      <p v-if="descriptionText" class="modal-description">
+      <p
+        v-if="descriptionText"
+        class="modal-description"
+      >
         {{ descriptionText }}
       </p>
       <slot />

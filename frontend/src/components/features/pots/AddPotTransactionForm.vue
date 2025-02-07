@@ -6,7 +6,7 @@ import { usePotTransactions } from "@/composables/potTransactions.js";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 import { checkIfObjectHasEmptyProperties } from "@/service/helpers.js";
 
-defineProps({
+const props = defineProps({
   potId: {
     type: Number,
     default: () => 0,
@@ -78,7 +78,11 @@ watch(
 
 <template>
   <form @submit.prevent="savePotTransaction">
-    <BaseField id="limit" label="Amount" :error="errors.name ?? ''">
+    <BaseField
+      id="limit"
+      label="Amount"
+      :error="errors.name ?? ''"
+    >
       <InputWithPrefix
         v-model="formData.amount"
         type="number"
@@ -88,7 +92,11 @@ watch(
         :required="true"
       />
     </BaseField>
-    <BaseButton type="submit" :text="submitButtonText" style="width: 100%" />
+    <BaseButton
+      type="submit"
+      :text="submitButtonText"
+      style="width: 100%"
+    />
   </form>
 </template>
 

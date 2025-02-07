@@ -72,10 +72,16 @@ const onSubmit = async () => {
       </p>
     </div>
 
-    <form class="auth-form" @submit.prevent="onSubmit">
+    <form
+      class="auth-form"
+      @submit.prevent="onSubmit"
+    >
       <h1>Sign Up</h1>
       <div class="auth-fields-wrapper">
-        <BaseField id="name" label="Name">
+        <BaseField
+          id="name"
+          label="Name"
+        >
           <BaseInput
             v-model="form.name"
             type="text"
@@ -83,7 +89,10 @@ const onSubmit = async () => {
             required
           />
         </BaseField>
-        <BaseField id="email" label="Email">
+        <BaseField
+          id="email"
+          label="Email"
+        >
           <BaseInput
             v-model="form.email"
             type="email"
@@ -91,7 +100,10 @@ const onSubmit = async () => {
             required
           />
         </BaseField>
-        <BaseField id="password" label="Password">
+        <BaseField
+          id="password"
+          label="Password"
+        >
           <BaseInput
             v-model="form.password"
             type="password"
@@ -103,10 +115,16 @@ const onSubmit = async () => {
       <ErrorMessage v-if="authStore.errorMessage">
         {{ authStore.errorMessage }}
       </ErrorMessage>
-      <BaseButton type="submit" text="Create Account" />
+      <BaseButton
+        type="submit"
+        text="Create Account"
+      />
       <div class="signup-link-wrapper">
         Already have an account?
-        <RouterLink class="register-link" :to="{ name: 'login' }">
+        <RouterLink
+          class="register-link"
+          :to="{ name: 'login' }"
+        >
           Login
         </RouterLink>
       </div>

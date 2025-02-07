@@ -5,7 +5,7 @@ import HelperMessage from "@/components/shared/forms/HelperMessage.vue";
 import { computed, provide } from "vue";
 import ErrorMessage from "@/components/shared/forms/ErrorMessage.vue";
 
-defineProps({
+const props = defineProps({
   id: {
     type: String,
     default: () => `field-${uuid()}`,
@@ -36,7 +36,10 @@ provide(
 
 <template>
   <div class="field-wrapper">
-    <BaseLabel v-if="label" :for="props.id">
+    <BaseLabel
+      v-if="label"
+      :for="props.id"
+    >
       {{ label }}
     </BaseLabel>
     <slot />

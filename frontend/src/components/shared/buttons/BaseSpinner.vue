@@ -4,7 +4,10 @@ import { useLoadingStore } from "@/stores/loading.js";
 const loadingStore = useLoadingStore();
 </script>
 <template>
-  <div v-if="loadingStore.loading" class="loader" />
+  <div
+    v-if="loadingStore.loading"
+    class="loader"
+  />
 </template>
 
 <style scoped>

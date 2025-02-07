@@ -70,7 +70,11 @@ const saveBudget = async () => {
 
 <template>
   <form @submit.prevent="saveBudget">
-    <BaseField id="limit" label="Maximum Spend" :error="errors.limit ?? ''">
+    <BaseField
+      id="limit"
+      label="Maximum Spend"
+      :error="errors.limit ?? ''"
+    >
       <InputWithPrefix
         v-model="formData.limit"
         type="number"
@@ -91,13 +95,21 @@ const saveBudget = async () => {
         :options="budgetService.state.availableCategories"
       />
     </BaseField>
-    <BaseField id="theme" label="Theme" :error="errors.theme_id ?? ''">
+    <BaseField
+      id="theme"
+      label="Theme"
+      :error="errors.theme_id ?? ''"
+    >
       <BaseSelect
         v-model="formData.theme_id"
         placeholder="Pick Theme"
         :options="budgetService.state.availableThemes"
       />
     </BaseField>
-    <BaseButton type="submit" text="Add New Budget" style="width: 100%" />
+    <BaseButton
+      type="submit"
+      text="Add New Budget"
+      style="width: 100%"
+    />
   </form>
 </template>

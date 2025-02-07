@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
 
-defineProps({
+const props = defineProps({
   amount: {
     type: Number,
     default: () => 0,
@@ -76,14 +76,19 @@ const displayedPercentage = computed(() =>
 <template>
   <div class="wrapper">
     <div class="top-wrapper">
-      <div class="description">New Amount</div>
+      <div class="description">
+        New Amount
+      </div>
       <div class="balance">
         {{ newBalance }}
       </div>
     </div>
 
     <div class="progress-bar">
-      <div class="default-bar" :style="{ width: defaultBarWidth }" />
+      <div
+        class="default-bar"
+        :style="{ width: defaultBarWidth }"
+      />
       <div
         class="additional-bar"
         :style="{
@@ -97,7 +102,9 @@ const displayedPercentage = computed(() =>
       <div class="percentage">
         {{ displayedPercentage }}
       </div>
-      <div class="bottom-text">Target of ${{ props.target.toFixed(2) }}</div>
+      <div class="bottom-text">
+        Target of ${{ props.target.toFixed(2) }}
+      </div>
     </div>
   </div>
 </template>

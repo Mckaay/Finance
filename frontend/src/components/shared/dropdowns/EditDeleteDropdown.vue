@@ -30,8 +30,12 @@ const emit = defineEmits(["edit", "delete"]);
   <div class="dropdown-wrapper">
     <ThreeDotsIcon @click="toggle = !toggle" />
     <ul v-if="toggle">
-      <li @click="handleOptionClick('edit')">Edit</li>
-      <li @click="handleOptionClick('delete')">Delete</li>
+      <li @click="handleOptionClick('edit')">
+        Edit
+      </li>
+      <li @click="handleOptionClick('delete')">
+        Delete
+      </li>
     </ul>
   </div>
 </template>

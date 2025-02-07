@@ -33,7 +33,10 @@ const emitOpenDeleteModalEvent = (budget) => {
 </script>
 
 <template>
-  <section v-if="budgets.length > 0" class="budget-list">
+  <section
+    v-if="budgets.length > 0"
+    class="budget-list"
+  >
     <BudgetListItem
       v-for="budget in budgets"
       :key="budget.id"

@@ -71,7 +71,11 @@ const emit = defineEmits(["potCreated"]);
 
 <template>
   <form @submit.prevent="savePot">
-    <BaseField id="name" label="Pot Name" :error="errors.name ?? ''">
+    <BaseField
+      id="name"
+      label="Pot Name"
+      :error="errors.name ?? ''"
+    >
       <BaseInput
         v-model="formData.name"
         type="text"
@@ -79,14 +83,22 @@ const emit = defineEmits(["potCreated"]);
         :required="true"
       />
     </BaseField>
-    <BaseField id="theme" label="Theme" :error="errors.theme_id ?? ''">
+    <BaseField
+      id="theme"
+      label="Theme"
+      :error="errors.theme_id ?? ''"
+    >
       <BaseSelect
         v-model="formData.theme_id"
         placeholder="Pick Theme"
         :options="potService.state.availableThemes"
       />
     </BaseField>
-    <BaseField id="target" label="Target" :error="errors.target ?? ''">
+    <BaseField
+      id="target"
+      label="Target"
+      :error="errors.target ?? ''"
+    >
       <InputWithPrefix
         v-model="formData.target"
         type="number"
@@ -96,7 +108,11 @@ const emit = defineEmits(["potCreated"]);
         :required="true"
       />
     </BaseField>
-    <BaseButton type="submit" text="Add New Pot" style="width: 100%" />
+    <BaseButton
+      type="submit"
+      text="Add New Pot"
+      style="width: 100%"
+    />
   </form>
 </template>
 

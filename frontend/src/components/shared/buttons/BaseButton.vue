@@ -2,7 +2,7 @@
 import { useLoadingStore } from "@/stores/loading.js";
 import BaseSpinner from "@/components/shared/buttons/BaseSpinner.vue";
 
-defineProps({
+const props = defineProps({
   text: {
     type: String,
     default: () => "",

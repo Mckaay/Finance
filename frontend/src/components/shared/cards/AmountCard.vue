@@ -1,5 +1,5 @@
 <script setup>
-defineProps({
+const props = defineProps({
   text: {
     type: String,
     default: () => "",
@@ -28,7 +28,9 @@ defineProps({
     <header>
       {{ text }}
     </header>
-    <div class="amount">${{ amount }}</div>
+    <div class="amount">
+      ${{ amount }}
+    </div>
   </article>
 </template>
 

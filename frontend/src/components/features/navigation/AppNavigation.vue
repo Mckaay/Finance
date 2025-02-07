@@ -9,10 +9,16 @@ const navigationStore = useNavigationStore();
 </script>
 
 <template>
-  <nav class="navigation" :class="{ narrowed: navigationStore.narrow }">
+  <nav
+    class="navigation"
+    :class="{ narrowed: navigationStore.narrow }"
+  >
     <header class="logo">
       <BigLogoIcon v-if="!navigationStore.narrow" />
-      <SmallLogoIcon v-else class="small-logo" />
+      <SmallLogoIcon
+        v-else
+        class="small-logo"
+      />
     </header>
     <NavigationList />
     <NavigationResizeButton

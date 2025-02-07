@@ -31,7 +31,10 @@ onMounted(async () => {
   <main>
     <header class="model-header">
       <h1>Budgets</h1>
-      <BaseButton text="+ Add New Budget" @click="addBudgetModal.openModal()" />
+      <BaseButton
+        text="+ Add New Budget"
+        @click="addBudgetModal.openModal()"
+      />
       <BaseModal
         ref="addBudgetModal"
         header-text="Add New Budget"

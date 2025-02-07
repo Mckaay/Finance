@@ -6,7 +6,7 @@ import ThemeCircle from "@/components/shared/icons/ThemeCircle.vue";
 import TransactionSummaryList from "@/components/features/transactions/TransactionSummaryList.vue";
 import TextAndLinkHeader from "@/components/shared/text/TextAndLinkHeader.vue";
 
-defineProps({
+const props = defineProps({
   budget: {
     type: Object,
     default: () => ({
@@ -39,7 +39,9 @@ const emit = defineEmits(["edit", "delete"]);
       />
     </div>
     <div class="spending-summary">
-      <p class="maximum-spending">Maximum of ${{ budget.limit }}</p>
+      <p class="maximum-spending">
+        Maximum of ${{ budget.limit }}
+      </p>
       <ProgressBar
         :width="getFillPercentage(budget.limit, budget.monthlySpendings)"
         :color="budget.theme.color"

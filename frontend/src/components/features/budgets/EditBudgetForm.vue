@@ -11,7 +11,7 @@ import { useBudgets } from "@/composables/budgets.js";
 const budgetService = useBudgets();
 const loadingStore = useLoadingStore();
 
-defineProps({
+const props = defineProps({
   budget: {
     type: Object,
     default: () => ({
@@ -87,7 +87,11 @@ const updateBudget = async () => {
 
 <template>
   <form @submit.prevent="updateBudget">
-    <BaseField id="limit" label="Maximum Spend" :error="errors.limit ?? ''">
+    <BaseField
+      id="limit"
+      label="Maximum Spend"
+      :error="errors.limit ?? ''"
+    >
       <InputWithPrefix
         v-model="formData.limit"
         type="number"
@@ -108,14 +112,22 @@ const updateBudget = async () => {
         :options="availableCategories"
       />
     </BaseField>
-    <BaseField id="theme" label="Theme" :error="errors.theme_id ?? ''">
+    <BaseField
+      id="theme"
+      label="Theme"
+      :error="errors.theme_id ?? ''"
+    >
       <BaseSelect
         v-model="formData.theme_id"
         placeholder="Pick Theme"
         :options="availableThemes"
       />
     </BaseField>
-    <BaseButton type="submit" text="Save Changes" style="width: 100%" />
+    <BaseButton
+      type="submit"
+      text="Save Changes"
+      style="width: 100%"
+    />
   </form>
 </template>
 
