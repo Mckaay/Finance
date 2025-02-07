@@ -1,11 +1,8 @@
 <script setup>
 import PotListItem from "@/components/features/pots/PotListItem.vue";
-import { ref, useTemplateRef } from "vue";
-import AddDepositPotTransactionModal from "@/components/features/pots/AddDepositPotTransactionModal.vue";
-import AddWithdrawPotTransactionModal from "@/components/features/pots/AddWithdrawPotTransactionModal.vue";
 import { usePots } from "@/composables/pots.js";
 
-const props = defineProps({
+defineProps({
   pots: {
     type: Array,
     default: () => [],

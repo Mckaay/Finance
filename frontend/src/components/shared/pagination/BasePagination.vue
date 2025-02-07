@@ -1,9 +1,9 @@
 <script setup>
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import PaginationPageNumberButton from "@/components/shared/pagination/PaginationPageNumberButton.vue";
 import PaginationArrowButton from "@/components/shared/pagination/PaginationArrowButton.vue";
 
-const props = defineProps({
+defineProps({
   currentPage: {
     type: Number,
     default: 1,

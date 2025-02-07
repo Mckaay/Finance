@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, provide, ref, useTemplateRef } from "vue";
+import { onMounted, ref } from "vue";
 import { useBudgets } from "@/composables/budgets.js";
 import BudgetList from "@/components/features/budgets/BudgetList.vue";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, useTemplateRef } from "vue";
+import { onMounted, ref } from "vue";
 import { usePots } from "@/composables/pots.js";
 import PotList from "@/components/features/pots/PotList.vue";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";

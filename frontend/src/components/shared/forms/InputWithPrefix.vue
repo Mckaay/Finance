@@ -1,7 +1,7 @@
 <script setup>
 import { inject, useAttrs } from "vue";
 
-const props = defineProps({
+defineProps({
   modelValue: {
     type: [String, Number],
     default: () => "",

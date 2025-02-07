@@ -1,9 +1,8 @@
 <script setup>
-import AppNavigation from "@/components/features/navigation/AppNavigation.vue";
 import { ref } from "vue";
 import BaseClose from "@/components/shared/icons/BaseClose.vue";
 
-const props = defineProps({
+defineProps({
   headerText: {
     type: String,
     default: () => "",

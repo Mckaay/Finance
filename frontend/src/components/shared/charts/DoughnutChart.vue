@@ -5,7 +5,7 @@ import { computed } from "vue";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const props = defineProps({
+defineProps({
   budgets: {
     type: Array,
     default: () => [],

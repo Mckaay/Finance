@@ -3,12 +3,12 @@ import BaseInput from "@/components/shared/forms/BaseInput.vue";
 import BaseField from "@/components/shared/forms/BaseField.vue";
 import BaseSelect from "@/components/shared/forms/BaseSelect.vue";
 import { usePots } from "@/composables/pots.js";
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, reactive } from "vue";
 import InputWithPrefix from "@/components/shared/forms/InputWithPrefix.vue";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 import { checkIfObjectHasEmptyProperties } from "@/service/helpers.js";
 
-const props = defineProps({
+defineProps({
   pot: {
     type: Object,
     default: () => ({

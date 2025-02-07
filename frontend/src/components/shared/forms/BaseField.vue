@@ -5,7 +5,7 @@ import HelperMessage from "@/components/shared/forms/HelperMessage.vue";
 import { computed, provide } from "vue";
 import ErrorMessage from "@/components/shared/forms/ErrorMessage.vue";
 
-const props = defineProps({
+defineProps({
   id: {
     type: String,
     default: () => `field-${uuid()}`,

@@ -1,14 +1,10 @@
 <script setup>
 import BudgetListItem from "@/components/features/budgets/BudgetListItem.vue";
-import { inject, ref, useTemplateRef } from "vue";
-import BaseModal from "@/components/shared/modals/BaseModal.vue";
-import EditBudgetForm from "@/components/features/budgets/EditBudgetForm.vue";
-import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 import { useBudgets } from "@/composables/budgets.js";
 
 const budgetService = useBudgets();
 
-const props = defineProps({
+defineProps({
   budgets: {
     type: Array,
     default: () => [],

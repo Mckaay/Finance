@@ -1,7 +1,7 @@
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { ref, watch } from "vue";
 
-const props = defineProps({
+defineProps({
   label: {
     type: String,
     default: () => "",

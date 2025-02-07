@@ -1,12 +1,10 @@
 <script setup>
-import { inject } from "vue";
-import DoughnutChart from "@/components/shared/charts/DoughnutChart.vue";
 import BudgetSummaryListItem from "@/components/features/budgets/BudgetSummaryListItem.vue";
 import { useBudgets } from "@/composables/budgets.js";
 
 const budgetService = useBudgets();
 
-const props = defineProps({
+defineProps({
   summaryListText: {
     type: String,
     default: "Spending Summary",

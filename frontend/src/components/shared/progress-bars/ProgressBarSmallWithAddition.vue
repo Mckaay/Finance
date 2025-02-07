@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
 
-const props = defineProps({
+defineProps({
   amount: {
     type: Number,
     default: () => 0,

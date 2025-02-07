@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, provide, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useCategories } from "@/composables/categories.js";
 import { useTransactions } from "@/composables/transactions.js";
 import AppNavigation from "@/components/features/navigation/AppNavigation.vue";

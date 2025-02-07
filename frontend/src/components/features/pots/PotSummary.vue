@@ -3,7 +3,7 @@ import TextAndLinkHeader from "@/components/shared/text/TextAndLinkHeader.vue";
 import { computed } from "vue";
 import JarIcon from "@/components/shared/icons/JarIcon.vue";
 
-const props = defineProps({
+defineProps({
   pots: {
     type: Array,
     default: () => [],

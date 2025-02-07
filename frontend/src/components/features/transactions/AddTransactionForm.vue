@@ -4,7 +4,7 @@ import ErrorMessage from "@/components/shared/forms/ErrorMessage.vue";
 import BaseInput from "@/components/shared/forms/BaseInput.vue";
 import BaseSelect from "@/components/shared/forms/BaseSelect.vue";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
-import { inject, reactive } from "vue";
+import { reactive } from "vue";
 import InputWithPrefix from "@/components/shared/forms/InputWithPrefix.vue";
 import { checkIfObjectHasEmptyProperties } from "@/service/helpers.js";
 import { useLoadingStore } from "@/stores/loading.js";

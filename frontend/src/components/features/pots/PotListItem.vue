@@ -5,7 +5,7 @@ import ProgressBarSmall from "@/components/shared/progress-bars/ProgressBarSmall
 import { getFillPercentage } from "@/service/helpers.js";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 
-const props = defineProps({
+defineProps({
   pot: {
     type: Object,
     default: () => {},

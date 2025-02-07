@@ -1,7 +1,7 @@
 <script setup>
 import TransactionListItem from "@/components/features/transactions/TransactionListItem.vue";
 
-const props = defineProps({
+defineProps({
   transactions: {
     type: Array,
     default: () => [],

@@ -1,10 +1,9 @@
 import "./assets/main.css";
-import { createApp, h } from "vue";
+import { createApp } from "vue";
 import { createPinia } from "pinia";
 import App from "./App.vue";
 import router from "./router";
 import vSelect from "vue-select";
-import { Chart as ChartJS } from "chart.js";
 
 const app = createApp(App);
 

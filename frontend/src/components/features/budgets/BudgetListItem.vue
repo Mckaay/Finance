@@ -6,7 +6,7 @@ import ThemeCircle from "@/components/shared/icons/ThemeCircle.vue";
 import TransactionSummaryList from "@/components/features/transactions/TransactionSummaryList.vue";
 import TextAndLinkHeader from "@/components/shared/text/TextAndLinkHeader.vue";
 
-const props = defineProps({
+defineProps({
   budget: {
     type: Object,
     default: () => ({

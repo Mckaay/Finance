@@ -1,8 +1,7 @@
 <script setup>
 import TransactionSummaryListItem from "@/components/features/transactions/TransactionSummaryListItem.vue";
-import TextAndLinkHeader from "@/components/shared/text/TextAndLinkHeader.vue";
 
-const props = defineProps({
+defineProps({
   transactions: {
     type: Array,
     default: () => [],

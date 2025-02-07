@@ -1,12 +1,12 @@
 <script setup>
 import BaseField from "@/components/shared/forms/BaseField.vue";
 import InputWithPrefix from "@/components/shared/forms/InputWithPrefix.vue";
-import { reactive, ref, watch } from "vue";
+import { reactive, watch } from "vue";
 import { usePotTransactions } from "@/composables/potTransactions.js";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 import { checkIfObjectHasEmptyProperties } from "@/service/helpers.js";
 
-const props = defineProps({
+defineProps({
   potId: {
     type: Number,
     default: () => 0,

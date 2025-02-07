@@ -1,7 +1,7 @@
 <script setup>
 import ArrowFatLinesLeftIcon from "@/components/shared/icons/ArrowFatLinesLeftIcon.vue";
 
-const props = defineProps({
+defineProps({
   text: {
     type: String,
     default: () => "",

@@ -1,7 +1,7 @@
 <script setup>
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 
-const props = defineProps({
+defineProps({
   text: {
     type: String,
     default: () => "",

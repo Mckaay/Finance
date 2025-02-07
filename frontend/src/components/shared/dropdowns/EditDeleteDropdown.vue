@@ -2,7 +2,7 @@
 import ThreeDotsIcon from "@/components/shared/icons/ThreeDotsIcon.vue";
 import { ref } from "vue";
 
-const props = defineProps({
+defineProps({
   options: {
     type: [Array],
     default: () => [],

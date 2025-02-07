@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps({
+defineProps({
   page: {
     type: [Number, String],
     default: () => 1,

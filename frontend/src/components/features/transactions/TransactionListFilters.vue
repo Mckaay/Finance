@@ -1,5 +1,5 @@
 <script setup>
-import { computed, inject } from "vue";
+import { computed } from "vue";
 import BaseSelect from "@/components/shared/forms/BaseSelect.vue";
 import BaseField from "@/components/shared/forms/BaseField.vue";
 import InputWithIcon from "@/components/shared/forms/InputWithIcon.vue";

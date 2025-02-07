@@ -5,7 +5,6 @@ import AmountCard from "@/components/shared/cards/AmountCard.vue";
 import AppNavigation from "@/components/features/navigation/AppNavigation.vue";
 import TransactionSummaryList from "@/components/features/transactions/TransactionSummaryList.vue";
 import { useBudgets } from "@/composables/budgets.js";
-import { provide } from "vue";
 import BudgetSummaryListWithChart from "@/components/features/budgets/BudgetSummaryListWithChart.vue";
 import TextAndLinkHeader from "@/components/shared/text/TextAndLinkHeader.vue";
 import PotSummary from "@/components/features/pots/PotSummary.vue";

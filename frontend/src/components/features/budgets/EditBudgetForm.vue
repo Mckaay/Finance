@@ -2,7 +2,7 @@
 import BaseField from "@/components/shared/forms/BaseField.vue";
 import BaseSelect from "@/components/shared/forms/BaseSelect.vue";
 import InputWithPrefix from "@/components/shared/forms/InputWithPrefix.vue";
-import { computed, inject, reactive } from "vue";
+import { computed, reactive } from "vue";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 import { useLoadingStore } from "@/stores/loading.js";
 import { checkIfObjectHasEmptyProperties } from "@/service/helpers.js";
@@ -11,7 +11,7 @@ import { useBudgets } from "@/composables/budgets.js";
 const budgetService = useBudgets();
 const loadingStore = useLoadingStore();
 
-const props = defineProps({
+defineProps({
   budget: {
     type: Object,
     default: () => ({

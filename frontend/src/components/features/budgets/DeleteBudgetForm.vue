@@ -3,7 +3,7 @@ import { useBudgets } from "@/composables/budgets.js";
 import { useLoadingStore } from "@/stores/loading.js";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 
-const props = defineProps({
+defineProps({
   id: {
     type: Number,
     default: () => 0,

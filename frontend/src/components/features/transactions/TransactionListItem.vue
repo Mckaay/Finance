@@ -1,7 +1,7 @@
 <script setup>
 import { formatPrice } from "@/service/helpers.js";
 
-const props = defineProps({
+defineProps({
   transaction: {
     type: Object,
     default: () => ({

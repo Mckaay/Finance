@@ -3,7 +3,7 @@ import BaseInput from "@/components/shared/forms/BaseInput.vue";
 import BaseField from "@/components/shared/forms/BaseField.vue";
 import BaseSelect from "@/components/shared/forms/BaseSelect.vue";
 import { usePots } from "@/composables/pots.js";
-import { computed, onBeforeMount, onMounted, reactive, ref } from "vue";
+import { reactive } from "vue";
 import InputWithPrefix from "@/components/shared/forms/InputWithPrefix.vue";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 import { useLoadingStore } from "@/stores/loading.js";
@@ -34,25 +34,6 @@ const clearErrors = () => {
   errors.name = "";
   errors.target = "";
   errors.theme_id = "";
-};
-
-const validationErrors = ref({});
-const validationRules = {
-  name: (value) => {
-    if (!value || value.length < 3) {
-      return "Name is required and should be at least 3 characters long";
-    }
-  },
-  theme_id: (value) => {
-    if (!value) {
-      return "Category is required";
-    }
-  },
-  target: (value) => {
-    if (!value) {
-      return "Amount is required";
-    }
-  },
 };
 
 const validateFormData = () => {
@@ -90,11 +71,7 @@ const emit = defineEmits(["potCreated"]);
 
 <template>
   <form @submit.prevent="savePot">
-    <BaseField
-      id="name"
-      label="Pot Name"
-      :error="validationErrors['name'] ?? ''"
-    >
+    <BaseField id="name" label="Pot Name" :error="errors.name ?? ''">
       <BaseInput
         v-model="formData.name"
         type="text"
@@ -102,22 +79,14 @@ const emit = defineEmits(["potCreated"]);
         :required="true"
       />
     </BaseField>
-    <BaseField
-      id="theme"
-      label="Theme"
-      :error="validationErrors['theme_id'] ?? ''"
-    >
+    <BaseField id="theme" label="Theme" :error="errors.theme_id ?? ''">
       <BaseSelect
         v-model="formData.theme_id"
         placeholder="Pick Theme"
         :options="potService.state.availableThemes"
       />
     </BaseField>
-    <BaseField
-      id="target"
-      label="Target"
-      :error="validationErrors['target'] ?? ''"
-    >
+    <BaseField id="target" label="Target" :error="errors.target ?? ''">
       <InputWithPrefix
         v-model="formData.target"
         type="number"

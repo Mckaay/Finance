@@ -1,4 +1,4 @@
-import { computed, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import { useLoadingStore } from "@/stores/loading.js";
 import axios from "axios";
 import { hexToRgb } from "@/service/helpers.js";
