@@ -1,82 +1,83 @@
-@import './base/reset.css';
-@import './base/variables.css';
+@import "./base/reset.css";
+@import "./base/variables.css";
 
 body {
-    font-family: var(--ff-primary), 'sans-serif';
-    font-size: 16px;
-    min-height: 100svh;
-    height: 1px;
-    background-color: var(--clr-beige-100);
+  font-family: var(--ff-primary), "sans-serif";
+  font-size: 16px;
+  min-height: 100svh;
+  height: 1px;
+  background-color: var(--clr-beige-100);
 }
 
 body:has(.navigation) {
-    height: unset;
+  height: unset;
 
-    @media screen and (min-width: 1280px) {
-        height: 1px;
-    }
+  @media screen and (min-width: 1280px) {
+    height: 1px;
+  }
 }
 
-body:has(dialog[open]) {overflow: hidden}
+body:has(dialog[open]) {
+  overflow: hidden;
+}
 
 #app:has(.navigation) {
-    height: 100%;
+  height: 100%;
 
-    @media screen and (min-width: 1280px) {
-        display: grid;
-        grid-template-columns: fit-content(100%) 1fr;
-    }
+  @media screen and (min-width: 1280px) {
+    display: grid;
+    grid-template-columns: fit-content(100%) 1fr;
+  }
 }
 
 #app {
-    height: 100%;
+  height: 100%;
 }
 
 h1 {
-    font-size: var(--fs-h1);
-    font-weight: var(--fw-700);
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-700);
 }
 
 h2 {
-    font-size: var(--fs-h2);
-    font-weight: var(--fw-700);
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-700);
 }
-
 
 h3 {
-    font-size: var(--fs-h3);
-    font-weight: var(--fw-700);
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-700);
 }
 
 h4 {
-    font-size: var(--fs-h4);
+  font-size: var(--fs-h4);
 }
 
 h4 {
-    font-size: var(--fs-h5);
+  font-size: var(--fs-h5);
 }
 
 main {
-    padding: var(--spacing-150) var(--spacing-100);
-    padding-bottom: calc(var(--spacing-150) + 53px);
-    height: calc(100% - 80px);
-    overflow-y: scroll;
-    position: fixed;
+  padding: var(--spacing-150) var(--spacing-100);
+  padding-bottom: calc(var(--spacing-150) + 53px);
+  height: calc(100% - 80px);
+  overflow-y: scroll;
+  position: fixed;
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    padding: var(--spacing-200) var(--spacing-250);
+    padding-bottom: calc(var(--spacing-200) + 77px);
+  }
+
+  @media screen and (min-width: 1280px) {
+    position: static;
+    padding: var(--spacing-200) var(--spacing-250);
+    padding-bottom: unset;
+    max-width: 1440px;
     width: 100%;
-
-    @media screen and (min-width: 768px) {
-        padding: var(--spacing-200) var(--spacing-250);
-        padding-bottom: calc(var(--spacing-200) + 77px);
-    }
-
-    @media screen and (min-width: 1280px) {
-        position: static;
-        padding: var(--spacing-200) var(--spacing-250);
-        padding-bottom: unset;
-        max-width: 1440px;
-        width: 100%;
-        margin: auto;
-        height: 100%;
-        overflow-y: unset;
-    }
+    margin: auto;
+    height: 100%;
+    overflow-y: unset;
+  }
 }

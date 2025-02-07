@@ -1,11 +1,11 @@
 <script setup>
 import ThreeDotsIcon from "@/components/shared/icons/ThreeDotsIcon.vue";
-import {ref} from "vue";
+import { ref } from "vue";
 
 const props = defineProps({
   options: {
     type: [Array],
-    default: () => []
+    default: () => [],
   },
 });
 
@@ -14,28 +14,27 @@ const toggle = ref(false);
 const handleOptionClick = (type) => {
   toggle.value = false;
 
-  if (type === 'edit') {
-    emit('edit');
+  if (type === "edit") {
+    emit("edit");
   }
 
-  if (type === 'delete') {
-    emit('delete');
+  if (type === "delete") {
+    emit("delete");
   }
-}
+};
 
-const emit = defineEmits(['edit', 'delete']);
+const emit = defineEmits(["edit", "delete"]);
 </script>
 
 <template>
   <div class="dropdown-wrapper">
-    <ThreeDotsIcon @click="toggle = !toggle"/>
+    <ThreeDotsIcon @click="toggle = !toggle" />
     <ul v-if="toggle">
       <li @click="handleOptionClick('edit')">Edit</li>
       <li @click="handleOptionClick('delete')">Delete</li>
     </ul>
   </div>
 </template>
-
 
 <style scoped>
 .dropdown-wrapper {

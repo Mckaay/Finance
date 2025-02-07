@@ -1,28 +1,31 @@
 <script setup>
-import Circle from "@/components/shared/icons/Circle.vue";
+import BaseCircle from "@/components/shared/icons/BaseCircle.vue";
 import ThreeDotsDropdown from "@/components/shared/dropdowns/EditDeleteDropdown.vue";
 import ProgressBarSmall from "@/components/shared/progress-bars/ProgressBarSmall.vue";
-import {getFillPercentage} from "@/service/helpers.js";
+import { getFillPercentage } from "@/service/helpers.js";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 
 const props = defineProps({
   pot: {
     type: Object,
-    default: {},
-  }
-})
+    default: () => {},
+  },
+});
 
-const emit = defineEmits(['edit', 'delete', 'deposit', 'withdraw']);
+const emit = defineEmits(["edit", "delete", "deposit", "withdraw"]);
 </script>
 
 <template>
   <article>
     <header>
       <div class="left-side-wrapper">
-        <Circle :color="pot?.theme?.color"/>
+        <BaseCircle :color="pot?.theme?.color" />
         <h2>{{ pot.name }}</h2>
       </div>
-      <ThreeDotsDropdown @edit="emit('edit',pot)" @delete="emit('delete', pot)" />
+      <ThreeDotsDropdown
+        @edit="emit('edit', pot)"
+        @delete="emit('delete', pot)"
+      />
     </header>
     <section class="content">
       <div class="middle-content-wrapper">
@@ -32,20 +35,32 @@ const emit = defineEmits(['edit', 'delete', 'deposit', 'withdraw']);
         </div>
         <div class="middle-bottom-wrapper">
           <ProgressBarSmall
-                            height="8px"
-                            :color="pot?.theme?.color"
-                            :width="getFillPercentage(pot.target, pot.balance)"
+            height="8px"
+            :color="pot?.theme?.color"
+            :width="getFillPercentage(pot.target, pot.balance)"
           />
           <div class="wrapper">
-            <p class="bold">{{ getFillPercentage(pot.target, pot.balance) }}</p>
+            <p class="bold">
+              {{ getFillPercentage(pot.target, pot.balance) }}
+            </p>
             <p>Target of ${{ pot.target }}</p>
           </div>
         </div>
       </div>
     </section>
     <section class="button-wrapper">
-      <BaseButton style="width: 100%" variant="secondary" text="+ Add Money" @click="emit('deposit',pot)"/>
-      <BaseButton style="width: 100%" variant="secondary" text="Withdraw" @click="emit('withdraw',pot)"/>
+      <BaseButton
+        style="width: 100%"
+        variant="secondary"
+        text="+ Add Money"
+        @click="emit('deposit', pot)"
+      />
+      <BaseButton
+        style="width: 100%"
+        variant="secondary"
+        text="Withdraw"
+        @click="emit('withdraw', pot)"
+      />
     </section>
   </article>
 </template>
@@ -72,7 +87,7 @@ article {
     & .left-side-wrapper {
       display: flex;
       align-items: center;
-      gap: var(--spacing-100)
+      gap: var(--spacing-100);
     }
 
     & h2 {

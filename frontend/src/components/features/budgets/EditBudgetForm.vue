@@ -1,42 +1,42 @@
 <script setup>
-import Field from "@/components/shared/forms/Field.vue";
-import Select from "@/components/shared/forms/Select.vue";
+import BaseField from "@/components/shared/forms/BaseField.vue";
+import BaseSelect from "@/components/shared/forms/BaseSelect.vue";
 import InputWithPrefix from "@/components/shared/forms/InputWithPrefix.vue";
-import {computed, inject, reactive} from "vue";
+import { computed, inject, reactive } from "vue";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
-import {useLoadingStore} from "@/stores/loading.js";
-import {checkIfObjectHasEmptyProperties} from "@/service/helpers.js";
-import {useBudgets} from "@/composables/budgets.js";
+import { useLoadingStore } from "@/stores/loading.js";
+import { checkIfObjectHasEmptyProperties } from "@/service/helpers.js";
+import { useBudgets } from "@/composables/budgets.js";
 
-const budgetService = useBudgets()
+const budgetService = useBudgets();
 const loadingStore = useLoadingStore();
 
 const props = defineProps({
   budget: {
     type: Object,
-    default: {
+    default: () => ({
       limit: 0,
       category_id: 0,
       theme_id: 0,
-    },
+    }),
   },
   availableThemes: {
     type: Array,
-    default: [],
+    default: () => [],
   },
   availableCategories: {
     type: Array,
-    default: [],
+    default: () => [],
   },
-})
+});
 
 const formData = computed(() => {
   return reactive({
     limit: props.budget.limit,
     category_id: props.budget.category.value,
     theme_id: props.budget.theme.value,
-  })
-})
+  });
+});
 
 const errors = reactive({
   limit: "",
@@ -48,10 +48,9 @@ const clearErrors = () => {
   errors.limit = "";
   errors.category_id = "";
   errors.theme_id = "";
-}
+};
 
 const validateFormData = () => {
-
   if (!formData.value.limit || formData.value.limit < 0) {
     errors.limit = "Limit is required and needs to positive number";
   }
@@ -63,9 +62,9 @@ const validateFormData = () => {
   if (!formData.value.theme_id) {
     errors.theme_id = "Category is required";
   }
-}
+};
 
-const emit = defineEmits(['budgetUpdated']);
+const emit = defineEmits(["budgetUpdated"]);
 const updateBudget = async () => {
   if (loadingStore.loading) {
     return;
@@ -77,42 +76,47 @@ const updateBudget = async () => {
     return;
   }
 
-  await budgetService.updateBudget(budgetService.state.selectedForEditOrDelete.id, {...formData.value})
+  await budgetService.updateBudget(
+    budgetService.state.selectedForEditOrDelete.id,
+    { ...formData.value },
+  );
   clearErrors();
-  emit('budgetUpdated');
-}
+  emit("budgetUpdated");
+};
 </script>
 
 <template>
   <form @submit.prevent="updateBudget">
-    <Field id="limit" label="Maximum Spend" :error="errors.limit ?? ''">
+    <BaseField id="limit" label="Maximum Spend" :error="errors.limit ?? ''">
       <InputWithPrefix
-          v-model="formData.limit"
-          type="number"
-          min="1"
-          step="1"
-          placeholder="e.g. 2000"
-          :required="true"
+        v-model="formData.limit"
+        type="number"
+        min="1"
+        step="1"
+        placeholder="e.g. 2000"
+        :required="true"
       />
-    </Field>
-    <Field id="category" label="Budget Category" :error="errors.category_id ?? ''">
-      <Select
-          v-model="formData.category_id"
-          placeholder="Pick category"
-          :options="availableCategories"
+    </BaseField>
+    <BaseField
+      id="category"
+      label="Budget Category"
+      :error="errors.category_id ?? ''"
+    >
+      <BaseSelect
+        v-model="formData.category_id"
+        placeholder="Pick category"
+        :options="availableCategories"
       />
-    </Field>
-    <Field id="theme" label="Theme" :error="errors.theme_id ?? ''">
-      <Select
-          v-model="formData.theme_id"
-          placeholder="Pick Theme"
-          :options="availableThemes"
+    </BaseField>
+    <BaseField id="theme" label="Theme" :error="errors.theme_id ?? ''">
+      <BaseSelect
+        v-model="formData.theme_id"
+        placeholder="Pick Theme"
+        :options="availableThemes"
       />
-    </Field>
-    <BaseButton type="submit" text="Save Changes" style="width: 100%;"/>
+    </BaseField>
+    <BaseButton type="submit" text="Save Changes" style="width: 100%" />
   </form>
 </template>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

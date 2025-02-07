@@ -5,20 +5,18 @@ import TextAndLinkHeader from "@/components/shared/text/TextAndLinkHeader.vue";
 const props = defineProps({
   transactions: {
     type: Array,
-    default: [],
-  }
-})
+    default: () => [],
+  },
+});
 </script>
 
 <template>
-  <slot>
-
-  </slot>
+  <slot />
   <ul class="transaction-list">
     <TransactionSummaryListItem
-        v-for="transaction in props.transactions"
-        :key="transaction.id"
-        :transaction="transaction"
+      v-for="transaction in props.transactions"
+      :key="transaction.id"
+      :transaction="transaction"
     />
   </ul>
 </template>

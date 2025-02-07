@@ -2,14 +2,19 @@
 import ArrowFatLinesLeftIcon from "@/components/shared/icons/ArrowFatLinesLeftIcon.vue";
 
 const props = defineProps({
-  'text': String,
-})
+  text: {
+    type: String,
+    default: () => "",
+  },
+});
 </script>
 
 <template>
   <div class="wrapper">
-    <ArrowFatLinesLeftIcon/>
-    <button class="button toggle-button" type="button">{{ text }}</button>
+    <ArrowFatLinesLeftIcon />
+    <button class="button toggle-button" type="button">
+      {{ text }}
+    </button>
   </div>
 </template>
 

@@ -4,24 +4,24 @@ import BaseButton from "@/components/shared/buttons/BaseButton.vue";
 const props = defineProps({
   text: {
     type: String,
-    default: "",
+    default: () => "",
   },
   linkText: {
     type: String,
-    default: "",
+    default: () => "",
   },
   routeName: {
     type: String,
-    default: "",
-  }
-})
+    default: () => "",
+  },
+});
 </script>
 
 <template>
   <div class="text-and-link-header">
     <h3>{{ text }}</h3>
     <router-link class="link" :to="{ name: props.routeName }">
-      <BaseButton variant="tertiary" :text="linkText"/>
+      <BaseButton variant="tertiary" :text="linkText" />
     </router-link>
   </div>
 </template>

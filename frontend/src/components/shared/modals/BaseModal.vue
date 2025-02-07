@@ -1,15 +1,16 @@
-<script setup>import Menu from "@/components/features/navigation/Navigation.vue";
-import {ref} from 'vue'
-import Close from "@/components/shared/icons/Close.vue"
+<script setup>
+import AppNavigation from "@/components/features/navigation/AppNavigation.vue";
+import { ref } from "vue";
+import BaseClose from "@/components/shared/icons/BaseClose.vue";
 
 const props = defineProps({
   headerText: {
     type: String,
-    default: "",
+    default: () => "",
   },
   descriptionText: {
     type: String,
-    default: "",
+    default: () => "",
   },
 });
 
@@ -17,7 +18,7 @@ const dialog = ref(null);
 
 const openModal = () => {
   dialog.value.showModal();
-}
+};
 
 function close() {
   dialog.value?.close();
@@ -25,7 +26,7 @@ function close() {
 
 defineExpose({
   openModal,
-  close
+  close,
 });
 </script>
 
@@ -34,16 +35,15 @@ defineExpose({
     <div class="modal-content-wrapper">
       <header>
         <h1>{{ headerText }}</h1>
-        <Close @click="close" class="close-button"/>
+        <BaseClose class="close-button" @click="close" />
       </header>
       <p v-if="descriptionText" class="modal-description">
         {{ descriptionText }}
       </p>
-      <slot></slot>
+      <slot />
     </div>
   </dialog>
 </template>
-
 
 <style>
 dialog {
@@ -101,6 +101,6 @@ dialog {
 }
 
 dialog::backdrop {
-  background-color: rgba(0, 0, 0, .8);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 </style>

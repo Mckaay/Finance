@@ -2,7 +2,7 @@
 const props = defineProps({
   text: {
     type: String,
-    default: '',
+    default: () => "",
   },
   amount: {
     type: String,
@@ -10,18 +10,17 @@ const props = defineProps({
   },
   backgroundColor: {
     type: String,
-    default: '#201F24',
+    default: "#201F24",
   },
   textColor: {
     type: String,
-    default: '#FFF',
+    default: "#FFF",
   },
   headerTextColor: {
     type: String,
-    default: '#FFF',
-  }
-})
-
+    default: "#FFF",
+  },
+});
 </script>
 
 <template>
@@ -29,9 +28,7 @@ const props = defineProps({
     <header>
       {{ text }}
     </header>
-    <div class="amount">
-      ${{ amount }}
-    </div>
+    <div class="amount">${{ amount }}</div>
   </article>
 </template>
 
@@ -41,8 +38,8 @@ const props = defineProps({
   flex-direction: column;
   gap: var(--spacing-75);
   justify-content: center;
-  background-color: v-bind('props.backgroundColor');
-  color: v-bind('props.textColor');
+  background-color: v-bind("props.backgroundColor");
+  color: v-bind("props.textColor");
   padding: var(--spacing-125);
   border-radius: var(--spacing-75);
   width: 100%;
@@ -52,7 +49,7 @@ const props = defineProps({
   }
 
   & header {
-    color: v-bind('props.headerTextColor');
+    color: v-bind("props.headerTextColor");
     font-size: var(--fs-87);
   }
 

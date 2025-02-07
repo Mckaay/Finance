@@ -2,21 +2,20 @@
 const props = defineProps({
   color: {
     type: String,
-    default: '#000'
-  }
-})
+    default: "#000",
+  },
+});
 </script>
 
 <template>
-  <div class="circle"></div>
+  <div class="circle" />
 </template>
-
 
 <style scoped>
 .circle {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background-color: v-bind('props.color');
+  background-color: v-bind("props.color");
 }
 </style>

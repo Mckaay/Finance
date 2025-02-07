@@ -1,9 +1,9 @@
 <script setup>
-import {onMounted, provide, ref, useTemplateRef} from "vue";
-import {useBudgets} from "@/composables/budgets.js";
+import { onMounted, provide, ref, useTemplateRef } from "vue";
+import { useBudgets } from "@/composables/budgets.js";
 import BudgetList from "@/components/features/budgets/BudgetList.vue";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
-import Navigation from "@/components/features/navigation/Navigation.vue";
+import AppNavigation from "@/components/features/navigation/AppNavigation.vue";
 import BudgetSummaryListWithChart from "@/components/features/budgets/BudgetSummaryListWithChart.vue";
 import BaseModal from "@/components/shared/modals/BaseModal.vue";
 import AddBudgetForm from "@/components/features/budgets/AddBudgetForm.vue";
@@ -23,64 +23,64 @@ onMounted(async () => {
 
   await budgetService.fetchBudgetData();
   await budgetService.fetchAvailableOptions();
-})
+});
 </script>
 
 <template>
-  <Navigation/>
+  <AppNavigation />
   <main>
     <header class="model-header">
       <h1>Budgets</h1>
-      <BaseButton @click="addBudgetModal.openModal()" text="+ Add New Budget"/>
+      <BaseButton text="+ Add New Budget" @click="addBudgetModal.openModal()" />
       <BaseModal
-          ref="addBudgetModal"
-          headerText="Add New Budget"
-          descriptionText="Choose a category to set a spending budget. These categories can help you monitor spending."
+        ref="addBudgetModal"
+        header-text="Add New Budget"
+        description-text="Choose a category to set a spending budget. These categories can help you monitor spending."
       >
-        <AddBudgetForm @budgetCreated="addBudgetModal?.close()"/>
+        <AddBudgetForm @budget-created="addBudgetModal?.close()" />
       </BaseModal>
       <BaseModal
-          ref="editBudgetModal"
-          headerText="Edit Budget"
-          descriptionText="As your budgets change, feel free to update your spending limits."
+        ref="editBudgetModal"
+        header-text="Edit Budget"
+        description-text="As your budgets change, feel free to update your spending limits."
       >
         <EditBudgetForm
-            @budgetUpdated="editBudgetModal.close()"
-            :budget="budgetService.state.selectedForEditOrDelete"
-            :availableThemes="budgetService.state.availableThemes"
-            :availableCategories="budgetService.state.availableCategories"
+          :budget="budgetService.state.selectedForEditOrDelete"
+          :available-themes="budgetService.state.availableThemes"
+          :available-categories="budgetService.state.availableCategories"
+          @budget-updated="editBudgetModal.close()"
         />
       </BaseModal>
       <BaseModal
-          ref="deleteBudgetModal"
-          :headerText="`Delete ${budgetService.state.selectedForEditOrDelete.category.label}`"
-          descriptionText="Are you sure you want to delete this budget? This action cannot be reversed, and all the data inside it will be removed forever."
+        ref="deleteBudgetModal"
+        :header-text="`Delete ${budgetService.state.selectedForEditOrDelete.category.label}`"
+        description-text="Are you sure you want to delete this budget? This action cannot be reversed, and all the data inside it will be removed forever."
       >
         <DeleteBudgetForm
-            @budgetDeleted="deleteBudgetModal.close()"
-            :id="budgetService.state.selectedForEditOrDelete.id ?? 0"
+          :id="budgetService.state.selectedForEditOrDelete.id ?? 0"
+          @budget-deleted="deleteBudgetModal.close()"
         />
       </BaseModal>
     </header>
     <section class="budget-content">
       <div class="summary-list-chart-wrapper">
         <BudgetSummaryListWithChart>
-          <template v-slot:chart>
+          <template #chart>
             <DoughnutChart
-                :budgets="budgetService.state.list"
-                :data="budgetService.getMonthlySpendings()"
-                :hexColors="budgetService.getHexColorThemes()"
-                :rgbColors="budgetService.getRGBColorThemes()"
-                :limitSum="budgetService.state.limitSum"
-                :expensesSum="budgetService.state.expenseSum"
+              :budgets="budgetService.state.list"
+              :data="budgetService.getMonthlySpendings()"
+              :hex-colors="budgetService.getHexColorThemes()"
+              :rgb-colors="budgetService.getRGBColorThemes()"
+              :limit-sum="budgetService.state.limitSum"
+              :expenses-sum="budgetService.state.expenseSum"
             />
           </template>
         </BudgetSummaryListWithChart>
       </div>
       <BudgetList
-          :budgets="budgetService.state.list"
-          @openEditModal="editBudgetModal.openModal()"
-          @openDeleteModal="deleteBudgetModal.openModal()"
+        :budgets="budgetService.state.list"
+        @open-edit-modal="editBudgetModal.openModal()"
+        @open-delete-modal="deleteBudgetModal.openModal()"
       />
     </section>
   </main>
@@ -121,7 +121,6 @@ main {
       flex-direction: row;
       padding: var(--spacing-200) var(--spacing-200);
     }
-
 
     @media screen and (min-width: 1280px) {
       flex-direction: column;

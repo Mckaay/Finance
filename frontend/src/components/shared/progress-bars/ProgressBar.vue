@@ -2,17 +2,17 @@
 const props = defineProps({
   width: {
     type: String,
-    default: '100%'
+    default: "100%",
   },
   color: {
     type: String,
-    default: '#000',
-  }
-})
+    default: "#000",
+  },
+});
 </script>
 
 <template>
-  <div class="progress-bar"></div>
+  <div class="progress-bar" />
 </template>
 
 <style scoped>
@@ -28,8 +28,8 @@ const props = defineProps({
   display: block;
   content: "";
   height: calc(var(--progress-bar-height) - (var(--spacing-25) * 2));
-  background-color: v-bind('props.color');
+  background-color: v-bind("props.color");
   border-radius: var(--spacing-25);
-  width: v-bind('props.width');
+  width: v-bind("props.width");
 }
 </style>

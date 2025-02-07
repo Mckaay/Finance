@@ -1,15 +1,23 @@
 <script setup>
 const props = defineProps({
-  'text': String,
-  'routeName': String,
-})
+  text: {
+    type: String,
+    default: () => "",
+  },
+  routeName: {
+    type: String,
+    default: () => "",
+  },
+});
 </script>
 
 <template>
   <router-link :to="{ name: routeName }">
     <li class="navigation-item">
-      <slot/>
-      <p class="navigation-item-text">{{ text }}</p>
+      <slot />
+      <p class="navigation-item-text">
+        {{ text }}
+      </p>
     </li>
   </router-link>
 </template>

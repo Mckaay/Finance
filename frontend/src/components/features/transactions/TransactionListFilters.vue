@@ -1,56 +1,56 @@
 <script setup>
-import {computed, inject} from 'vue';
-import Select from "@/components/shared/forms/Select.vue";
-import Field from "@/components/shared/forms/Field.vue";
+import { computed, inject } from "vue";
+import BaseSelect from "@/components/shared/forms/BaseSelect.vue";
+import BaseField from "@/components/shared/forms/BaseField.vue";
 import InputWithIcon from "@/components/shared/forms/InputWithIcon.vue";
-import {useTransactions} from "@/composables/transactions.js";
-import {useCategories} from "@/composables/categories.js";
+import { useTransactions } from "@/composables/transactions.js";
+import { useCategories } from "@/composables/categories.js";
 
 const transactions = useTransactions();
 const categories = useCategories();
 
 const sortOptions = [
-  { value: 'latest', label: 'Latest' },
-  { value: 'oldest', label: 'Oldest' },
-  { value: 'atoz', label: 'A to Z' },
-  { value: 'ztoa', label: 'Z to A' },
-  { value: 'highest', label: 'Highest' },
-  { value: 'lowest', label: 'Lowest' }
+  { value: "latest", label: "Latest" },
+  { value: "oldest", label: "Oldest" },
+  { value: "atoz", label: "A to Z" },
+  { value: "ztoa", label: "Z to A" },
+  { value: "highest", label: "Highest" },
+  { value: "lowest", label: "Lowest" },
 ];
 
 const categoryOptions = computed(() => {
   return [
     {
       value: 0,
-      label: 'All Transactions'
+      label: "All Transactions",
     },
-    ...categories.state.list
-  ]
+    ...categories.state.list,
+  ];
 });
 </script>
 
 <template>
   <div class="filter-section">
-    <Field id="search">
+    <BaseField id="search">
       <InputWithIcon
-          :model-value="transactions.state.filters.searchQuery"
-          @update:modelValue="transactions.updateFilter('searchQuery', $event)"
-          type="text"
-          placeholder="Search transaction"
+        :model-value="transactions.state.filters.searchQuery"
+        type="text"
+        placeholder="Search transaction"
+        @update:model-value="transactions.updateFilter('searchQuery', $event)"
       />
-    </Field>
+    </BaseField>
     <div class="filter-wrapper">
-      <Select
-          class="sort"
-          v-model="transactions.state.filters.orderSelected"
-          label="Sort By"
-          :options="sortOptions"
+      <BaseSelect
+        v-model="transactions.state.filters.orderSelected"
+        class="sort"
+        label="Sort By"
+        :options="sortOptions"
       />
-      <Select
-          class="category-sort"
-          v-model="transactions.state.filters.categorySelected"
-          label="Category"
-          :options="categoryOptions"
+      <BaseSelect
+        v-model="transactions.state.filters.categorySelected"
+        class="category-sort"
+        label="Category"
+        :options="categoryOptions"
       />
     </div>
   </div>

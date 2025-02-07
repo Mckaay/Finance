@@ -1,36 +1,36 @@
 <script setup>
-import {Chart as ChartJS, ArcElement, Tooltip, Legend} from "chart.js";
-import {Doughnut} from 'vue-chartjs'
-import {computed} from "vue";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut } from "vue-chartjs";
+import { computed } from "vue";
 
-ChartJS.register(ArcElement, Tooltip, Legend)
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const props = defineProps({
   budgets: {
     type: Array,
-    default: [],
+    default: () => [],
   },
   data: {
     type: Array,
-    default: [],
+    default: () => [],
   },
   hexColors: {
     type: Array,
-    default: [],
+    default: () => [],
   },
   rgbColors: {
     type: Array,
-    default: [],
+    default: () => [],
   },
   limitSum: {
-    type: [Number,String],
+    type: [Number, String],
     default: "0",
   },
   expensesSum: {
     type: Number,
-    default: 0,
-  }
-})
+    default: () => 0,
+  },
+});
 
 const chartData = computed(() => {
   return {
@@ -42,14 +42,14 @@ const chartData = computed(() => {
       {
         data: props.data,
         backgroundColor: props.rgbColors,
-      }
+      },
     ],
   };
 });
 
 const chartOptions = {
   borderWidth: 0,
-  cutout: "60%"
+  cutout: "60%",
 };
 </script>
 
@@ -57,14 +57,10 @@ const chartOptions = {
   <header>
     <section class="chart-section">
       <div class="summary-chart">
-        <p class="spent">
-          ${{ Math.abs((expensesSum)) }}
-        </p>
-        <p class="limit">
-          of ${{ limitSum }} limit
-        </p>
+        <p class="spent">${{ Math.abs(expensesSum) }}</p>
+        <p class="limit">of ${{ limitSum }} limit</p>
       </div>
-      <Doughnut :data="chartData" :options="chartOptions"></Doughnut>
+      <Doughnut :data="chartData" :options="chartOptions" />
     </section>
   </header>
 </template>

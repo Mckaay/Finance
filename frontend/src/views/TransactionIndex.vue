@@ -1,13 +1,13 @@
 <script setup>
-import {onMounted, provide, ref} from "vue";
+import { onMounted, provide, ref } from "vue";
 import { useCategories } from "@/composables/categories.js";
 import { useTransactions } from "@/composables/transactions.js";
-import Navigation from "@/components/features/navigation/Navigation.vue";
+import AppNavigation from "@/components/features/navigation/AppNavigation.vue";
 import TransactionList from "@/components/features/transactions/TransactionList.vue";
 import TransactionListFilters from "@/components/features/transactions/TransactionListFilters.vue";
-import Pagination from "@/components/shared/pagination/Pagination.vue";
+import BasePagination from "@/components/shared/pagination/BasePagination.vue";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
-import Spinner from "@/components/shared/buttons/Spinner.vue";
+import BaseSpinner from "@/components/shared/buttons/BaseSpinner.vue";
 import BaseModal from "@/components/shared/modals/BaseModal.vue";
 import AddTransactionForm from "@/components/features/transactions/AddTransactionForm.vue";
 
@@ -26,34 +26,38 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Navigation />
+  <AppNavigation />
   <main>
     <header class="model-header">
       <h1>Transactions</h1>
       <BaseButton
-          @click="addTransactionModalRef?.openModal()"
-          text="+ Add New Transaction"
+        text="+ Add New Transaction"
+        @click="addTransactionModalRef?.openModal()"
       />
     </header>
     <BaseModal
-        ref="addTransactionModalRef"
-        headerText="Add New Transaction"
-        descriptionText="Create transactions to manage, control your spendings and incomes."
+      ref="addTransactionModalRef"
+      header-text="Add New Transaction"
+      description-text="Create transactions to manage, control your spendings and incomes."
     >
-      <AddTransactionForm @transactionCreated="addTransactionModalRef?.close()"/>
+      <AddTransactionForm
+        @transaction-created="addTransactionModalRef?.close()"
+      />
     </BaseModal>
     <Suspense>
       <section class="transactions-section">
-        <TransactionListFilters/>
+        <TransactionListFilters />
         <TransactionList :transactions="transactionsService.state.list" />
-        <Pagination
-            :currentPage="transactionsService.state.filters.currentPage"
-            :lastPage="transactionsService.state.pagination.last_page"
-            @update:currentPage="transactionsService.updateFilter('currentPage', $event)"
+        <BasePagination
+          :current-page="transactionsService.state.filters.currentPage"
+          :last-page="transactionsService.state.pagination.last_page"
+          @update:current-page="
+            transactionsService.updateFilter('currentPage', $event)
+          "
         />
       </section>
       <template #fallback>
-        <Spinner class="loading" />
+        <BaseSpinner class="loading" />
       </template>
     </Suspense>
   </main>

@@ -1,12 +1,10 @@
 <template>
   <p class="error-message">
-    <slot/>
+    <slot />
   </p>
 </template>
 
-<script setup>
-
-</script>
+<script setup></script>
 
 <style scoped>
 .error-message {

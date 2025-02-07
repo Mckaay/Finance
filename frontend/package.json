@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint 'src/**/*.{js,vue}' --fix",
+    "format": "prettier .  --write"
   },
   "dependencies": {
     "axios": "^1.7.9",
@@ -20,6 +22,10 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
+    "eslint": "^9.19.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-vue": "^9.32.0",
+    "prettier": "3.4.2",
     "vite": "^6.0.5",
     "vite-plugin-vue-devtools": "^7.6.8"
   }

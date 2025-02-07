@@ -1,32 +1,40 @@
 <script setup>
-import {formatPrice} from "@/service/helpers.js";
+import { formatPrice } from "@/service/helpers.js";
 
 const props = defineProps({
   transaction: {
     type: Object,
-    default: {
+    default: () => ({
       name: "",
       amount: 0,
       date: "",
       category: {
         name: "",
-      }
-    }
+      },
+    }),
   },
 });
 </script>
 
 <template>
   <li class="transaction-item">
-    <div class="transaction-name">{{ transaction.name }}</div>
-    <div class="transaction-category">{{ transaction?.category.label }}</div>
-    <div class="transaction-amount"
-         :class="{
-      'positive': transaction?.amount > 0
-    }">
+    <div class="transaction-name">
+      {{ transaction.name }}
+    </div>
+    <div class="transaction-category">
+      {{ transaction?.category.label }}
+    </div>
+    <div
+      class="transaction-amount"
+      :class="{
+        positive: transaction?.amount > 0,
+      }"
+    >
       {{ formatPrice(transaction?.amount) }}
     </div>
-    <div class="transaction-date">{{ transaction.date }}</div>
+    <div class="transaction-date">
+      {{ transaction.date }}
+    </div>
   </li>
 </template>
 
@@ -104,7 +112,7 @@ const props = defineProps({
 }
 
 .transaction-item:not(:last-child):after {
-  content: '';
+  content: "";
   height: 1px;
   width: 100%;
   background-color: var(--clr-grey-100);

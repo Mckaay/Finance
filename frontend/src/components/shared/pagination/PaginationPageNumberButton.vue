@@ -1,12 +1,24 @@
 <script setup>
 const props = defineProps({
-  'page': [Number, String],
-  'active': Boolean,
+  page: {
+    type: [Number, String],
+    default: () => 1,
+  },
+  active: {
+    type: Boolean,
+    default: () => false,
+  },
 });
 </script>
 
 <template>
-  <button type="button" :class="{ 'active': active }" class="pagination-button-numeric">{{ page }}</button>
+  <button
+    type="button"
+    :class="{ active: active }"
+    class="pagination-button-numeric"
+  >
+    {{ page }}
+  </button>
 </template>
 
 <style scoped>

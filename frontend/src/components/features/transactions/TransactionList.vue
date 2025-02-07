@@ -4,25 +4,25 @@ import TransactionListItem from "@/components/features/transactions/TransactionL
 const props = defineProps({
   transactions: {
     type: Array,
-    default: [],
+    default: () => [],
   },
 });
 </script>
 
 <template>
-    <section class="transactions-header">
-      <div class="transaction-name">Recipient / Sender</div>
-      <div class="transaction-category">Category</div>
-      <div class="transaction-amount">Transaction Date</div>
-      <div class="transaction-date">Amount</div>
-    </section>
-    <ul class="transactions-list">
-      <TransactionListItem
-          v-for="transaction in props.transactions"
-          :key="transaction.id"
-          :transaction="transaction"
-      />
-    </ul>
+  <section class="transactions-header">
+    <div class="transaction-name">Recipient / Sender</div>
+    <div class="transaction-category">Category</div>
+    <div class="transaction-amount">Transaction Date</div>
+    <div class="transaction-date">Amount</div>
+  </section>
+  <ul class="transactions-list">
+    <TransactionListItem
+      v-for="transaction in props.transactions"
+      :key="transaction.id"
+      :transaction="transaction"
+    />
+  </ul>
 </template>
 
 <style scoped>
@@ -34,7 +34,6 @@ const props = defineProps({
   gap: var(--spacing-100);
   overflow-x: auto;
 }
-
 
 .transactions-header {
   display: none;

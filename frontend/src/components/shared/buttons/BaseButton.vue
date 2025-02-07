@@ -1,13 +1,17 @@
 <script setup>
-import {useLoadingStore} from "@/stores/loading.js";
-import Spinner from "@/components/shared/buttons/Spinner.vue";
+import { useLoadingStore } from "@/stores/loading.js";
+import BaseSpinner from "@/components/shared/buttons/BaseSpinner.vue";
 
 const props = defineProps({
-  text: String,
+  text: {
+    type: String,
+    default: () => "",
+  },
   variant: {
     type: String,
-    default: 'primary',
-    validator: (value) => ['primary', 'secondary', 'tertiary', 'destroy'].includes(value),
+    default: () => "primary",
+    validator: (value) =>
+      ["primary", "secondary", "tertiary", "destroy"].includes(value),
   },
 });
 
@@ -16,11 +20,11 @@ const loadingStore = useLoadingStore();
 
 <template>
   <button
-      :disabled="loadingStore.loading"
-      :class="['button', `button-${props.variant}`]"
+    :disabled="loadingStore.loading"
+    :class="['button', `button-${props.variant}`]"
   >
     {{ props.text }}
-    <Spinner/>
+    <BaseSpinner />
   </button>
 </template>
 
@@ -81,7 +85,7 @@ button:disabled {
 }
 
 .button-tertiary::after {
-  content: '';
+  content: "";
   display: block;
   width: 12px;
   height: 12px;
@@ -101,6 +105,11 @@ button:disabled {
 }
 
 .button-destroy:hover {
-  background: linear-gradient(0deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.20) 100%), var(--clr-red, #C94736);
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0.2) 100%
+    ),
+    var(--clr-red, #c94736);
 }
 </style>

@@ -1,19 +1,19 @@
 <script setup>
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
-import {usePots} from "@/composables/pots.js";
-import {useLoadingStore} from "@/stores/loading.js";
+import { usePots } from "@/composables/pots.js";
+import { useLoadingStore } from "@/stores/loading.js";
 
 const potService = usePots();
-const loadingStore = useLoadingStore()
+const loadingStore = useLoadingStore();
 
 const props = defineProps({
   id: {
     type: Number,
-    default: 0,
-  }
-})
+    default: () => 0,
+  },
+});
 
-const emit = defineEmits('potDeleted')
+const emit = defineEmits("potDeleted");
 const deletePot = async () => {
   if (props.id === 0) {
     return;
@@ -24,14 +24,18 @@ const deletePot = async () => {
   }
 
   await potService.deletePot(props.id);
-  emit('potDeleted');
-}
+  emit("potDeleted");
+};
 </script>
 
 <template>
-  <BaseButton @click="deletePot" type="submit" variant="destroy" text="Yes, confirm deletion" style="width: 100%;"/>
+  <BaseButton
+    type="submit"
+    variant="destroy"
+    text="Yes, confirm deletion"
+    style="width: 100%"
+    @click="deletePot"
+  />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

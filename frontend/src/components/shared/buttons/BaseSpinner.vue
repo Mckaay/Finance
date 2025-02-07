@@ -1,10 +1,10 @@
 <script setup>
-import {useLoadingStore} from "@/stores/loading.js";
+import { useLoadingStore } from "@/stores/loading.js";
 
 const loadingStore = useLoadingStore();
 </script>
 <template>
-  <div v-if="loadingStore.loading" class="loader"></div>
+  <div v-if="loadingStore.loading" class="loader" />
 </template>
 
 <style scoped>
@@ -18,7 +18,11 @@ const loadingStore = useLoadingStore();
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

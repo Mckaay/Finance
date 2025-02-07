@@ -1,12 +1,10 @@
 <template>
   <p class="helper-message">
-    <slot/>
+    <slot />
   </p>
 </template>
 
-<script setup>
-
-</script>
+<script setup></script>
 
 <style scoped>
 .helper-message {

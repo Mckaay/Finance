@@ -2,20 +2,23 @@
 import NavigationResizeButton from "@/components/features/navigation/NavigationResizeButton.vue";
 import BigLogoIcon from "@/components/shared/icons/BigLogoIcon.vue";
 import SmallLogoIcon from "@/components/shared/icons/SmallLogoIcon.vue";
-import {useNavigationStore} from "@/stores/navigation.js";
+import { useNavigationStore } from "@/stores/navigation.js";
 import NavigationList from "@/components/features/navigation/NavigationList.vue";
 
 const navigationStore = useNavigationStore();
 </script>
 
 <template>
-  <nav class="navigation" :class="{ 'narrowed': navigationStore.narrow}">
+  <nav class="navigation" :class="{ narrowed: navigationStore.narrow }">
     <header class="logo">
-      <BigLogoIcon v-if="!navigationStore.narrow"/>
-      <SmallLogoIcon v-else class="small-logo"/>
+      <BigLogoIcon v-if="!navigationStore.narrow" />
+      <SmallLogoIcon v-else class="small-logo" />
     </header>
-    <NavigationList/>
-    <NavigationResizeButton @click="navigationStore.narrow = !navigationStore.narrow" text="Minimize Menu"/>
+    <NavigationList />
+    <NavigationResizeButton
+      text="Minimize Menu"
+      @click="navigationStore.narrow = !navigationStore.narrow"
+    />
   </nav>
 </template>
 
@@ -127,7 +130,8 @@ const navigationStore = useNavigationStore();
   @media screen and (min-width: 1280px) {
     width: var(--narrow-navigation-width);
 
-    .navigation-item-text, .toggle-button {
+    .navigation-item-text,
+    .toggle-button {
       display: none;
     }
 
@@ -135,7 +139,8 @@ const navigationStore = useNavigationStore();
       padding: 0;
 
       & li {
-        padding: var(--spacing-100) var(--spacing-200) var(--spacing-100) var(--spacing-200);
+        padding: var(--spacing-100) var(--spacing-200) var(--spacing-100)
+          var(--spacing-200);
         justify-content: center;
       }
     }

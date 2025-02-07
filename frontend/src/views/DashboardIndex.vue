@@ -1,11 +1,11 @@
 <script setup>
-import {useDashboard} from "@/composables/dashboard.js";
-import {onBeforeMount} from "vue";
+import { useDashboard } from "@/composables/dashboard.js";
+import { onBeforeMount } from "vue";
 import AmountCard from "@/components/shared/cards/AmountCard.vue";
-import Navigation from "@/components/features/navigation/Navigation.vue";
+import AppNavigation from "@/components/features/navigation/AppNavigation.vue";
 import TransactionSummaryList from "@/components/features/transactions/TransactionSummaryList.vue";
-import {useBudgets} from "@/composables/budgets.js";
-import {provide} from "vue";
+import { useBudgets } from "@/composables/budgets.js";
+import { provide } from "vue";
 import BudgetSummaryListWithChart from "@/components/features/budgets/BudgetSummaryListWithChart.vue";
 import TextAndLinkHeader from "@/components/shared/text/TextAndLinkHeader.vue";
 import PotSummary from "@/components/features/pots/PotSummary.vue";
@@ -17,57 +17,68 @@ const budgetService = useBudgets();
 onBeforeMount(async () => {
   await dashboardService.fetchData();
   await budgetService.fetchBudgetData();
-})
+});
 </script>
 
 <template>
-  <Navigation/>
+  <AppNavigation />
   <main>
     <h1>Overview</h1>
     <section class="balance-section">
       <AmountCard
-          text="Current Balance"
-          :amount="dashboardService.state.value.balance"
+        text="Current Balance"
+        :amount="dashboardService.state.value.balance"
       />
       <AmountCard
-          text="Income"
-          backgroundColor="#FFF"
-          headerTextColor="#696868"
-          textColor="#201F24"
-          :amount="dashboardService.state.value.incomeSum"
+        text="Income"
+        background-color="#FFF"
+        header-text-color="#696868"
+        text-color="#201F24"
+        :amount="dashboardService.state.value.incomeSum"
       />
       <AmountCard
-          text="Expenses"
-          backgroundColor="#FFF"
-          headerTextColor="#696868"
-          textColor="#201F24"
-          :amount="Math.abs(dashboardService.state.value.expenseSum).toString()"
+        text="Expenses"
+        background-color="#FFF"
+        header-text-color="#696868"
+        text-color="#201F24"
+        :amount="Math.abs(dashboardService.state.value.expenseSum).toString()"
       />
     </section>
     <div class="flex-wrapper">
       <div class="left-side-wrapper">
-        <PotSummary class="pot-section" :pots="dashboardService.state.value.pots"/>
+        <PotSummary
+          class="pot-section"
+          :pots="dashboardService.state.value.pots"
+        />
         <section class="transactions-section">
           <TextAndLinkHeader
-              text="Transactions"
-              routeName="transactions"
-              linkText="View All"
+            text="Transactions"
+            route-name="transactions"
+            link-text="View All"
           />
-          <TransactionSummaryList :transactions="dashboardService.state.value.transactions"/>
+          <TransactionSummaryList
+            :transactions="dashboardService.state.value.transactions"
+          />
         </section>
       </div>
       <div class="right-side-wrapper">
         <section class="budgets-section">
-          <TextAndLinkHeader class="budget-link" text="Budgets" linkText="See Details" routeName="budgets"/>
+          <TextAndLinkHeader
+            class="budget-link"
+            text="Budgets"
+            link-text="See Details"
+            route-name="budgets"
+          />
           <div class="wrapper">
-            <BudgetSummaryListWithChart summaryListText="">
-              <template v-slot:chart>
-                <DoughnutChart :budgets="budgetService.state.list"
-                               :data="budgetService.getMonthlySpendings()"
-                               :hexColors="budgetService.getHexColorThemes()"
-                               :rgbColors="budgetService.getRGBColorThemes()"
-                               :limitSum="budgetService.state.limitSum"
-                               :expensesSum="budgetService.state.expenseSum"
+            <BudgetSummaryListWithChart summary-list-text="">
+              <template #chart>
+                <DoughnutChart
+                  :budgets="budgetService.state.list"
+                  :data="budgetService.getMonthlySpendings()"
+                  :hex-colors="budgetService.getHexColorThemes()"
+                  :rgb-colors="budgetService.getRGBColorThemes()"
+                  :limit-sum="budgetService.state.limitSum"
+                  :expenses-sum="budgetService.state.expenseSum"
                 />
               </template>
             </BudgetSummaryListWithChart>

@@ -2,17 +2,22 @@
 const props = defineProps({
   budgets: {
     type: Array,
-    default: [],
-  }
-})
+    default: () => [],
+  },
+});
 </script>
 
 <template>
   <section class="summary">
-    <slot></slot>
+    <slot />
     <div class="summary-items-wrapper">
-      <div class="summary-item" v-for="budget in budgets">
-        <div class="name" :style="{ '--background-color': budget?.theme.color }">{{ budget?.category?.label }}</div>
+      <div v-for="budget in budgets" :key="budget.id" class="summary-item">
+        <div
+          class="name"
+          :style="{ '--background-color': budget?.theme.color }"
+        >
+          {{ budget?.category?.label }}
+        </div>
         <div class="cost-wrapper">
           <div class="spent">${{ Math.abs(budget.monthlySpendings) }}</div>
           <div class="limit">of ${{ Math.abs(budget.limit) }}</div>

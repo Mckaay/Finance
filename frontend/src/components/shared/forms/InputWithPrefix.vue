@@ -1,40 +1,43 @@
 <script setup>
-import {inject, useAttrs} from "vue";
+import { inject, useAttrs } from "vue";
 
 const props = defineProps({
-  modelValue: [String, Number],
+  modelValue: {
+    type: [String, Number],
+    default: () => "",
+  },
   prefix: {
     type: String,
-    default: "$",
+    default: () => "$",
   },
   placeholder: {
     type: [String],
-    default: null
+    default: () => "",
   },
   required: {
     type: [Boolean],
-    default: false
-  }
-})
+    default: () => false,
+  },
+});
 
-const attrs = useAttrs()
+const attrs = useAttrs();
 
-const emit = defineEmits(['update:modelValue'])
-const field = inject('field')
+const emit = defineEmits(["update:modelValue"]);
+const field = inject("field");
 </script>
 
 <template>
   <div class="input-prefix-container">
     <span class="prefix">{{ prefix }}</span>
     <input
-           :id="field.id"
-           :value="props.modelValue"
-           @input="$event => emit('update:modelValue', $event.target.value)"
-           class="input"
-           :placeholder="placeholder"
-           :required="required"
-           v-bind="attrs"
-    >
+      :id="field.id"
+      :value="props.modelValue"
+      class="input"
+      :placeholder="placeholder"
+      :required="required"
+      v-bind="attrs"
+      @input="($event) => emit('update:modelValue', $event.target.value)"
+    />
   </div>
 </template>
 
@@ -47,7 +50,8 @@ const field = inject('field')
   position: relative;
 
   & .input {
-    padding: var(--spacing-75) var(--spacing-75) var(--spacing-75) var(--spacing-250);
+    padding: var(--spacing-75) var(--spacing-75) var(--spacing-75)
+      var(--spacing-250);
   }
 
   & span {

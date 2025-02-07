@@ -1,12 +1,15 @@
 <script setup>
 const props = defineProps({
-  for: String,
-})
+  for: {
+    type: String,
+    default: () => "",
+  },
+});
 </script>
 
 <template>
   <label :for="props.for">
-    <slot/>
+    <slot />
   </label>
 </template>
 

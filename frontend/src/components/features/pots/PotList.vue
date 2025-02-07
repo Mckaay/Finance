@@ -1,24 +1,24 @@
 <script setup>
 import PotListItem from "@/components/features/pots/PotListItem.vue";
-import {ref, useTemplateRef} from "vue";
+import { ref, useTemplateRef } from "vue";
 import AddDepositPotTransactionModal from "@/components/features/pots/AddDepositPotTransactionModal.vue";
 import AddWithdrawPotTransactionModal from "@/components/features/pots/AddWithdrawPotTransactionModal.vue";
-import {usePots} from "@/composables/pots.js";
+import { usePots } from "@/composables/pots.js";
 
 const props = defineProps({
   pots: {
     type: Array,
-    default: [],
-  }
-})
+    default: () => [],
+  },
+});
 
 const potService = usePots();
 
 const emit = defineEmits([
-  'openEditModal',
-  'openDeleteModal',
-  'openDepositModal',
-  'openWithdrawModal',
+  "openEditModal",
+  "openDeleteModal",
+  "openDepositModal",
+  "openWithdrawModal",
 ]);
 
 const emitOpenModalEvent = (pot) => {
@@ -27,8 +27,8 @@ const emitOpenModalEvent = (pot) => {
   }
 
   potService.state.selectedForEditOrDelete = pot;
-  emit('openEditModal');
-}
+  emit("openEditModal");
+};
 
 const emitOpenDeleteModal = (pot) => {
   if (pot.id === 0) {
@@ -36,8 +36,8 @@ const emitOpenDeleteModal = (pot) => {
   }
 
   potService.state.selectedForEditOrDelete = pot;
-  emit('openDeleteModal');
-}
+  emit("openDeleteModal");
+};
 
 const emitOpenDepositModal = (pot) => {
   if (pot.id === 0) {
@@ -45,8 +45,8 @@ const emitOpenDepositModal = (pot) => {
   }
 
   potService.state.selectedForEditOrDelete = pot;
-  emit('openDepositModal');
-}
+  emit("openDepositModal");
+};
 
 const emitOpenWithdrawModal = (pot) => {
   if (pot.id === 0) {
@@ -54,18 +54,19 @@ const emitOpenWithdrawModal = (pot) => {
   }
 
   potService.state.selectedForEditOrDelete = pot;
-  emit('openWithdrawModal');
-}
+  emit("openWithdrawModal");
+};
 </script>
 <template>
-  <section class="pot-list" v-if="pots.length > 0">
+  <section v-if="pots.length > 0" class="pot-list">
     <PotListItem
-        v-for="pot in props.pots"
-        :key="pot.id" :pot="pot"
-        @edit="emitOpenModalEvent"
-        @delete="emitOpenDeleteModal"
-        @deposit="emitOpenDepositModal"
-        @withdraw="emitOpenWithdrawModal"
+      v-for="pot in props.pots"
+      :key="pot.id"
+      :pot="pot"
+      @edit="emitOpenModalEvent"
+      @delete="emitOpenDeleteModal"
+      @deposit="emitOpenDepositModal"
+      @withdraw="emitOpenWithdrawModal"
     />
   </section>
 </template>

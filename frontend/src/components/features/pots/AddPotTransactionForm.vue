@@ -1,19 +1,19 @@
 <script setup>
-import Field from "@/components/shared/forms/Field.vue";
+import BaseField from "@/components/shared/forms/BaseField.vue";
 import InputWithPrefix from "@/components/shared/forms/InputWithPrefix.vue";
-import {reactive, ref, watch} from "vue";
-import {usePotTransactions} from "@/composables/potTransactions.js";
+import { reactive, ref, watch } from "vue";
+import { usePotTransactions } from "@/composables/potTransactions.js";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
-import {checkIfObjectHasEmptyProperties} from "@/service/helpers.js";
+import { checkIfObjectHasEmptyProperties } from "@/service/helpers.js";
 
 const props = defineProps({
   potId: {
     type: Number,
-    default: 0,
+    default: () => 0,
   },
   type: {
     type: String,
-    default: 'deposit',
+    default: "deposit",
   },
   submitButtonText: {
     type: String,
@@ -25,69 +25,71 @@ const potTransactionService = usePotTransactions();
 
 const formData = reactive({
   amount: 0,
-  type: props.type ?? 'deposit',
-})
+  type: props.type ?? "deposit",
+});
 
 const clearFormData = () => {
   formData.amount = 0;
-  formData.type = props.type ?? 'deposit';
-}
+  formData.type = props.type ?? "deposit";
+};
 
 const errors = reactive({
-  amount: '',
-})
+  amount: "",
+});
 
 const validateFormData = () => {
   if (!formData.amount || formData.amount < 0) {
-    errors.amount =  "Amount is required and needs to be positive number";
+    errors.amount = "Amount is required and needs to be positive number";
   }
-}
+};
 
 const savePotTransaction = async () => {
   validateFormData();
   if (!checkIfObjectHasEmptyProperties(errors)) {
     return;
   }
-  
-  await potTransactionService.savePotTransaction({ ...formData, pot_id: props.potId });
-  errors.amount = '';
+
+  await potTransactionService.savePotTransaction({
+    ...formData,
+    pot_id: props.potId,
+  });
+  errors.amount = "";
   clearFormData();
-  emit('potTransactionCreated');
+  emit("potTransactionCreated");
 };
 
-const emit = defineEmits(['potTransactionCreated']);
+const emit = defineEmits(["potTransactionCreated"]);
 watch(
-    () => formData.amount,
-    (newValue) => {
-      if (newValue < 0) {
-        return;
-      }
-
-      if (!newValue) {
-        potTransactionService.state.amount = 0;
-        return;
-      }
-
-      potTransactionService.state.amount = newValue;
+  () => formData.amount,
+  (newValue) => {
+    if (newValue < 0) {
+      return;
     }
+
+    if (!newValue) {
+      potTransactionService.state.amount = 0;
+      return;
+    }
+
+    potTransactionService.state.amount = newValue;
+  },
 );
 </script>
 
 <template>
   <form @submit.prevent="savePotTransaction">
-    <Field id="limit" label="Amount" :error="errors.name ?? ''">
+    <BaseField id="limit" label="Amount" :error="errors.name ?? ''">
       <InputWithPrefix
-          v-model="formData.amount"
-          type="number"
-          min="1"
-          step="1"
-          placeholder="e.g. 2000"
-          :required="true"
+        v-model="formData.amount"
+        type="number"
+        min="1"
+        step="1"
+        placeholder="e.g. 2000"
+        :required="true"
       />
-    </Field>
-    <BaseButton type="submit" :text="submitButtonText" style="width: 100%;" />
+    </BaseField>
+    <BaseButton type="submit" :text="submitButtonText" style="width: 100%" />
   </form>
 </template>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

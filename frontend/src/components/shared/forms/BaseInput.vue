@@ -1,30 +1,33 @@
 <script setup>
-import {inject, useAttrs} from "vue";
+import { inject, useAttrs } from "vue";
 
 const props = defineProps({
-  modelValue: [String, Number],
+  modelValue: {
+    type: [String, Number],
+    default: () => "",
+  },
   required: {
     type: [Boolean],
-    default: false
-  }
-})
-const attrs = useAttrs()
+    default: () => false,
+  },
+});
+const attrs = useAttrs();
 
-const emit = defineEmits(['update:modelValue'])
-const field = inject('field')
+const emit = defineEmits(["update:modelValue"]);
+const field = inject("field");
 </script>
 
 <template>
-  <input type="text"
-         :id="field.id"
-         :value="props.modelValue"
-         @input="$event => emit('update:modelValue', $event.target.value)"
-         class="input"
-         :required="required"
-         v-bind="attrs"
-  >
+  <input
+    :id="field.id"
+    type="text"
+    :value="props.modelValue"
+    class="input"
+    :required="required"
+    v-bind="attrs"
+    @input="($event) => emit('update:modelValue', $event.target.value)"
+  />
 </template>
-
 
 <style>
 .input {

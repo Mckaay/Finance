@@ -11,8 +11,8 @@ on:
       - develop
 
 jobs:
-  tests:
-    name: Run tests
+  backend-tests:
+    name: Run Backend Tests
     defaults:
       run:
         working-directory: backend
@@ -38,23 +38,19 @@ jobs:
           cp .env.ci .env
           cp .env.ci .env.testing
 
-      - name: Run composer
-        run: |
-          composer install --no-interaction
+      - name: Install dependencies
+        run: composer install --no-interaction
 
       - name: Run test suite
-        run: |
-          php artisan test
+        run: php artisan test
         env:
           DB_DATABASE: cicd_testing
 
-      - name: Run Larastan
-        run: |
-          ./vendor/bin/phpstan analyse
+      - name: Run Larastan (PHPStan for Laravel)
+        run: ./vendor/bin/phpstan analyse
 
-      - name: Run Pint
-        run: |
-          ./vendor/bin/pint --test
+      - name: Run Pint (Code Formatter)
+        run: ./vendor/bin/pint --test
 
     services:
       mysql:
@@ -65,3 +61,35 @@ jobs:
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=5s --health-retries=3
+
+  frontend-tests:
+    name: Run Frontend Tests
+    defaults:
+      run:
+        working-directory: frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Prettier
+        run: npm run format -- --check
+
+      - name: Run ESLint
+        run: npm run lint

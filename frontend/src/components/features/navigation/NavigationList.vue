@@ -9,24 +9,27 @@ import NavigationListItem from "@/components/features/navigation/NavigationListI
 
 <template>
   <ul>
-    <NavigationListItem text="Overview" routeName="dashboard">
-      <HouseIcon/>
+    <NavigationListItem text="Overview" route-name="dashboard">
+      <HouseIcon />
     </NavigationListItem>
-    <NavigationListItem text="Transactions" routeName="transactions">
-      <ArrowsDownUpIcon/>
+    <NavigationListItem text="Transactions" route-name="transactions">
+      <ArrowsDownUpIcon />
     </NavigationListItem>
-    <NavigationListItem text="Budgets" routeName="budgets">
-      <ChartDonutIcon/>
+    <NavigationListItem text="Budgets" route-name="budgets">
+      <ChartDonutIcon />
     </NavigationListItem>
-    <NavigationListItem text="Pots" routeName="pots">
-      <JarFillIcon/>
+    <NavigationListItem text="Pots" route-name="pots">
+      <JarFillIcon />
     </NavigationListItem>
-    <NavigationListItem class='disabled' text="Recurring bills" routeName="recurring">
-      <ReceiptIcon/>
+    <NavigationListItem
+      class="disabled"
+      text="Recurring bills"
+      route-name="recurring"
+    >
+      <ReceiptIcon />
     </NavigationListItem>
   </ul>
 </template>
-
 
 <style scoped>
 ul {

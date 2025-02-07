@@ -1,38 +1,45 @@
 <script setup>
 import TextAndLinkHeader from "@/components/shared/text/TextAndLinkHeader.vue";
-import {computed} from "vue";
+import { computed } from "vue";
 import JarIcon from "@/components/shared/icons/JarIcon.vue";
 
 const props = defineProps({
   pots: {
     type: Array,
-    default: [],
-  }
-})
+    default: () => [],
+  },
+});
 
 const savedSum = computed(() => {
   let sum = 0;
   return props.pots.reduce((accumulator, pot) => {
     return accumulator + parseFloat(pot.balance);
-  }, sum)
-})
+  }, sum);
+});
 </script>
 
 <template>
   <div class="wrap">
-    <TextAndLinkHeader text="Pots" linkText="See Details" routeName="pots"/>
+    <TextAndLinkHeader text="Pots" link-text="See Details" route-name="pots" />
     <div class="summary-wrapper">
       <div class="saved-card">
-        <JarIcon/>
+        <JarIcon />
         <div class="text-wrapper">
           <p class="saved-text">Total Saved</p>
           <h2>${{ savedSum }}</h2>
         </div>
       </div>
       <div class="list">
-        <div class="list-item" v-for="pot in props.pots" :style="{ '--background-color': pot?.theme.color }">
+        <div
+          v-for="pot in props.pots"
+          :key="pot.id"
+          class="list-item"
+          :style="{ '--background-color': pot?.theme.color }"
+        >
           <div class="wrapper">
-            <p class="pot-name">{{ pot.name }}</p>
+            <p class="pot-name">
+              {{ pot.name }}
+            </p>
             <p class="pot-balance">${{ pot.balance }}</p>
           </div>
         </div>
@@ -74,7 +81,7 @@ const savedSum = computed(() => {
 
   & .list-item {
     display: flex;
-    gap: var(--spacing-100)
+    gap: var(--spacing-100);
   }
 
   & .list-item::before {

@@ -1,7 +1,7 @@
 <script setup>
 import ThreeDotsDropdown from "@/components/shared/dropdowns/EditDeleteDropdown.vue";
 import ProgressBar from "@/components/shared/progress-bars/ProgressBar.vue";
-import {getFillPercentage, getRemainingAmount} from "@/service/helpers.js";
+import { getFillPercentage, getRemainingAmount } from "@/service/helpers.js";
 import ThemeCircle from "@/components/shared/icons/ThemeCircle.vue";
 import TransactionSummaryList from "@/components/features/transactions/TransactionSummaryList.vue";
 import TextAndLinkHeader from "@/components/shared/text/TextAndLinkHeader.vue";
@@ -9,7 +9,7 @@ import TextAndLinkHeader from "@/components/shared/text/TextAndLinkHeader.vue";
 const props = defineProps({
   budget: {
     type: Object,
-    default: {
+    default: () => ({
       category: {
         name: "",
       },
@@ -17,27 +17,32 @@ const props = defineProps({
         color: "",
       },
       transactions: [],
-    },
-  }
+    }),
+  },
 });
 
-const emit = defineEmits(['edit', 'delete']);
+const emit = defineEmits(["edit", "delete"]);
 </script>
 
 <template>
   <article>
     <div class="budget-header">
       <div class="left-side-wrapper">
-        <ThemeCircle :color="budget.theme.color"/>
-        <div class="budget-category">{{ budget.category.label }}</div>
+        <ThemeCircle :color="budget.theme.color" />
+        <div class="budget-category">
+          {{ budget.category.label }}
+        </div>
       </div>
-      <ThreeDotsDropdown @edit="emit('edit',budget)" @delete="emit('delete', budget)"/>
+      <ThreeDotsDropdown
+        @edit="emit('edit', budget)"
+        @delete="emit('delete', budget)"
+      />
     </div>
     <div class="spending-summary">
       <p class="maximum-spending">Maximum of ${{ budget.limit }}</p>
       <ProgressBar
-          :width="getFillPercentage(budget.limit, budget.monthlySpendings)"
-          :color="budget.theme.color"
+        :width="getFillPercentage(budget.limit, budget.monthlySpendings)"
+        :color="budget.theme.color"
       />
       <div class="summary-section-details-wrapper">
         <div class="spent-wrapper">
@@ -49,7 +54,9 @@ const emit = defineEmits(['edit', 'delete']);
         <div class="remaining-wrapper">
           <div class="costs-wrapper">
             <p>Remaining</p>
-            <p>{{ getRemainingAmount(budget.limit, budget.monthlySpendings) }}</p>
+            <p>
+              {{ getRemainingAmount(budget.limit, budget.monthlySpendings) }}
+            </p>
           </div>
         </div>
       </div>
@@ -57,9 +64,9 @@ const emit = defineEmits(['edit', 'delete']);
     <section class="latest-spending-section">
       <TransactionSummaryList :transactions="props.budget.transactions">
         <TextAndLinkHeader
-            text="Latest Spendings"
-            routeName="transactions"
-            linkText="See All"
+          text="Latest Spendings"
+          route-name="transactions"
+          link-text="See All"
         />
       </TransactionSummaryList>
     </section>
@@ -115,7 +122,8 @@ article {
     line-height: 150%;
   }
 
-  & .spent-wrapper, .remaining-wrapper {
+  & .spent-wrapper,
+  .remaining-wrapper {
     display: flex;
     align-items: stretch;
     gap: var(--spacing-100);
@@ -150,7 +158,7 @@ article {
     display: flex;
     align-items: center;
     min-width: 4px;
-    background-color: v-bind('budget.theme.color');
+    background-color: v-bind("budget.theme.color");
     border-radius: var(--spacing-50);
   }
 

@@ -1,19 +1,19 @@
 <script setup>
 import BudgetListItem from "@/components/features/budgets/BudgetListItem.vue";
-import {inject, ref, useTemplateRef} from "vue";
+import { inject, ref, useTemplateRef } from "vue";
 import BaseModal from "@/components/shared/modals/BaseModal.vue";
 import EditBudgetForm from "@/components/features/budgets/EditBudgetForm.vue";
 import BaseButton from "@/components/shared/buttons/BaseButton.vue";
-import {useBudgets} from "@/composables/budgets.js";
+import { useBudgets } from "@/composables/budgets.js";
 
-const budgetService = useBudgets()
+const budgetService = useBudgets();
 
 const props = defineProps({
   budgets: {
     type: Array,
-    default: [],
-  }
-})
+    default: () => [],
+  },
+});
 
 const emit = defineEmits(["openEditModal", "openDeleteModal"]);
 
@@ -23,8 +23,8 @@ const emitOpenEditModalEvent = (budget) => {
   }
 
   budgetService.state.selectedForEditOrDelete = budget;
-  emit('openEditModal');
-}
+  emit("openEditModal");
+};
 
 const emitOpenDeleteModalEvent = (budget) => {
   if (budget.id === 0) {
@@ -32,22 +32,21 @@ const emitOpenDeleteModalEvent = (budget) => {
   }
 
   budgetService.state.selectedForEditOrDelete = budget;
-  emit('openDeleteModal');
-}
+  emit("openDeleteModal");
+};
 </script>
 
 <template>
   <section v-if="budgets.length > 0" class="budget-list">
     <BudgetListItem
-        v-for="budget in budgets"
-        :key="budget.id"
-        :budget="budget"
-        @edit="emitOpenEditModalEvent"
-        @delete="emitOpenDeleteModalEvent"
+      v-for="budget in budgets"
+      :key="budget.id"
+      :budget="budget"
+      @edit="emitOpenEditModalEvent"
+      @delete="emitOpenDeleteModalEvent"
     />
   </section>
 </template>
-
 
 <style scoped>
 .budget-list {
