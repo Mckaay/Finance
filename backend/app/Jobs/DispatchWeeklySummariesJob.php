@@ -37,6 +37,7 @@ final class DispatchWeeklySummariesJob implements ShouldQueue
                         [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()],
                     )
                     ->get();
+
                 if ($transactions->isEmpty()) {
                     continue;
                 }

@@ -5,9 +5,7 @@ import router from "@/router/index.js";
 import { useLoadingStore } from "@/stores/loading.js";
 
 export const useAuthStore = defineStore("auth", () => {
-  const authenticated = ref(
-    JSON.parse(localStorage.getItem("authenticated")) ?? false,
-  );
+  const token = ref(localStorage.getItem("token") ?? false);
   const errorMessage = ref("");
   const auth = useAuth();
   const loadingStore = useLoadingStore();
@@ -15,14 +13,15 @@ export const useAuthStore = defineStore("auth", () => {
   const login = async (email, password) => {
     try {
       loadingStore.loading = true;
-      await auth.login(email, password);
-      localStorage.setItem("authenticated", "true");
-      authenticated.value = true;
+      const response = await auth.login(email, password);
+      localStorage.setItem("token", response.data.token);
+      token.value = response.data.token;
       errorMessage.value = "";
       await router.push("/");
     } catch (e) {
       errorMessage.value = e.response.data.message;
       console.log(e);
+      localStorage.removeItem("token");
     } finally {
       loadingStore.loading = false;
     }
@@ -46,15 +45,16 @@ export const useAuthStore = defineStore("auth", () => {
     try {
       loadingStore.loading = true;
       await auth.logout();
-      localStorage.removeItem("authenticated");
-      authenticated.value = false;
+      token.value = false;
       await router.push("/");
     } catch (e) {
       errorMessage.value = e.response.data.message;
     } finally {
       loadingStore.loading = false;
+      token.value = false;
+      localStorage.removeItem("token");
     }
   };
 
-  return { authenticated, register, login, logout, errorMessage };
+  return { token, register, login, logout, errorMessage };
 });

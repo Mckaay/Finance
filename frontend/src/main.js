@@ -14,19 +14,22 @@ app.component("VSelect", vSelect);
 import axios from "axios";
 
 import { useAuthStore } from "@/stores/auth.js";
-
-const authStore = useAuthStore();
-
-axios.defaults.withCredentials = true;
-axios.defaults.withXSRFToken = true;
-axios.defaults.baseURL = "http://localhost";
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_BASE_URL ?? "http://localhost";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.headers.post["Accept"] = "application/json";
+
+axios.interceptors.request.use(function (config) {
+  const token = localStorage.getItem('token');
+  config.headers.Authorization =  token ? `Bearer ${token}` : '';
+  return config;
+});
+
+const authStore = useAuthStore();
 
 router.beforeEach((to, from, next) => {
   if (
     to.meta.requiresAuth &&
-    !authStore.authenticated &&
+    !authStore.token &&
     to.name !== "login" &&
     to.name !== "register"
   ) {
@@ -35,12 +38,12 @@ router.beforeEach((to, from, next) => {
 
   if (
     (to.name === "login" || to.name === "register") &&
-    authStore.authenticated
+    authStore.token
   ) {
     return next({ name: "dashboard" });
   }
 
-  if (!authStore.authenticated && to.meta.requiresAuth) {
+  if (!authStore.token && to.meta.requiresAuth) {
     return next("/login");
   }
 
